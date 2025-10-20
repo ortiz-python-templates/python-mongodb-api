@@ -1,0 +1,32 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.pyd
+
+# Virtual environments
+venv/
+env/
+.venv/
+
+# Environment files
+.env
+
+# Logs
+*.log
+
+# IDE / Editor configs
+.vscode/
+.idea/
+
+# Byte-compiled / cache files
+*.egg-info/
+*.egg
+*.cache/
+
+# Local databases or test data
+*.db
+*.sqlite3
+
+# Docker artifacts
+*.pid
