@@ -9,8 +9,8 @@ else:
 
 class EnvConfig:
     
-    ENVIRONMENT = os.getenv("ENVIRONMENT")
-    PORT = int(os.getenv("PORT"))
+    ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
+    PORT = int(os.getenv("PORT", 5000))
 
     # Mongo
     MONGO_URI = os.getenv("MONGO_URI")
