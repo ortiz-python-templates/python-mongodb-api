@@ -27,9 +27,9 @@ ControllersSetup.setup(app, db)
 
 # start app
 if __name__ == "__main__":
-    print(f"Starting server on port {EnvConfig.PORT}")
+    print(f"Starting server on port {EnvConfig.APP_PORT}")
     uvicorn.run(app,
         host=EnvConfig.app_host(), 
-        port=EnvConfig.PORT,
+        port=EnvConfig.APP_PORT,
         log_level="info"
     )

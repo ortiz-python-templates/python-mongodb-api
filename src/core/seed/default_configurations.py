@@ -8,10 +8,12 @@ from motor.motor_asyncio import AsyncIOMotorDatabase
 
 class DefaultConfigurations:
 
+
     @staticmethod
     async def seed_app_configurations(db: AsyncIOMotorDatabase):
         await DefaultConfigurations.seed_basic_configurations(db)
         await DefaultConfigurations.seed_company_configurations(db)
+
 
     @staticmethod
     async def seed_basic_configurations(db: AsyncIOMotorDatabase):
@@ -33,6 +35,7 @@ class DefaultConfigurations:
             logger.warning("Basic Configurations created successfully.")
         else:
             logger.info("Basic Configurations already exist. Skipping...")
+
 
     @staticmethod
     async def seed_company_configurations(db: AsyncIOMotorDatabase):

@@ -7,7 +7,7 @@ from src.common.config.log_config import Logger
 
 
 class DatabaseObjects:
-    
+
     @staticmethod
     async def create_views(db: AsyncIOMotorDatabase):
         logger = Logger.get_logger("database.views")
@@ -20,7 +20,7 @@ class DatabaseObjects:
             return
 
         # Detect current environment
-        environment = EnvConfig.ENVIRONMENT
+        environment = EnvConfig.APP_ENVIRONMENT
         is_dev = environment in ["dev", "development", "local"]
         logger.info(f"Environment: {environment} | Recreate views: {is_dev}")
 

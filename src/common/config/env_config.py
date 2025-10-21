@@ -2,15 +2,16 @@ import os
 from dotenv import load_dotenv
 
 
-if os.getenv("ENVIRONMENT") == "development":
+if os.getenv("APP_ENVIRONMENT") == "development":
     load_dotenv(override=True)
 else:
     load_dotenv()
 
 class EnvConfig:
     
-    ENVIRONMENT = os.getenv("ENVIRONMENT", "development")
-    PORT = int(os.getenv("PORT", 5000))
+    APP_ENVIRONMENT = os.getenv("APP_ENVIRONMENT", "development")
+    APP_NAME=os.getenv("APP_NAME", "python-template-mongodb-api")
+    APP_PORT = int(os.getenv("APP_PORT", 5000))
 
     # Mongo
     MONGO_URI = os.getenv("MONGO_URI")
@@ -45,11 +46,11 @@ class EnvConfig:
 
     @classmethod
     def is_production(cls) -> bool:
-        return cls.ENVIRONMENT.lower() == "production"
+        return cls.APP_ENVIRONMENT.lower() == "production"
 
     @classmethod
     def is_development(cls) -> bool:
-        return cls.ENVIRONMENT.lower() == "development"
+        return cls.APP_ENVIRONMENT.lower() == "development"
     
     @classmethod
     def cookie_secure(cls) -> bool:
