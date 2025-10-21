@@ -43,14 +43,60 @@ services:
     env_file:
       - ../.env
     ports:
-      - "${APP_PORT}:${APP_PORT}"
+      - "${APP_PORT}:${APP_PORT}"   # FastAPI
+      - "8000:8000"                 # Prometheus metrics (ou ajuste para a porta que o Instrumentator usar)
     depends_on:
       mongodb:
         condition: service_healthy
       redis:
         condition: service_healthy
+      jaeger:
+        condition: service_healthy
     networks:
       - backend-net
+
+  jaeger:
+    image: jaegertracing/all-in-one:1.44
+    container_name: jaeger
+    ports:
+      - "6831:6831/udp"
+      - "6832:6832/udp"
+      - "16686:16686"
+      - "14250:14250"
+      - "14268:14268"
+    networks:
+      - backend-net
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:16686/"]
+      interval: 10s
+      retries: 5
+      timeout: 5s
+
+  prometheus:
+    image: prom/prometheus:latest
+    container_name: prometheus
+    ports:
+      - "9090:9090"
+    volumes:
+      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+    networks:
+      - backend-net
+    depends_on:
+      python-mongodb-api:
+        condition: service_healthy
+
+  grafana:
+    image: grafana/grafana:latest
+    container_name: grafana
+    ports:
+      - "3000:3000"
+    networks:
+      - backend-net
+    depends_on:
+      prometheus:
+        condition: service_healthy
+    environment:
+      - GF_SECURITY_ADMIN_PASSWORD=admin
 
 volumes:
   mongodb_data:

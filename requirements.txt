@@ -20,6 +20,9 @@ python-dotenv
 redis[asyncio]
 jinja2
 
+# Logging
+loguru
+
 # Metrics
 prometheus-fastapi-instrumentator==6.1.0
 prometheus-client==0.20.0
