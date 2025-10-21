@@ -30,3 +30,6 @@ env/
 
 # Docker artifacts
 *.pid
+
+# Keys
+secrets/

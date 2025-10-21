@@ -1,14 +1,36 @@
+# FastAPI
 fastapi
 fastapi[standard]
 fastapi-mail
-uvicorn
+uvicorn[standard]
+
+# Mongo
 motor
 pydantic
 pydantic[email]
+
+# Security
 python-jose[cryptography]
 passlib[bcrypt]==1.7.4
 bcrypt==4.0.1
+certifi
+
+# Others
 python-dotenv
 redis[asyncio]
 jinja2
-certifi
+
+# Metrics
+prometheus-fastapi-instrumentator==6.1.0
+prometheus-client==0.20.0
+
+# Tracing
+opentelemetry-api==1.27.0
+opentelemetry-sdk==1.27.0
+opentelemetry-instrumentation-fastapi==0.48b0
+opentelemetry-instrumentation-requests==0.48b0
+opentelemetry-exporter-otlp==1.27.0
+opentelemetry-exporter-jaeger==1.21.0
+
+# Required by OpenTelemetry and gRPC exporters
+protobuf>=3.19,<5.0
