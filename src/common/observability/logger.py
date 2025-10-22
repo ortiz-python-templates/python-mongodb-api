@@ -1,7 +1,7 @@
 from loguru import logger
 import sys
 
-def configure_logger():
+def setup_logger():
     logger.remove()  # remove default handler
     logger.add(
         sys.stdout,

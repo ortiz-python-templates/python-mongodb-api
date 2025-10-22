@@ -12,6 +12,7 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
     _excluded_paths = {
         "/",
         "/health",
+        "/metrics",
         "/favicon.ico",
         "/api/auth/get-recovery-token",
         "/api/auth/login",

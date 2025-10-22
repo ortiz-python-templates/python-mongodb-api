@@ -17,6 +17,7 @@ class AuthenticationMiddleware(BaseHTTPMiddleware):
     _public_routes = {
         "/",
         "/health",
+        "/metrics",
         "/download-collections",
         "/favicon.ico",
         "/docs",

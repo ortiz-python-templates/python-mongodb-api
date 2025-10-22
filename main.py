@@ -1,5 +1,6 @@
 import uvicorn
 from fastapi import FastAPI
+from src.common.observability.setup import ObservabilitySetup
 from src.common.config.swagger_config import SwaggerConfig
 from src.common.config.static_config import StaticConfig
 from src.common.config.env_config import EnvConfig
@@ -23,6 +24,9 @@ MiddlewareSetup.setup(app, db)
 
 # App routes
 ControllersSetup.setup(app, db)
+
+# Observability: logs, metrics, tracing
+ObservabilitySetup.setup(app)
 
 
 # start app

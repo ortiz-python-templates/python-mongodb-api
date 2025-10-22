@@ -63,10 +63,10 @@ docker_rm:
 	docker rm python-mongodb-api || true
 
 docker_up:
-	docker compose -f docker/docker-compose.yml up
+	docker compose --env-file .env -f docker/docker-compose.yml up
 
 docker_down:
-	docker compose -f docker/docker-compose.yml down -v
+	docker compose --env-file .env -f docker/docker-compose.yml down -v
 
 docker_logs:
 	docker compose logs -f

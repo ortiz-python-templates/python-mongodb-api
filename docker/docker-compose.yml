@@ -1,6 +1,6 @@
-version: "3.9"
-
 services:
+
+  # MongoDB
   mongodb:
     image: mongo:7
     container_name: mongodb
@@ -15,11 +15,13 @@ services:
     networks:
       - backend-net
     healthcheck:
+      # Check if MongoDB is running and responding
       test: ["CMD", "mongosh", "--eval", "db.adminCommand('ping')"]
       interval: 10s
       timeout: 10s
       retries: 5
 
+  # Redis
   redis:
     image: redis:7
     container_name: redis_cache
@@ -30,33 +32,33 @@ services:
     networks:
       - backend-net
     healthcheck:
+      # Check if Redis is alive
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
       timeout: 5s
       retries: 5
 
+  # Application (Python FastAPI + MongoDB)
   python-mongodb-api:
     build:
       context: ..
       dockerfile: docker/Dockerfile
-    container_name: python_mongodb_api
+    container_name: ${APP_NAME}
     env_file:
       - ../.env
     ports:
-      - "${APP_PORT}:${APP_PORT}"   # FastAPI
-      - "8000:8000"                 # Prometheus metrics (ou ajuste para a porta que o Instrumentator usar)
+      - "${APP_PORT}:${APP_PORT}"   # FastAPI application
+      - "8000:8000"                 # Prometheus metrics endpoint
     depends_on:
-      mongodb:
-        condition: service_healthy
-      redis:
-        condition: service_healthy
-      jaeger:
-        condition: service_healthy
+      - mongodb
+      - redis
+      - jaeger
     networks:
       - backend-net
 
+  # Jaeger (Tracing)
   jaeger:
-    image: jaegertracing/all-in-one:1.44
+    image: jaegertracing/all-in-one:1.49
     container_name: jaeger
     ports:
       - "6831:6831/udp"
@@ -67,24 +69,27 @@ services:
     networks:
       - backend-net
     healthcheck:
+      # Check if Jaeger UI is reachable
       test: ["CMD", "curl", "-f", "http://localhost:16686/"]
       interval: 10s
       retries: 5
       timeout: 5s
 
+  # Prometheus (Monitoring)
   prometheus:
     image: prom/prometheus:latest
     container_name: prometheus
     ports:
       - "9090:9090"
     volumes:
-      - ./prometheus.yml:/etc/prometheus/prometheus.yml
+      # Map the local prometheus.yml configuration file to the container
+      - ../observability/prometheus/prometheus.yml:/etc/prometheus/prometheus.yml
     networks:
       - backend-net
     depends_on:
-      python-mongodb-api:
-        condition: service_healthy
+      - python-mongodb-api
 
+  # Grafana (Dashboard)
   grafana:
     image: grafana/grafana:latest
     container_name: grafana
@@ -93,14 +98,21 @@ services:
     networks:
       - backend-net
     depends_on:
-      prometheus:
-        condition: service_healthy
+      - prometheus
     environment:
+      # Set default admin password
       - GF_SECURITY_ADMIN_PASSWORD=admin
+    volumes:
+      # Provisioning datasources and dashboards automatically
+      - ../observability/grafana/provisioning:/etc/grafana/provisioning
+      # Custom dashboards JSON folder
+      - ../observability/grafana/dashboards:/var/lib/grafana/dashboards
 
+# Volumes
 volumes:
   mongodb_data:
   redis_data:
 
+# Networks
 networks:
   backend-net:
