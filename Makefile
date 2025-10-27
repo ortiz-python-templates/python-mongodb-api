@@ -77,13 +77,8 @@ docker_restart:
 docker_run_app:
 	docker run -d \
 	--name mongodb-api \
-	--network mongodb-net \
-	-e DB_HOST=db \
-	-e DB_PORT=5432 \
-	-e DB_USER=python_template \
-	-e DB_PASSWORD=admin123 \
-	-e DB_NAME=python_mongodb_api \
-	-p 6000:6000 \
+	--network mongodb-net 
+	-p 5000:5000 \
 	ortizdavid/python-mongodb-api:latest
 
 

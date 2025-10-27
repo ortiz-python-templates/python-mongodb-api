@@ -3,10 +3,11 @@ import uuid
 from datetime import datetime
 from typing import List
 from fastapi import UploadFile
-from src.common.utils.files.upload_info import UploadInfo
+
+from src.common.storage.upload_info import UploadInfo
 
 
-class FileUploader:
+class FileSystemStorage:
     def __init__(self, destination_path: str, allowed_extensions: List[str], max_size: int):
         if not destination_path:
             raise ValueError("DestinationPath cannot be null or empty.")
@@ -60,6 +61,9 @@ class FileUploader:
             ))
 
         return upload_infos
+    
+    def get_file_url(self):
+        pass
 
     async def _validate_file(self, file: UploadFile):
         # Validar extensão

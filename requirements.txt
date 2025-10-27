@@ -20,6 +20,11 @@ python-dotenv
 redis[asyncio]
 jinja2
 
+# storage
+google-cloud-storage
+python-multipart
+minio
+
 # Logging
 loguru
 
