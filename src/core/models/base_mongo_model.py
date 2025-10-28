@@ -11,6 +11,8 @@ class BaseMongoModel(BaseModel):
     unique_id: str = Field(default_factory=lambda: EncryptionUtil.generate_uuid())
     created_at: datetime = Field(default_factory=datetime.now)
     updated_at: datetime = Field(default_factory=datetime.now)
+    created_by: Optional[str] = None
+    deleted_by: Optional[str] = None
 
     model_config = {
         "arbitrary_types_allowed": True,

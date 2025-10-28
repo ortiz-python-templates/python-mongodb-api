@@ -1,6 +1,8 @@
 import uuid
 from minio import Minio
 from fastapi import UploadFile
+from src.common.storage.units_of_measurement import UnitsOfMeasurement
+from src.common.storage.file_extensions import FileExtensions
 
 
 class MinioStorage:
@@ -30,7 +32,7 @@ class MinioStorage:
             object_name,
             file.file,
             length=-1,  # Allows streaming uploads of unknown length
-            part_size=10 * 1024 * 1024  # Split large uploads into 10 MB parts
+            part_size=10 * UnitsOfMeasurement.MEGA_BYTE  # Split large uploads into 10 MB parts
         )
 
         # Generate a signed URL that expires in 1 hour (3600 seconds)

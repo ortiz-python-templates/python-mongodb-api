@@ -38,11 +38,23 @@ class EnvConfig:
     RATE_LIMIT_MAX_REQUESTS = int(os.getenv("RATE_LIMIT_MAX_REQUESTS", 10))
     RATE_LIMIT_WINDOW_SECONDS = int(os.getenv("RATE_LIMIT_WINDOW_SECONDS", 60))
      
-    COOKIE_DOMAIN = os.getenv("COOKIE_DOMAIN", "localhost")
+   # File max sizes
+    MAX_DOCUMENT_FILE_SIZE_MB = int(os.getenv("MAX_DOCUMENT_FILE_SIZE_MB", 5))
+    MAX_IMAGE_FILE_SIZE_MB = int(os.getenv("MAX_IMAGE_FILE_SIZE_MB", 5))
+    MAX_ARCHIVE_FILE_SIZE_MB = int(os.getenv("MAX_ARCHIVE_FILE_SIZE_MB", 10))
 
-    # FILES
-    UPLOADS_PATH = os.getenv("UPLOADS_PATH", "uploads")
-    UPLOADS_MAX_DOCS_SIZE = int(os.getenv("UPLOADS_MAX_DOCS_SIZE", 4))  # em MB
+    # File system uploads
+    FILE_SYSTEM_UPLOAD_PATH=os.getenv("FILE_SYSTEM_UPLOAD_PATH", "/var/www/uploads")
+
+    # MinIO configuration
+    MINIO_ROOT_USER = os.getenv("MINIO_ROOT_USER","admin")
+    MINIO_ROOT_PASSWORD = os.getenv("MINIO_ROOT_PASSWORD", "admin123")
+    MINIO_ENDPOINT = os.getenv("MINIO_ENDPOINT", "localhost:9000")
+    MINIO_MAIN_BUCKET = os.getenv("MINIO_MAIN_BUCKET", "python-mongodb-bucket")
+
+    # Google 
+    GOOGLE_APPLICATION_CREDENTIALS = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
+    GOOGLE_STORAGE_MAIN_BUCKET = os.getenv("GOOGLE_STORAGE_MAIN_BUCKET")
 
     @classmethod
     def is_production(cls) -> bool:
