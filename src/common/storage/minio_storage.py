@@ -1,8 +1,8 @@
 import uuid
+from datetime import timedelta
 from minio import Minio
 from fastapi import UploadFile
 from src.common.storage.units_of_measurement import UnitsOfMeasurement
-from src.common.storage.file_extensions import FileExtensions
 
 
 class MinioStorage:
@@ -36,7 +36,7 @@ class MinioStorage:
         )
 
         # Generate a signed URL that expires in 1 hour (3600 seconds)
-        url = self.client.presigned_get_object(self.bucket_name, object_name, expires=3600)
+        url = self.client.presigned_get_object(self.bucket_name, object_name, expires=timedelta(seconds=3600))
         return url
 
 
