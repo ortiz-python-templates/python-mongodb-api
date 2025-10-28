@@ -41,14 +41,14 @@ class FileValidator:
             )
         
     
-        def _get_unit_name(self):
-            """Returns a readable name for the unit"""
-            mapping = {
-                UnitsOfMeasurement.BYTE: "Bytes",
-                UnitsOfMeasurement.KILO_BYTE: "KB",
-                UnitsOfMeasurement.MEGA_BYTE: "MB",
-                UnitsOfMeasurement.GIGA_BYTE: "GB",
-                UnitsOfMeasurement.TERA_BYTE: "TB",
-            }
-            return mapping.get(self.unit, "Bytes")
+    def _get_unit_name(self):
+        """Returns a readable name for the unit"""
+        mapping = {
+            UnitsOfMeasurement.BYTE: "Bytes",
+            UnitsOfMeasurement.KILO_BYTE: "KB",
+            UnitsOfMeasurement.MEGA_BYTE: "MB",
+            UnitsOfMeasurement.GIGA_BYTE: "GB",
+            UnitsOfMeasurement.TERA_BYTE: "TB",
+        }
+        return mapping.get(self.unit, "Bytes")
 

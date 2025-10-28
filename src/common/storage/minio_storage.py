@@ -18,6 +18,7 @@ class MinioStorage:
         if not self.client.bucket_exists(bucket_name):
             self.client.make_bucket(bucket_name)
 
+
     def upload(self, file: UploadFile) -> str:
         """Uploads a file to MinIO and returns a temporary signed URL."""
         # Generate a unique name to avoid overwriting files

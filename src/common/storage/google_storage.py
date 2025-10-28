@@ -1,5 +1,5 @@
 from datetime import datetime, timedelta
-from fastapi import UploadFile, HTTPException
+from fastapi import UploadFile, HTTPException, status
 from google.cloud import storage
 from google.api_core import exceptions as gcs_exceptions
 import uuid
@@ -14,7 +14,7 @@ class GoogleStorage:
         self._client = storage.Client()
         self.bucket_name = bucket_name
         self.bucket = self._client.bucket(bucket_name)
-        
+
 
     def upload(self, file: UploadFile, bucket_prefix: str | None = None) -> UploadInfo:
         """
@@ -58,13 +58,13 @@ class GoogleStorage:
 
         except gcs_exceptions.Forbidden as e:
             # Handle insufficient permissions
-            raise HTTPException(status_code=403, detail=f"Access denied to bucket: {e}")
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail=f"Access denied to bucket: {e}")
         except gcs_exceptions.NotFound as e:
             # Handle missing bucket
-            raise HTTPException(status_code=404, detail=f"Bucket not found: {e}")
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail=f"Bucket not found: {e}")
         except Exception as e:
             # Handle any unexpected errors
-            raise HTTPException(status_code=500, detail=f"File upload failed: {e}")
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"File upload failed: {e}")
         finally:
             # Ensure file stream is closed after upload
             file.file.close()
@@ -80,7 +80,7 @@ class GoogleStorage:
 
             # Check if the file exists before generating the signed URL
             if not blob.exists(self._client):
-                raise HTTPException(status_code=404, detail="File not found in bucket")
+                raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="File not found in bucket")
 
             # Generate a signed URL for secure access
             url = blob.generate_signed_url(
@@ -92,8 +92,8 @@ class GoogleStorage:
             return url
 
         except gcs_exceptions.NotFound:
-            raise HTTPException(status_code=404, detail="File not found")
+            raise HTTPException(status_code=status.HTTP_404_NOT_FOUND, detail="File not found")
         except gcs_exceptions.Forbidden:
-            raise HTTPException(status_code=403, detail="Access denied to file")
+            raise HTTPException(status_code=status.HTTP_403_FORBIDDEN, detail="Access denied to file")
         except Exception as e:
-            raise HTTPException(status_code=500, detail=f"Error generating URL: {e}")
+            raise HTTPException(status_code=status.HTTP_500_INTERNAL_SERVER_ERROR, detail=f"Error generating URL: {e}")

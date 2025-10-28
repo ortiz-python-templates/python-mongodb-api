@@ -1,9 +1,9 @@
 from os.path import splitext
 
+
 class FileExtensions:
     """
     Defines common file extension groups used for file upload validation
-    or MIME type categorization.
     """
 
     # Common image formats (used in photo uploads and previews)
