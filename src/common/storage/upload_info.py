@@ -1,4 +1,5 @@
 class UploadInfo:
+    """Represents metadata and access details of a file uploaded to storage."""
 
     def __init__(self, file_name: str, file_url: str, file_size: str, content_type: str, metadata: dict):
         self.file_name = file_name
