@@ -36,7 +36,10 @@ class MinioStorage:
         )
 
         # Generate a signed URL that expires in 1 hour (3600 seconds)
-        url = self.client.presigned_get_object(self.bucket_name, object_name, expires=timedelta(seconds=3600))
+        url = self.client.presigned_get_object(
+            self.bucket_name, object_name, 
+            expires=timedelta(seconds=3600)
+        )
         return url
 
 

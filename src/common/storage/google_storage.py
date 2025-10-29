@@ -44,7 +44,7 @@ class GoogleStorage:
                 "content_type": file.content_type,
                 "size": file_size,
                 "bucket_name": self.bucket_name,
-                "uploaded_at": datetime.utcnow().isoformat() + "Z",
+                "uploaded_at": datetime.now().isoformat() + "Z",
             }
 
             # Return structured upload information with a signed URL
@@ -87,7 +87,7 @@ class GoogleStorage:
                 version="v4",
                 expiration=timedelta(hours=expiration_hours),
                 method="GET",
-                response_disposition=f'inline; filename="{blob_name}"',
+                response_disposition=f'inline; filename="{blob_name}"'
             )
             return url
 

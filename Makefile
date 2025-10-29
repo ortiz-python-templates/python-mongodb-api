@@ -82,6 +82,18 @@ docker_run_app:
 	ortizdavid/python-mongodb-api:latest
 
 
+docker_run_minio:
+	docker run -d \
+	--name minio \
+	-p 9000:9000 \
+	-p 9001:9001 \
+	-e MINIO_ROOT_USER=admin \
+	-e MINIO_ROOT_PASSWORD=admin123 \
+	-v $(pwd)/minio-data:/data \
+	minio/minio server /data --console-address ":9001"
+
+
+
 # ----------------------------------------------------------
 # Help
 # ----------------------------------------------------------
