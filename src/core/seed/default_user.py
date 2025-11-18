@@ -14,12 +14,12 @@ class DefaultUser:
         repository = UserCommandRepository(db)
         email = "admin.template@gmail.com"
 
-        logger.info("Verificando existência do usuário admin...")
+        logger.info("Checking if admin user exists...")
 
         if await repository.exists_record('email', email):
-            logger.info("Usuário admin já existe. Ignorando...")
+            logger.info("Admin user already exists. Skipping...")
         else:
-            logger.info("Usuário admin não encontrado. Criando novo usuário...")
+            logger.info("Admin user not found. Creating new user...")
 
             user = UserModel(
                 email=email,
@@ -36,6 +36,6 @@ class DefaultUser:
             inserted_id = await repository.create(user)
 
             if inserted_id is None:
-                logger.error("Erro ao criar usuário admin. Verifique os campos.")
+                logger.error("Error creating admin user. Please check the fields.")
             else:
-                logger.info(f"Usuário admin criado com sucesso. ID: {inserted_id}")
+                logger.info(f"Admin user created successfully. ID: {inserted_id}")

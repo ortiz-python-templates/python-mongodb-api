@@ -4,7 +4,7 @@ from src.common.mail.email_service import EmailService
 from src.common.utils.encryption_util import EncryptionUtil
 from src.common.utils.password_util import PasswordUtil
 from src.core.models.identity.user_model import UserModel
-from src. common.utils.custom_exceptions import *
+from src.common.utils.custom_exceptions import *
 from src.core.schemas.identity.user_requests import *
 from src.core.repositories.identity.user_command_repository import UserCommandRepository
 
@@ -18,7 +18,7 @@ class UserCommandService:
 
     async def create_user(self, body: CreateUserRequest):
         if await self.command_repository.exists_record('email', body.email):
-            raise ConflictException(f"Já existe um usuário com o email '{body.email}'.")
+            raise ConflictException(f"A user with email '{body.email}' already exists.")
         new_user = UserModel(
             email=body.email,
             role=body.role,
@@ -30,10 +30,10 @@ class UserCommandService:
         )
         user_id = await self.command_repository.create(new_user)
         if user_id is None:
-            raise InternalServerErrorException("Não foi possível criar o usuário. Verifique os dados e tente novamente.")
+            raise InternalServerErrorException("Unable to create user. Please check the data and try again.")
         # send email
         await self.email_service.send_email(
-            subject="Registo de Usuário",
+            subject="User Registration",
             email_to=body.email,
             template_name="email/user-registration.html",
             context={
@@ -48,7 +48,7 @@ class UserCommandService:
     async def update_user(self, unique_id: str, body: UpdateUserRequest):
         user = await self.command_repository.get_by_unique_id_aux(unique_id)
         if user is None:
-            raise NotFoundException(f"Não encontramos nenhum usuário com o ID '{unique_id}'.")
+            raise NotFoundException(f"No user found with ID '{unique_id}'.")
         user.first_name = body.first_name
         user.last_name = body.last_name
         user.updated_at = datetime.now()
@@ -58,20 +58,20 @@ class UserCommandService:
     async def activate_user(self, unique_id: str, body: ActivateUserRequest):
         user = await self.command_repository.get_by_unique_id_aux(unique_id)
         if user is None:
-            raise NotFoundException(f"Não encontramos nenhum usuário com o ID '{unique_id}'.")
-        if user.is_active == True:
-            raise ConflictException(f"Usuário com ID '{unique_id}' já está activo")
+            raise NotFoundException(f"No user found with ID '{unique_id}'.")
+        if user.is_active:
+            raise ConflictException(f"User with ID '{unique_id}' is already active.")
         user.is_active = True
         user.updated_at = datetime.now()
         self.command_repository.update(user.id, user)
         # send email
         await self.email_service.send_email(
-            subject="Status do usuário",
+            subject="User Status Update",
             email_to=user.email,
             template_name="email/change-user-status.html",
             context={
                 "user_email": user.email,
-                "user_status": "Activado",
+                "user_status": "Activated",
                 "status_reason": body.reason
             }
         )
@@ -80,20 +80,20 @@ class UserCommandService:
     async def deactivate_user(self, unique_id: str, body: DeactivateUserRequest):
         user = await self.command_repository.get_by_unique_id_aux(unique_id)
         if user is None:
-           raise NotFoundException(f"Não encontramos nenhum usuário com o ID '{unique_id}'.")
-        if user.is_active == False:
-            raise ConflictException(f"Usuário com ID '{unique_id}' já está inactivo")
+           raise NotFoundException(f"No user found with ID '{unique_id}'.")
+        if not user.is_active:
+            raise ConflictException(f"User with ID '{unique_id}' is already inactive.")
         user.is_active = False
         user.updated_at = datetime.now()
         await self.command_repository.update(user.id, user)
         # send email
         await self.email_service.send_email(
-            subject="Status do usuário",
+            subject="User Status Update",
             email_to=user.email,
             template_name="email/change-user-status.html",
             context={
                 "user_email": user.email,
-                "user_status": "Desactivado",
+                "user_status": "Deactivated",
                 "status_reason": body.reason
             }
         )
@@ -101,7 +101,7 @@ class UserCommandService:
 
     async def register_user(self, body: RegisterUserRequest):
         if await self.command_repository.exists_record('email', body.email):
-            raise ConflictException(f"Email '{body.email}' já existe")
+            raise ConflictException(f"Email '{body.email}' already exists.")
         new_user = UserModel(
             email=body.email,
             first_name=body.first_name,
@@ -113,10 +113,10 @@ class UserCommandService:
         )
         inserted_id = await self.command_repository.create(new_user)
         if inserted_id is None:
-            raise InternalServerErrorException("Não foi possível registrar o usuário. Por favor, tente novamente.")
+            raise InternalServerErrorException("Unable to register user. Please try again.")
         # send email
         await self.email_service.send_email(
-            subject="Registo de Usuário",
+            subject="User Registration",
             email_to=body.email,
             template_name="email/user-registration.html",
             context={
@@ -126,6 +126,3 @@ class UserCommandService:
             }
         )
         return inserted_id
-
-
-

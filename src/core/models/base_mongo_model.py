@@ -10,8 +10,10 @@ class BaseMongoModel(BaseModel):
     id: Optional[ObjectId] = Field(default=None, alias="_id")
     unique_id: str = Field(default_factory=lambda: EncryptionUtil.generate_uuid())
     created_at: datetime = Field(default_factory=datetime.now)
-    updated_at: datetime = Field(default_factory=datetime.now)
     created_by: Optional[str] = None
+    updated_at: datetime = Field(default_factory=datetime.now)
+    updated_by: Optional[str] = None
+    deleted_at: Optional[datetime] = None
     deleted_by: Optional[str] = None
 
     model_config = {

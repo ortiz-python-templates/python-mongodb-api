@@ -1,31 +1,28 @@
-class Role:
+import enum
+
+class Role(str, enum.Enum):
     # Internal - Full control
-    SUPER_ADMIN = 'super-admin'      # Full system access
-    ADMIN = 'admin'                  # Manages modules and users
+    SUPER_ADMIN = 'super-admin'
+    ADMIN = 'admin'
     
     # Internal - Operational
-    FINANCE = 'finance'              # Manages billing, payments, salaries
-    DIRECTOR = 'director'            # Oversees operations and strategic reports
-    EMPLOYEE = 'employee'            # Staff member with limited permissions
+    EMPLOYEE = 'employee'
 
     # External - Business
-    CUSTOMER = 'customer'            # Organization's customer
-    SUPPLIER = 'supplier'            # Supplier or business partner
+    CUSTOMER = 'customer'
+    SUPPLIER = 'supplier'
     
     # Technical / Integration
-    INTEGRATOR = 'integrator'        # System or partner integrating via API
+    INTEGRATOR = 'integrator'
 
-    
     @staticmethod
     def get_description(role: str) -> str:
         descriptions = {
-            Role.SUPER_ADMIN: "Super Administrador",
-            Role.ADMIN: "Administrador",
-            Role.FINANCE: "Financeiro",
-            Role.DIRECTOR: "Diretor",
-            Role.EMPLOYEE: "Colaborador",
-            Role.CUSTOMER: "Cliente",
-            Role.SUPPLIER: "Fornecedor",
-            Role.INTEGRATOR: "Integrador de Sistema",
+            Role.SUPER_ADMIN: "Super Administrator",
+            Role.ADMIN: "Administrator",
+            Role.EMPLOYEE: "Employee",
+            Role.CUSTOMER: "Customer",
+            Role.SUPPLIER: "Supplier",
+            Role.INTEGRATOR: "System Integrator",
         }
         return descriptions.get(role, "Unknown")

@@ -81,7 +81,7 @@ class AuthService:
     async def get_recovery_link(self, request: Request, body: PasswordRecoveryRequest):
         user = await self.command_repository.get_by_email_aux(body.email)
         if not user:
-            raise InternalServerErrorException(f"Usuário com Email '{body.email}' não existe")
+            raise InternalServerErrorException(f"User with email '{body.email}' does not exist.")
         
         base_url = f"{request.url.scheme}://{request.url.netloc}"
         reset_link = f"{base_url}/reset-password?token={user.recovery_token}"
@@ -100,9 +100,9 @@ class AuthService:
     async def reset_password(self, token: str, body: ResetPasswordRequest):
         user = await self.command_repository.get_by_recovery_token_aux(token)
         if not user:
-            raise BadRequestException("Token de recuperação inválido ou expirado.")
+            raise BadRequestException("Invalid or expired recovery token.")
         if not user.is_active:
-            raise BadRequestException("Sua conta está inativa no momento. Entre em contato com o suporte para reativá-la.")
+            raise BadRequestException("Your account is currently inactive. Please contact support to reactivate it.")
         user.password = PasswordUtil.hash(body.new_password)
         user.recovery_token = EncryptionUtil.generate_random_token(32)
         self.command_repository.update(user.id, user)
