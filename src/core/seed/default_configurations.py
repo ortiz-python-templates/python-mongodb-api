@@ -1,7 +1,7 @@
-from src.core.models.configuration.company_configuration_model import CompanyConfigurationModel
-from src.core.repositories.services.company_configuration_repository import CompanyConfigurationRepository
-from src.core.repositories.services.basic_configuration_repository import BasicConfigurationRepository
-from src.core.models.configuration.basic_configuration_model import BasicConfigurationModel
+from src.core.repositories.configurations.company_configuration_command_repository import CompanyConfigurationCommandRepository
+from src.core.repositories.configurations.basic_configuration_command_repository import BasicConfigurationCommandRepository
+from src.core.models.configurations.basic_configuration_model import BasicConfigurationModel
+from src.core.models.configurations.company_configuration_model import CompanyConfigurationModel
 from src.common.config.log_config import Logger  
 from motor.motor_asyncio import AsyncIOMotorDatabase
 
@@ -18,10 +18,10 @@ class DefaultConfigurations:
     @staticmethod
     async def seed_basic_configurations(db: AsyncIOMotorDatabase):
         logger = Logger.get_logger("seeder.basic_configurations")
-        repository = BasicConfigurationRepository(db)
+        repository = BasicConfigurationCommandRepository(db)
 
         logger.info("Checking if Basic Configurations exist ...")
-        current_config = await repository.get_last()
+        current_config = await repository.get_last_aux()
         if current_config is None:
             logger.warning("Basic Configurations not found. Creating...")
             basic_config = BasicConfigurationModel(
@@ -40,10 +40,10 @@ class DefaultConfigurations:
     @staticmethod
     async def seed_company_configurations(db: AsyncIOMotorDatabase):
         logger = Logger.get_logger("seeder.company_configurations")
-        repository = CompanyConfigurationRepository(db)
+        repository = CompanyConfigurationCommandRepository(db)
 
         logger.info("Checking if Company Configurations exist ...")
-        current_config = await repository.get_last()
+        current_config = await repository.get_last_aux()
         if current_config is None:
             logger.warning("Company Configurations not found. Creating...")
             company_config = CompanyConfigurationModel(

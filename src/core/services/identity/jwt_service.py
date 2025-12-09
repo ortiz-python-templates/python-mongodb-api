@@ -10,7 +10,6 @@ from src.common.config.env_config import EnvConfig
 
 class JwtService:
 
-
     @staticmethod
     def create_access_token(user: UserDetail) -> str:
         payload = {
@@ -77,7 +76,7 @@ class JwtService:
             samesite="Lax",
             max_age=EnvConfig.JWT_ACCESS_TOKEN_EXPIRE_MINUTES * 60,
             path="/",
-            domain=EnvConfig.COOKIE_DOMAIN
+            domain=EnvConfig.JWT_COOKIE_DOMAIN
         )
 
 
@@ -91,7 +90,7 @@ class JwtService:
             samesite="Lax",
             max_age=EnvConfig.JWT_REFRESH_TOKEN_EXPIRE_DAYS * 24 * 60 * 60,
             path="/",
-            domain=EnvConfig.COOKIE_DOMAIN
+            domain=EnvConfig.JWT_COOKIE_DOMAIN
         )
 
 

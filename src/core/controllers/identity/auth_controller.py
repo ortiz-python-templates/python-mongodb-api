@@ -47,7 +47,7 @@ class AuthController:
         controller = AuthController(db)
         router.add_api_route("/login", controller.login, methods=["POST"])
         router.add_api_route("/logout", controller.logout, methods=["GET"])
-        router.add_api_route("/refresh-token", controller.refresh_access_token, methods=["GET"])
+        router.add_api_route("/refresh-access-token", controller.refresh_access_token, methods=["GET"])
         router.add_api_route("/current-user", controller.get_current_user, methods=["GET"])
         router.add_api_route("/register", controller.register_user, methods=["POST"])
         router.add_api_route("/get-recover-link", controller.get_password_recovery_link, methods=["POST"])

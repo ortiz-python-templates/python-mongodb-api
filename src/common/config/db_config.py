@@ -1,15 +1,13 @@
-from motor.motor_asyncio import AsyncIOMotorClient
-from motor.motor_asyncio import AsyncIOMotorDatabase
+from motor.motor_asyncio import AsyncIOMotorClient, AsyncIOMotorDatabase
 from src.common.config.env_config import EnvConfig
 
-
 class DbConfig:
-    
-    @classmethod
-    def getdb_from_uri(cls, db_uri: str, db_name: str) -> AsyncIOMotorDatabase:
-        client = AsyncIOMotorClient(db_uri)
-        return client[db_name]
-    
+    _client: AsyncIOMotorClient | None = None
+    _db: AsyncIOMotorDatabase | None = None
+
     @classmethod
     def get_database(cls) -> AsyncIOMotorDatabase:
-        return cls.getdb_from_uri(EnvConfig.MONGO_URI, EnvConfig.MONGO_DATABASE)
+        if cls._db is None:
+            cls._client = AsyncIOMotorClient(EnvConfig.MONGO_URI)
+            cls._db = cls._client[EnvConfig.MONGO_DATABASE]
+        return cls._db

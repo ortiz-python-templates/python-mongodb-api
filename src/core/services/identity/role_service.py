@@ -12,8 +12,6 @@ class RoleService:
         return [
             {"role": Role.SUPER_ADMIN, "description": Role.get_description(Role.SUPER_ADMIN)},
             {"role": Role.ADMIN, "description": Role.get_description(Role.ADMIN)},
-            {"role": Role.FINANCE, "description": Role.get_description(Role.FINANCE)},
-            {"role": Role.DIRECTOR, "description": Role.get_description(Role.DIRECTOR)},
             {"role": Role.EMPLOYEE, "description": Role.get_description(Role.EMPLOYEE)},
             {"role": Role.CUSTOMER, "description": Role.get_description(Role.CUSTOMER)},
             {"role": Role.SUPPLIER, "description": Role.get_description(Role.SUPPLIER)},
@@ -33,8 +31,6 @@ class RoleService:
         return [
             Role.SUPER_ADMIN,
             Role.ADMIN,
-            Role.FINANCE,
-            Role.DIRECTOR,
             Role.EMPLOYEE,
             Role.CUSTOMER,
             Role.SUPPLIER,

@@ -3,6 +3,7 @@ from src.common.observability.logger import setup_logger
 from src.common.observability.metrics import setup_metrics
 from src.common.observability.tracing import setup_tracing
 
+
 class ObservabilitySetup:
 
     @classmethod

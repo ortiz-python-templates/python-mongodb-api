@@ -40,7 +40,8 @@ class AuthenticationMiddleware(BaseHTTPMiddleware):
 
     async def dispatch(self, request: Request, call_next):
         try:
-            path = request.url.path
+            #path = request.url.path
+            path = request.url.path.rstrip("/")
 
             # Allow CORS preflight requests
             if request.method == "OPTIONS":
