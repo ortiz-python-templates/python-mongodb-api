@@ -34,8 +34,7 @@ class DefaultUser:
             )
 
             inserted_id = await repository.create(user)
-
             if inserted_id is None:
                 logger.error("Error creating admin user. Please check the fields.")
             else:
-                logger.info(f"Admin user created successfully. ID: {inserted_id}")
+                logger.info(f"Admin user created successfully.")

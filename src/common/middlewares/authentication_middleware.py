@@ -24,7 +24,7 @@ class AuthenticationMiddleware(BaseHTTPMiddleware):
         "/openapi.json",
         "/redoc",
         "/api/auth/login",
-        "/api/auth/refresh-token",
+        "/api/auth/refresh-access-token",
         "/api/auth/register",
         "/api/auth/get-recovery-token",
     }

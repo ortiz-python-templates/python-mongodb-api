@@ -15,4 +15,4 @@ class ObservabilitySetup:
         setup_metrics(app)
 
         # Tracing
-        setup_tracing(app, service_name=service_name, jaeger_host=jaeger_host, jaeger_port=jaeger_port)
+        #setup_tracing(app, service_name=service_name, jaeger_host=jaeger_host, jaeger_port=jaeger_port)

@@ -26,7 +26,7 @@ class UserQueryService:
         users = await self.query_repository.get_all(pagination_filter.page_size, pagination_filter.page_index)
         return PaginationResponse.create(
             items=users,
-            total_items=self.query_repository.count(),
+            total_items=await self.query_repository.count(),
             page_size=pagination_filter.page_size,
             page_index=pagination_filter.page_index,
             request=request
@@ -42,7 +42,7 @@ class UserQueryService:
         users = await self.query_repository.get_all_by_status(status, pagination_filter.page_size, pagination_filter.page_index)
         return PaginationResponse.create(
             items=users,
-            total_items=self.query_repository.count_by_status(status),
+            total_items=await self.query_repository.count_by_status(status),
             page_size=pagination_filter.page_size,
             page_index=pagination_filter.page_index,
             request=request
@@ -53,7 +53,7 @@ class UserQueryService:
         users = await self.query_repository.search(search_filter.search_param, pagination_filter.page_size, pagination_filter.page_index)
         return PaginationResponse.create(
             items=users,
-            total_items=self.query_repository.count_search(search_filter.search_param),
+            total_items=await self.query_repository.count_search(search_filter.search_param),
             page_size=pagination_filter.page_size,
             page_index=pagination_filter.page_index,
             request=request
@@ -91,8 +91,8 @@ class UserQueryService:
     async def authenticate_user(self, email: str, password: str) -> UserDetail:
         if not email or not password:
             raise BadRequestException("Please provide email and password to continue.")
-        user = await self.query_repository.get_by_email(email)
         user_aux = await self.command_repository.get_by_email_aux(email)
-        if not user or not PasswordUtil.verify(password, user_aux.password):
+        if not user_aux or not PasswordUtil.verify(password, user_aux.password):
             raise UnauthorizedException("Incorrect email or password. Please try again.")
+        user = await self.query_repository.get_by_email(user_aux.email)
         return user

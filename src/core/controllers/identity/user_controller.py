@@ -20,8 +20,8 @@ class UserController:
         self.query_service = UserQueryService(db)
 
     async def create_user(self, body: CreateUserRequest):
-        await self.command_service.create_user(body)
-        return JSONResponse(UserMsg.Success.CREATED.format(body.email), status.HTTP_201_CREATED)
+        resp = await self.command_service.create_user(body)
+        return JSONResponse(resp.model_dump(), status.HTTP_201_CREATED)
 
     async def get_all_users(self, request: Request, pagination_filter: PaginationFilter=Depends()):
         return await self.query_service.get_all_users(request, pagination_filter)
@@ -39,16 +39,16 @@ class UserController:
         return await self.query_service.get_user_by_email(email)
 
     async def update_user(self, unique_id: str, body: UpdateUserRequest):
-        await self.command_service.update_user(unique_id, body)
-        return JSONResponse(UserMsg.Success.UPDATED, status.HTTP_200_OK)
+        resp = await self.command_service.update_user(unique_id, body)
+        return JSONResponse(resp.model_dump(), status.HTTP_200_OK)
 
     async def activate_user(self, unique_id: str, body: ActivateUserRequest):
-        await self.command_service.activate_user(unique_id, body)
-        return JSONResponse(UserMsg.Success.ACTIVATED.format(unique_id), status.HTTP_200_OK)
+        resp = await self.command_service.activate_user(unique_id, body)
+        return JSONResponse(resp.model_dump(), status.HTTP_200_OK)
     
     async def deactivate_user(self, unique_id: str, body: DeactivateUserRequest):
-        await self.command_service.deactivate_user(unique_id, body)
-        return JSONResponse(UserMsg.Success.DEACTIVATED.format(unique_id), status.HTTP_200_OK)
+        resp = await self.command_service.deactivate_user(unique_id, body)
+        return JSONResponse(resp.model_dump(), status.HTTP_200_OK)
     
     @classmethod
     def add_routes(cls, db: AsyncIOMotorDatabase) -> APIRouter:

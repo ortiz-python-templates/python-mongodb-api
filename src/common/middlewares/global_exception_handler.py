@@ -14,6 +14,7 @@ class GlobalExceptionHandler:
         @app.exception_handler(CustomException)
         async def custom_exception(request: Request, exc: CustomException):
             exception_name = exc.__class__.__name__
+            title = exc.title
             detail = exc.detail
             # Log diferenciado se desejar por tipo
             GlobalExceptionHandler.logger.warning(
@@ -22,8 +23,9 @@ class GlobalExceptionHandler:
             return JSONResponse(
                 status_code=exc.status_code,
                 content={
+                    "title": title,
                     "detail": detail,
-                    "status_code": exc.status_code,
+                    "status": exc.status_code,
                     "path": str(request.url.path)
                 }
             )
@@ -37,8 +39,9 @@ class GlobalExceptionHandler:
             return JSONResponse(
                 status_code=status.HTTP_500_INTERNAL_SERVER_ERROR,
                 content={
-                    "detail": "Internal Server Error",
-                    "status_code": status.HTTP_500_INTERNAL_SERVER_ERROR,
+                    "title": "Internal Server Error",
+                    "detail": "An error occurred while processing request",
+                    "status": status.HTTP_500_INTERNAL_SERVER_ERROR,
                     "path": str(request.url.path)
                 }
             )

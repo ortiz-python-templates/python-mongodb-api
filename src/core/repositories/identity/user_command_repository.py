@@ -16,12 +16,10 @@ class UserCommandRepository(MongoCommandRepository[UserModel]):
         await self._collection.create_index([("recovery_token", ASCENDING)], name="idx_user_recovery_token", sparse=True)
 
     async def get_by_email_aux(self, email: str):
-        doc = await self._collection.find_one({'email': email})
-        return self._model_cls.model_validate(doc) if doc else None
+        return await self.get_by_field_aux('email', email)
     
-    async def get_by_recovery_token_aux(self, token: str):
-        doc = await self._collection.find_one({'recovery_token': token})
-        return self._model_cls.model_validate(doc) if doc else None
+    async def get_by_recovery_token_aux(self, recovery_token: str):
+        return await self.get_by_field_aux('recovery_token', recovery_token)
     
     async def exists_excluding_id(self, unique_id: str, email: str):
         return await super().exists_excluding_id(unique_id, {"email": email})

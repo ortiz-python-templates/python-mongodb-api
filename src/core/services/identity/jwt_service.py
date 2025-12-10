@@ -2,9 +2,10 @@ from datetime import datetime, timedelta
 from typing import Dict
 from fastapi import Request, Response
 from jose import JWTError, jwt
+from src.core.schemas.identity.user_responses import UserDetail
+from src.core.models.identity.user_model import UserModel
 from src.core.services.identity.token_blacklist_service import TokenBlackListService
 from src.common.utils.custom_exceptions import UnauthorizedException
-from src.core.schemas.identity.user_responses import UserDetail
 from src.common.config.env_config import EnvConfig
 
 

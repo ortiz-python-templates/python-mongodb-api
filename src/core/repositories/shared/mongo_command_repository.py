@@ -1,10 +1,11 @@
 from typing import TypeVar, Generic, List, Optional, Type, Any
+from datetime import datetime
 from bson import ObjectId
 from pydantic import BaseModel
 from motor.motor_asyncio import AsyncIOMotorDatabase, AsyncIOMotorCollection
 
-T = TypeVar('T', bound=BaseModel)
 
+T = TypeVar('T', bound=BaseModel)
 
 class MongoCommandRepository(Generic[T]):
 
@@ -14,6 +15,8 @@ class MongoCommandRepository(Generic[T]):
         self._model_cls = model_cls
         self.inserted_id: Optional[Any] = None
 
+    
+    # Create
     async def create(self, entity: T, session=None):
         result = await self._collection.insert_one(entity.model_dump(), session=session)
         self.inserted_id = result.inserted_id
@@ -22,12 +25,8 @@ class MongoCommandRepository(Generic[T]):
     async def create_batch(self, entities: List[T], session=None):
         await self._collection.insert_many([e.model_dump() for e in entities], session=session)
 
-    async def delete(self, id: ObjectId, session=None):
-        await self._collection.delete_one({"_id": id}, session=session)
-
-    async def delete_by_field(self, field: str, value: Any, session=None):
-        await self._collection.delete_one({field: value}, session=session)
-
+    
+    # Update
     async def update(self, id: ObjectId, entity: T, session=None):
         await self._collection.replace_one({"_id": id}, entity.model_dump(), session=session)
 
@@ -35,28 +34,56 @@ class MongoCommandRepository(Generic[T]):
         for entity in entities:
             await self._collection.replace_one({"_id": entity.id}, entity.model_dump(), session=session)
 
-    async def get_by_id_aux(self, id: ObjectId) -> Optional[T]:
-        doc = await self._collection.find_one({"_id": id})
+    
+    # Hard delete
+    async def delete(self, id: ObjectId, session=None):
+        await self._collection.delete_one({"_id": id}, session=session)
+
+    async def delete_by_field(self, field: str, value: Any, session=None):
+        await self._collection.delete_one({field: value}, session=session)
+    
+
+    # Soft delete
+    async def soft_delete(self, unique_id: str, deleted_by: Optional[str] = None, session=None):
+        """
+        Soft delete a document by setting `is_deleted=True` and recording deleted_by / deleted_at
+        """
+        await self._collection.update_one(
+            {"unique_id": unique_id, "is_deleted": False},
+            {"$set": {
+                "is_deleted": True,
+                "deleted_at": datetime.utcnow(),
+                "deleted_by": deleted_by
+            }},
+            session=session
+        )
+
+    
+    # Auxiliary Queries
+    async def get_by_field_aux(self, field: str, value: Any) -> Optional[T]:
+        doc = await self._collection.find_one({field: value, "is_deleted": False})
         return self._model_cls.model_validate(doc) if doc else None
+    
+    async def get_by_id_aux(self, id: ObjectId) -> Optional[T]:
+        return await self.get_by_field_aux('_id', id)
 
     async def get_by_unique_id_aux(self, unique_id: str) -> Optional[T]:
-        doc = await self._collection.find_one({'unique_id': unique_id})
-        return self._model_cls.model_validate(doc) if doc else None
+        return await self.get_by_field_aux('unique_id', unique_id)
 
     async def get_last_aux(self) -> Optional[T]:
-        doc = await self._collection.find_one(sort=[("_id", -1)])
+        doc = await self._collection.find_one({"is_deleted": False}, sort=[("_id", -1)])
         return self._model_cls.model_validate(doc) if doc else None
 
     async def get_first_aux(self) -> Optional[T]:
-        doc = await self._collection.find_one(sort=[("_id", 1)])
+        doc = await self._collection.find_one({"is_deleted": False}, sort=[("_id", 1)])
         return self._model_cls.model_validate(doc) if doc else None
 
     async def exists_record(self, field: str, value: Any) -> bool:
-        count = await self._collection.count_documents({field: value})
+        count = await self._collection.count_documents({field: value, "is_deleted": False})
         return count > 0
 
     async def exists_excluding_id(self, unique_id: str, filters: dict) -> bool:
         or_conditions = [{k: v} for k, v in filters.items()]
-        query = {"unique_id": {"$ne": unique_id}, "$or": or_conditions}
+        query = {"unique_id": {"$ne": unique_id}, "$or": or_conditions, "is_deleted": False}
         count = await self._collection.count_documents(query)
         return count > 0

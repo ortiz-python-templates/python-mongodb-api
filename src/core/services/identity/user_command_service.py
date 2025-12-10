@@ -1,5 +1,7 @@
 from datetime import datetime
 from motor.motor_asyncio import AsyncIOMotorDatabase
+from src.common.utils.messages.identity_messsages import UserMsg
+from src.core.schemas.common_result import *
 from src.common.mail.email_service import EmailService
 from src.common.utils.encryption_util import EncryptionUtil
 from src.common.utils.password_util import PasswordUtil
@@ -42,7 +44,10 @@ class UserCommandService:
                 "user_password": body.password
             }
         )
-        return user_id
+        return CreatedResult(
+            id=new_user.unique_id,
+            message=UserMsg.Success.CREATED.format(body.email)
+        )
     
 
     async def update_user(self, unique_id: str, body: UpdateUserRequest):
@@ -53,6 +58,10 @@ class UserCommandService:
         user.last_name = body.last_name
         user.updated_at = datetime.now()
         self.command_repository.update(user.id, user)
+        return UpdatedResult(
+            id=unique_id,
+            message=UserMsg.Success.UPDATED
+        )
 
 
     async def activate_user(self, unique_id: str, body: ActivateUserRequest):
@@ -75,6 +84,10 @@ class UserCommandService:
                 "status_reason": body.reason
             }
         )
+        return UpdatedResult(
+            id=unique_id,
+            message=UserMsg.Success.DEACTIVATED.format(unique_id)
+        )
 
 
     async def deactivate_user(self, unique_id: str, body: DeactivateUserRequest):
@@ -96,6 +109,10 @@ class UserCommandService:
                 "user_status": "Deactivated",
                 "status_reason": body.reason
             }
+        )
+        return UpdatedResult(
+            id=unique_id,
+            message=UserMsg.Success.DEACTIVATED.format(unique_id)
         )
 
 
@@ -125,4 +142,7 @@ class UserCommandService:
                 "user_password": body.password
             }
         )
-        return inserted_id
+        return CreatedResult(
+            id=new_user.unique_id,
+            message=UserMsg.Success.CREATED.format(body.email)
+        )

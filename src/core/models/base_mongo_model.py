@@ -15,6 +15,7 @@ class BaseMongoModel(BaseModel):
     updated_by: Optional[str] = None
     deleted_at: Optional[datetime] = None
     deleted_by: Optional[str] = None
+    is_deleted: bool = Field(default=False)
 
     model_config = {
         "arbitrary_types_allowed": True,

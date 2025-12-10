@@ -30,14 +30,13 @@ class AuthService:
         user = await self.user_service.authenticate_user(body.email, body.password)
         if not user:
             raise UnauthorizedException(AuthMsg.Error.INVALID_CREDENTIALS)
-
         access_token = JwtService.create_access_token(user)
         refresh_token = JwtService.create_refresh_token(user)
-
         response = JSONResponse(content={
             "accessToken": access_token,
             "refreshToken": refresh_token
         })
+
         JwtService.set_access_cookie(response, access_token)
         JwtService.set_refresh_cookie(response, refresh_token)
         return response
