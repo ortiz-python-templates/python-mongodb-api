@@ -12,6 +12,8 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
     _excluded_paths = {
         "/",
         "/health",
+        "/health/db",
+        "/health/redis",
         "/metrics",
         "/favicon.ico",
         "/api/auth/get-recovery-token",
@@ -22,7 +24,7 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
         "/openapi.json"
     }
     
-    _public_prefixes = (
+    _static_routes = (
         "/public/static/",
         "/static/",
     )
@@ -36,7 +38,7 @@ class RateLimiterMiddleware(BaseHTTPMiddleware):
     async def dispatch(self, request: Request, call_next):
         path = request.url.path 
         # Skip rate limiting for public endpoints
-        if path in self._excluded_paths or any(path.startswith(prefix) for prefix in self._public_prefixes):
+        if path in self._excluded_paths or any(path.startswith(prefix) for prefix in self._static_routes):
             response = await call_next(request)
             return response 
         

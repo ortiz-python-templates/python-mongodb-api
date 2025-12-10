@@ -38,11 +38,22 @@ class UserQueryService:
         return users
     
 
-    async def get_all_users_by_status(self, request: Request, status: bool, pagination_filter: PaginationFilter) -> PaginationResponse[UserDetail]:
-        users = await self.query_repository.get_all_by_status(status, pagination_filter.page_size, pagination_filter.page_index)
+    async def get_active_users(self, request: Request, pagination_filter: PaginationFilter) -> PaginationResponse[UserDetail]:
+        users = await self.query_repository.get_all_by_status(True, pagination_filter.page_size, pagination_filter.page_index)
         return PaginationResponse.create(
             items=users,
-            total_items=await self.query_repository.count_by_status(status),
+            total_items=await self.query_repository.count_by_status(True),
+            page_size=pagination_filter.page_size,
+            page_index=pagination_filter.page_index,
+            request=request
+        )
+    
+
+    async def get_inactive_users(self, request: Request, pagination_filter: PaginationFilter) -> PaginationResponse[UserDetail]:
+        users = await self.query_repository.get_all_by_status(False, pagination_filter.page_size, pagination_filter.page_index)
+        return PaginationResponse.create(
+            items=users,
+            total_items=await self.query_repository.count_by_status(False),
             page_size=pagination_filter.page_size,
             page_index=pagination_filter.page_index,
             request=request

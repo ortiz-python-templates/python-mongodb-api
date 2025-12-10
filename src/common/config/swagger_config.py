@@ -6,8 +6,10 @@ class SwaggerConfig:
         "docs_url": "/docs",
         "redoc_url": "/redoc",
         "openapi_tags": [
+            {"name": "API Root", "description": "Endpoints needed to check API"},
             {"name": "Identity", "description": "Endpoints for authentication, users, and roles"},
             {"name": "Identity / Roles", "description": "Manage roles and permissions"},
             {"name": "Identity / Users", "description": "Manage users"},
+            {"name": "Identity / Authentication", "description": "Manage: login, logout, current user"},
         ]
     }

@@ -10,8 +10,9 @@ else:
 class EnvConfig:
     
     APP_ENVIRONMENT = os.getenv("APP_ENVIRONMENT", "development")
-    APP_NAME=os.getenv("APP_NAME", "python-template-mongodb-api")
+    APP_NAME = os.getenv("APP_NAME", "python-template-mongodb-api")
     APP_PORT = int(os.getenv("APP_PORT", 5000))
+    APP_VERSION = os.getenv("APP_VERSION")
 
     # Mongo
     MONGO_URI = os.getenv("MONGO_URI")

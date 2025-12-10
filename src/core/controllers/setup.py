@@ -11,7 +11,7 @@ class ControllersSetup:
    def setup(app: FastAPI, db: AsyncIOMotorDatabase):
       
       # Root -------------------------------------------------------------------------------------------------
-      app.include_router(RootController.add_routes())
+      app.include_router(RootController.add_routes(), tags=["API Root"])
 
       # Identity ----------------------------------------------------------------------------------------------
       app.include_router(AuthController.add_routes(db), prefix="/api/auth", tags=["Identity / Authentication"])

@@ -19,35 +19,38 @@ class UserController:
         self.command_service = UserCommandService(db)
         self.query_service = UserQueryService(db)
 
-    async def create_user(self, body: CreateUserRequest):
-        resp = await self.command_service.create_user(body)
+    async def create_user(self, request: Request, body: CreateUserRequest):
+        resp = await self.command_service.create_user(request, body)
         return JSONResponse(resp.model_dump(), status.HTTP_201_CREATED)
 
     async def get_all_users(self, request: Request, pagination_filter: PaginationFilter=Depends()):
         return await self.query_service.get_all_users(request, pagination_filter)
     
-    async def get_all_users_by_status(self, request: Request, status: bool, pagination_filter: PaginationFilter=Depends()):
-        return await self.query_service.get_all_users_by_status(request, status, pagination_filter)
+    async def get_active_users(self, request: Request, pagination_filter: PaginationFilter=Depends()):
+        return await self.query_service.get_active_users(request, pagination_filter)
+    
+    async def get_inactive_users(self, request: Request, pagination_filter: PaginationFilter=Depends()):
+        return await self.query_service.get_inactive_users(request, pagination_filter)
     
     async def search_users(self, request: Request, search_filter: SearchFilter=Depends(), pagination_filter: PaginationFilter=Depends()):
         return await self.query_service.search_users(request, search_filter, pagination_filter)
 
-    async def get_user_by_unique_id(self, unique_id: str):
+    async def get_user_by_unique_id(self, request: Request, unique_id: str):
         return await self.query_service.get_user_by_unique_id(unique_id)
 
-    async def get_user_by_email(self, email: str):
+    async def get_user_by_email(self, request: Request, email: str):
         return await self.query_service.get_user_by_email(email)
 
-    async def update_user(self, unique_id: str, body: UpdateUserRequest):
-        resp = await self.command_service.update_user(unique_id, body)
+    async def update_user(self, request: Request, unique_id: str, body: UpdateUserRequest):
+        resp = await self.command_service.update_user(request, unique_id, body)
         return JSONResponse(resp.model_dump(), status.HTTP_200_OK)
 
-    async def activate_user(self, unique_id: str, body: ActivateUserRequest):
-        resp = await self.command_service.activate_user(unique_id, body)
+    async def activate_user(self, request: Request, unique_id: str, body: ActivateUserRequest):
+        resp = await self.command_service.activate_user(request, unique_id, body)
         return JSONResponse(resp.model_dump(), status.HTTP_200_OK)
     
-    async def deactivate_user(self, unique_id: str, body: DeactivateUserRequest):
-        resp = await self.command_service.deactivate_user(unique_id, body)
+    async def deactivate_user(self, request: Request, unique_id: str, body: DeactivateUserRequest):
+        resp = await self.command_service.deactivate_user(request, unique_id, body)
         return JSONResponse(resp.model_dump(), status.HTTP_200_OK)
     
     @classmethod
@@ -55,12 +58,13 @@ class UserController:
         router = APIRouter()
         controller = UserController(db)
         router.add_api_route("/", controller.get_all_users, methods=["GET"])
+        router.add_api_route("/actives", controller.get_active_users, methods=["GET"])
+        router.add_api_route("/inactives", controller.get_inactive_users, methods=["GET"])
         router.add_api_route("/search", controller.search_users, methods=["GET"])
         router.add_api_route("/", controller.create_user, methods=["POST"])
         router.add_api_route("/{unique_id}", controller.get_user_by_unique_id, methods=["GET"])
         router.add_api_route("/{unique_id}", controller.update_user, methods=["PUT"])
-        router.add_api_route("/by-status/{status}", controller.get_all_users_by_status, methods=["GET"])
         router.add_api_route("/by-email/{email}", controller.get_user_by_email, methods=["GET"])
-        router.add_api_route("/{unique_id}/activate", controller.activate_user, methods=["PUT"])
-        router.add_api_route("/{unique_id}/deactivate", controller.deactivate_user, methods=["PUT"])
+        router.add_api_route("/{unique_id}/activate", controller.activate_user, methods=["PATCH"])
+        router.add_api_route("/{unique_id}/deactivate", controller.deactivate_user, methods=["PATCH"])
         return router

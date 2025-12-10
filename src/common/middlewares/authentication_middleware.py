@@ -17,6 +17,8 @@ class AuthenticationMiddleware(BaseHTTPMiddleware):
     _public_routes = {
         "/",
         "/health",
+        "/health/db",
+        "/health/redis",
         "/metrics",
         "/download-collections",
         "/favicon.ico",
@@ -29,7 +31,7 @@ class AuthenticationMiddleware(BaseHTTPMiddleware):
         "/api/auth/get-recovery-token",
     }
 
-    _public_prefixes = (
+    _static_routes = (
         "/public/static/",
         "/static/",
     )
@@ -49,7 +51,7 @@ class AuthenticationMiddleware(BaseHTTPMiddleware):
 
             # Allow public routes or static resources
             if (path in self._public_routes or 
-                any(path.startswith(prefix) for prefix in self._public_prefixes)):
+                any(path.startswith(prefix) for prefix in self._static_routes)):
                 return await call_next(request)
 
             # Extract and validate JWT payload
