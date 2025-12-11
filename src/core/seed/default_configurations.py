@@ -8,7 +8,6 @@ from motor.motor_asyncio import AsyncIOMotorDatabase
 
 class DefaultConfigurations:
 
-
     @staticmethod
     async def seed_app_configurations(db: AsyncIOMotorDatabase):
         await DefaultConfigurations.seed_basic_configurations(db)

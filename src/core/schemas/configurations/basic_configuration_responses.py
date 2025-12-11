@@ -1,5 +1,16 @@
+from typing import Optional
+from datetime import datetime
+
 from src.core.schemas.base_schema_config import BaseSchemaConfig
 
 
+
 class BasicConfigurationDetail(BaseSchemaConfig):
-    pass
+    id: str
+    app_name: Optional[str] = None
+    app_acronym: Optional[str] = None
+    max_records_per_page: Optional[int] = None
+    max_admin_users: Optional[int] = None
+    max_super_admin_users: Optional[int] = None
+    created_at: Optional[datetime] = None
+    updated_at: Optional[datetime] = None

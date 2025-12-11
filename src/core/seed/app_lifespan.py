@@ -16,7 +16,7 @@ class AppLifespan:
     @asynccontextmanager
     async def lifespan(app: FastAPI):
         logger = Logger.get_logger("app.lifespan")
-        app.state.start_time = datetime.utcnow()
+        app.state.start_time = datetime.now()
 
         logger.info("Starting application...")
 

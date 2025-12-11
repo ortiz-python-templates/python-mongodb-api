@@ -1,0 +1,20 @@
+{
+  "viewOn": "company_configurations",
+  "pipeline": [
+    {
+      "$project": {
+        "_id": 0,
+        "id": "$unique_id",
+        "name": 1,
+        "acronym": 1,
+        "email": 1,
+        "phone": 1,
+        "identification_number": 1,
+        "address": 1,
+        "created_at": 1,
+        "updated_at": 1,
+        "is_deleted": 1
+      }
+    }
+  ]
+}

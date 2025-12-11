@@ -9,11 +9,7 @@ from src.core.services.identity.jwt_service import JwtService
 
 
 class AuthenticationMiddleware(BaseHTTPMiddleware):
-    """
-    Middleware responsible for JWT authentication.
-    Skips public routes (docs, static files, etc.).
-    """
-
+   
     _public_routes = {
         "", "/",
         "/health",

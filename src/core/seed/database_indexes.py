@@ -1,4 +1,5 @@
 from motor.motor_asyncio import AsyncIOMotorDatabase
+from src.core.repositories.identity.login_activity_command_repository import LoginActivityCommandRepository
 from src.core.repositories.configurations.feature_flag_command_repository import FeatureFlagCommandRepository
 from src.core.repositories.identity.user_command_repository import UserCommandRepository
 
@@ -12,5 +13,6 @@ class DatabaseIndexes:
 
         # identity
         await UserCommandRepository(db).ensure_indexes()
+        await LoginActivityCommandRepository(db).ensure_indexes()
 
         # products
