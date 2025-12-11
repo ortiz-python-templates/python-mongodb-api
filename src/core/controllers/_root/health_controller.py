@@ -4,37 +4,18 @@ import time
 import socket
 import psutil
 from datetime import datetime
-from src.common.config.db_config import DbConfig
-from src.common.config.redis_client import RedisClient
+from src.core.services._root.health_service import HealthService
 from src.common.config.env_config import EnvConfig
 
 
 START_TIME = time.time()
 
-async def mongo_health():
-    start = time.time()
-    try:
-        db = DbConfig.get_database()
-        await db.command("ping")
-        return {"status": "up", "latency_ms": round((time.time() - start) * 1000, 2)}
-    except Exception:
-        return {"status": "down"}
-
-
-async def redis_health():
-    start = time.time()
-    try:
-        await RedisClient._redis.ping()
-        return {"status": "up", "latency_ms": round((time.time() - start) * 1000, 2)}
-    except Exception:
-        return {"status": "down"}
-
-
 class HealthController:
 
     def __init__(self):
         pass
-
+    
+    # livenes
     async def health_liveness(self):
         return JSONResponse({
             "status": "ok",
@@ -42,10 +23,10 @@ class HealthController:
             "timestamp": datetime.now().isoformat() + "Z"
         })
 
-    
+    # readynes
     async def health_readiness(self):
-        mongo = await mongo_health()
-        redis = await redis_health()
+        mongo = await HealthService.mongo_health()
+        redis = await HealthService.redis_health()
         is_ready = mongo["status"] == "up" and redis["status"] == "up"
 
         return JSONResponse(
@@ -59,12 +40,12 @@ class HealthController:
             status_code=200 if is_ready else 503
         )
 
-
+    # complete check
     async def health_check(self):
         uptime = int(time.time() - START_TIME)
 
-        mongo = await mongo_health()
-        redis = await redis_health()
+        mongo = await HealthService.mongo_health()
+        redis = await HealthService.redis_health()
 
         overall_status = (
             "ok" if mongo["status"] == "up" and redis["status"] == "up" else "error"

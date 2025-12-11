@@ -15,7 +15,7 @@ class AuthenticationMiddleware(BaseHTTPMiddleware):
     """
 
     _public_routes = {
-        "", "/"
+        "", "/",
         "/health",
         "/health/live",
         "/health/ready",

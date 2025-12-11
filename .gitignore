@@ -33,3 +33,5 @@ env/
 
 # Keys
 secrets/**
+
+_pocs/
