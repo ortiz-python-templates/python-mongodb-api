@@ -14,6 +14,7 @@ class LoginActivityDetail(BaseSchemaConfig):
     ip_address: Optional[str] = None
     device: Optional[str] = None
     location: Optional[str] = None
+    user_agent: Optional[str] = None
     last_login: Optional[datetime] = None
     last_logout: Optional[datetime] = None
     total_login: Optional[int] = None

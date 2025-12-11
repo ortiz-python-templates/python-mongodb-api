@@ -13,6 +13,7 @@ class LoginActivityModel(BaseMongoModel):
     ip_address: str
     device: Optional[str] = None
     location: Optional[str] = None
+    user_agent: Optional[str] = None
     last_login: Optional[datetime] = None
     last_logout: Optional[datetime] = None
     total_login: int

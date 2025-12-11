@@ -1,4 +1,4 @@
-from typing import TypeVar, Generic, List, Optional, Type, Any
+from typing import Dict, TypeVar, Generic, List, Optional, Type, Any
 from datetime import datetime
 from bson import ObjectId
 from pydantic import BaseModel
@@ -33,6 +33,15 @@ class MongoCommandRepository(Generic[T]):
     async def update_batch(self, entities: List[T], session=None):
         for entity in entities:
             await self._collection.replace_one({"_id": entity.id}, entity.model_dump(), session=session)
+    
+    async def update_raw(self, filter: Dict[str, Any], update: Dict[str, Any], upsert=False, session=None):
+        result = await self._collection.update_many(
+            filter,
+            update,
+            upsert=upsert,
+            session=session
+        )
+        return result
 
     
     # Hard delete

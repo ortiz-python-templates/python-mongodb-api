@@ -12,6 +12,7 @@
         "ip_address": 1,
         "device": 1,
         "location": 1,
+        "user_agent": 1,
         "last_login: ": 1,
         "last_logout: ": 1,
         "total_login: ": 1,
