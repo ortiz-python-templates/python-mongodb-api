@@ -10,7 +10,7 @@ from src.common.config.redis_client import RedisClient
 class RateLimiterMiddleware(BaseHTTPMiddleware):
 
     _excluded_paths = {
-        "/",
+        "", "/",
         "/health",
         "/health/db",
         "/health/redis",

@@ -42,3 +42,6 @@ opentelemetry-exporter-jaeger==1.21.0
 
 # Required by OpenTelemetry and gRPC exporters
 protobuf>=3.19,<5.0
+
+# Process
+psutil

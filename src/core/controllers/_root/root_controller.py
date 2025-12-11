@@ -88,7 +88,4 @@ class RootController:
         controller = RootController()
         router.add_api_route("/", controller.index, methods=["GET"])
         router.add_api_route("/download-collections", controller.download_collections, methods=["GET"])
-        router.add_api_route("/health", controller.health_check, methods=["GET"])
-        router.add_api_route("/health/db", controller.health_check_db, methods=["GET"])
-        router.add_api_route("/health/redis", controller.health_check_redis, methods=["GET"])
         return router
