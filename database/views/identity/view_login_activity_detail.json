@@ -1,5 +1,5 @@
 {
-  "viewOn": "login_activity",
+  "viewOn": "login_activities",
   "pipeline": [
     {
       "$lookup": {
@@ -16,26 +16,32 @@
         "id": "$unique_id",
         "user_id": "$user.unique_id",
         "status": 1,
+        
         "host": 1,
-        "browser": 1,
         "ip_address": 1,
-        "device": 1,
-        "location": 1,
-        "user_agent": 1,
-        "last_login: ": 1,
-        "last_logout: ": 1,
-        "total_login: ": 1,
-        "total_logout: ": 1,
+        "user_agent_raw": 1, 
+
+        "last_login": 1,
+        "last_logout": 1,
+        "total_login": 1,
+        "total_logout": 1,
+
         "created_at": 1,
         "updated_at": 1,
         "is_deleted": 1,
+
+        "client": 1,
+        "os": 1,
+        "device": 1,
+        "location": 1,
         "user": {
-            "id": "$user.id",
+            "id": "$user.unique_id",
             "email": "$user.email",
             "first_name": "$user.first_name",
-            "last_name": "$user.first_name"
+            "last_name": "$user.last_name"
         }
       }
     }
   ]
 }
+

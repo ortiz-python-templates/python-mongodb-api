@@ -14,9 +14,11 @@ class DeviceInfo(BaseModel):
     is_tablet: Optional[bool] = None
     is_pc: Optional[bool] = None
 
+
 class OSInfo(BaseModel):
     name: Optional[str] = None       # Windows, Linux, MacOS, Android
     version: Optional[str] = None
+
 
 class LocationInfo(BaseModel):
     country: Optional[str] = None
@@ -25,23 +27,24 @@ class LocationInfo(BaseModel):
     latitude: Optional[float] = None
     longitude: Optional[float] = None
 
+
 class BrowserInfo(BaseModel):
     name: Optional[str] = None       # Chrome, Firefox, Safari
     version: Optional[str] = None
+
 
 class LoginActivityModel(BaseMongoModel):
     user_id: ObjectId
     status: ActivityStatus
 
+    host: str
+    ip_address: str
+    user_agent_raw: str
+
     client: BrowserInfo
     os: OSInfo
     device: DeviceInfo
-
-    host: str
-    ip_address: str
     location: Optional[LocationInfo] = None
-
-    user_agent_raw: str
 
     last_login: Optional[datetime] = None
     last_logout: Optional[datetime] = None

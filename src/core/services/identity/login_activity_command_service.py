@@ -45,7 +45,7 @@ class LoginActivityCommandService:
         )
 
         # Retrieve existing login activity
-        activity: LoginActivityModel = await self.command_repository.get_by_id_aux(user.id)
+        activity = await self.command_repository.get_by_id_aux(user.id)
 
         if activity:
             # Update existing object
@@ -87,7 +87,7 @@ class LoginActivityCommandService:
 
     async def update_logout(self, request: Request, user: UserModel):
         now = datetime.now()
-        activity: LoginActivityModel = await self.command_repository.get_by_id_aux(user.id)
+        activity = await self.command_repository.get_by_id_aux(user.id)
         if activity:
             activity.last_logout = now
             activity.status = ActivityStatus.OFFLINE

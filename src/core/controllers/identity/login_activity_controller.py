@@ -30,5 +30,5 @@ class LoginActivityController:
         controller = LoginActivityController(db)
         router.add_api_route("/", controller.get_all_login_activities, methods=["GET"])
         router.add_api_route("/by-user/{user_id}", controller.get_login_activity_by_user_id, methods=["GET"])
-        router.add_api_route("/{unique_id}", controller.get_login_activity_by_id, methods=["GET"])
+        router.add_api_route("/{id}", controller.get_login_activity_by_id, methods=["GET"])
         return router

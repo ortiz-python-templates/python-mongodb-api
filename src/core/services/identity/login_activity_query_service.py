@@ -36,5 +36,5 @@ class LoginActivityQueryService:
     async def get_login_activity_by_user_id(self, user_id: str) -> LoginActivityDetail:
         activity = await self.query_repository.get_by_user_id(user_id)
         if activity is None:
-            raise NotFoundException(f"LoginActivity with User ID '{id}' was not found.")
+            raise NotFoundException(f"LoginActivity with User ID '{user_id}' was not found.")
         return activity
