@@ -10,10 +10,10 @@ class UserCommandRepository(MongoCommandRepository[UserModel]):
         super().__init__(db, "users", UserModel)
 
     async def ensure_indexes(self):
-        await self._collection.create_index([("email", ASCENDING)], name="idx_user_email")
-        await self._collection.create_index([("first_name", ASCENDING)], name="idx_user_first_name")
-        await self._collection.create_index([("last_name", ASCENDING)], name="idx_user_last_name")
-        await self._collection.create_index([("recovery_token", ASCENDING)], name="idx_user_recovery_token", sparse=True)
+        await self.collection.create_index([("email", ASCENDING)], name="idx_user_email")
+        await self.collection.create_index([("first_name", ASCENDING)], name="idx_user_first_name")
+        await self.collection.create_index([("last_name", ASCENDING)], name="idx_user_last_name")
+        await self.collection.create_index([("recovery_token", ASCENDING)], name="idx_user_recovery_token", sparse=True)
 
     async def get_by_email_aux(self, email: str):
         return await self.get_by_field_aux('email', email)

@@ -1,3 +1,4 @@
+from src.core.services.configurations.feature_flag_service import FeatureFlagService
 from src.core.repositories.configurations.company_configuration_command_repository import CompanyConfigurationCommandRepository
 from src.core.repositories.configurations.basic_configuration_command_repository import BasicConfigurationCommandRepository
 from src.core.models.configurations.basic_configuration_model import BasicConfigurationModel
@@ -12,6 +13,7 @@ class DefaultConfigurations:
     async def seed_app_configurations(db: AsyncIOMotorDatabase):
         await DefaultConfigurations.seed_basic_configurations(db)
         await DefaultConfigurations.seed_company_configurations(db)
+        await FeatureFlagService(db).create_all_feature_flags()
 
 
     @staticmethod

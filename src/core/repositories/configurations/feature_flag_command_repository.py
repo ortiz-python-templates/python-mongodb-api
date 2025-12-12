@@ -11,4 +11,7 @@ class FeatureFlagCommandRepository(MongoCommandRepository[FeatureFlagModel]):
         super().__init__(db, "feature_flags", FeatureFlagModel)
 
     async def ensure_indexes(self):
-        await self._collection.create_index([("flag_name", ASCENDING)], name="idx_user_email")
+        await self.collection.create_index([("flag_name", ASCENDING)], name="idx_feature_flag_name")
+
+    async def get_by_name_aux(self, flag_name: str):
+        return await self.get_by_field_aux("flag_name", flag_name)

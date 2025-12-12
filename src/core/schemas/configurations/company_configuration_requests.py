@@ -1,8 +1,9 @@
 from typing import Optional
-from pydantic import BaseModel, EmailStr, Field
+from pydantic import EmailStr, Field
+from src.core.schemas.base_schema_config import BaseSchemaConfig
 
 
-class UpdateCompanyConfigurationRequest(BaseModel):
+class UpdateCompanyConfigurationRequest(BaseSchemaConfig):
     name: str = Field(..., min_length=1, description="Company name is required")
     acronym: Optional[str] = Field(None, min_length=1, description="Short acronym for the company")
     email: Optional[EmailStr] = Field(None, description="Company contact email")

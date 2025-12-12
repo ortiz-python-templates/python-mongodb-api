@@ -16,5 +16,9 @@ class SwaggerConfig:
             {"name": "Identity / Authentication", "description": "Manage: login, logout, current user"},
             {"name": "Identity / Login Activities", "description": "Manage: login activities: last login, logout, ..."},
             
+            {"name": "Configurations", "description": "Endpoints for application configurations"},
+            {"name": "Configurations / Basic Configurations", "description": "Manage Basic configurations"},
+            {"name": "Configurations / Company Configurations", "description": "Manage Company configurations"},
+            {"name": "Configurations / Feature Flag ", "description": "Manage Feature flag"},
         ]
     }

@@ -11,4 +11,6 @@ class BasicConfigurationDetail(BaseSchemaConfig):
     max_admin_users: Optional[int] = None
     max_super_admin_users: Optional[int] = None
     created_at: Optional[datetime] = None
+    created_by: Optional[str] = None
     updated_at: Optional[datetime] = None
+    updated_by: Optional[str] = None

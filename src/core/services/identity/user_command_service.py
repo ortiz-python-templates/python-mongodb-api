@@ -3,7 +3,7 @@ from bson import ObjectId
 from fastapi import Request
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from src.common.utils.messages.identity_messsages import UserMsg
-from src.core.schemas.common_result import *
+from src.core.schemas.common_results import *
 from src.common.mail.email_service import EmailService
 from src.common.utils.encryption_util import EncryptionUtil
 from src.common.utils.password_util import PasswordUtil
