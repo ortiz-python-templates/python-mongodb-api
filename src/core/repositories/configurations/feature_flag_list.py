@@ -1,7 +1,7 @@
 from typing import Any, Dict, List
 
 
-class FlagList:
+class FeatureFlagList:
 
     @staticmethod
     def get_all() -> List[Dict[str, Any]]:

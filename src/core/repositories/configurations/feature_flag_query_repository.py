@@ -8,3 +8,7 @@ class FeatureFlagQueryRepository(MongoQueryRepository[FeatureFlagDetail]):
     
     def __init__(self, db: AsyncIOMotorDatabase):
         super().__init__(db, "view_feature_flag_detail", FeatureFlagDetail)
+
+
+    async def get_by_name(self, flag_name: str):
+        return await self.get_by_field("flag_name", flag_name)

@@ -4,11 +4,10 @@ from src.core.schemas.base_schema_config import BaseSchemaConfig
 
 
 class FeatureFlagDetail(BaseSchemaConfig):
-    id: str
+    id: Optional[str] = None
     flag_name: Optional[str] = None
     description: Optional[str] = None
-    is_enabled: Optional[bool] = False
-    created_at: Optional[datetime] = None
-    created_by: Optional[str] = None
+    is_enabled: Optional[bool] = None
     updated_at: Optional[datetime] = None
     updated_by: Optional[str] = None
+    is_deleted: Optional[bool] = None

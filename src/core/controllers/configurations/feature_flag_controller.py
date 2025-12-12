@@ -22,12 +22,16 @@ class FeatureFlagController:
     
     async def get_feature_flag_by_id(self, request: Request, id: str):
         return await self.service.get_feature_flag_by_id(request, id)
+
+    async def get_feature_flag_by_name(self, request: Request, name: str):
+        return await self.service.get_feature_flag_by_name(request, name)
     
     @classmethod
     def add_routes(cls, db: AsyncIOMotorDatabase) -> APIRouter:
         router = APIRouter()
         controller = FeatureFlagController(db)
         router.add_api_route("/", controller.get_all_feature_flags, methods=["GET"])
-        router.add_api_route("/{id}", controller.get_feature_flag_by_id, methods=["GET"])
         router.add_api_route("/", controller.manage_feature_flags, methods=["PUT"])
+        router.add_api_route("/by-name/{name}", controller.get_feature_flag_by_name, methods=["GET"])
+        router.add_api_route("/{id}", controller.get_feature_flag_by_id, methods=["GET"])
         return router
