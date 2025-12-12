@@ -1,8 +1,6 @@
 from typing import Optional
 from datetime import datetime
-
 from src.core.schemas.base_schema_config import BaseSchemaConfig
-
 
 
 class BasicConfigurationDetail(BaseSchemaConfig):
