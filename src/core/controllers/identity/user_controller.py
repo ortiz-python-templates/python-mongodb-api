@@ -35,22 +35,22 @@ class UserController:
     async def search_users(self, request: Request, search_filter: SearchFilter=Depends(), pagination_filter: PaginationFilter=Depends()):
         return await self.query_service.search_users(request, search_filter, pagination_filter)
 
-    async def get_user_by_unique_id(self, request: Request, unique_id: str):
-        return await self.query_service.get_user_by_unique_id(unique_id)
+    async def get_user_by_id(self, request: Request, id: str):
+        return await self.query_service.get_user_by_id(id)
 
     async def get_user_by_email(self, request: Request, email: str):
         return await self.query_service.get_user_by_email(email)
 
-    async def update_user(self, request: Request, unique_id: str, body: UpdateUserRequest):
-        resp = await self.command_service.update_user(request, unique_id, body)
+    async def update_user(self, request: Request, id: str, body: UpdateUserRequest):
+        resp = await self.command_service.update_user(request, id, body)
         return JSONResponse(resp.model_dump(), status.HTTP_200_OK)
 
-    async def activate_user(self, request: Request, unique_id: str, body: ActivateUserRequest):
-        resp = await self.command_service.activate_user(request, unique_id, body)
+    async def activate_user(self, request: Request, id: str, body: ActivateUserRequest):
+        resp = await self.command_service.activate_user(request, id, body)
         return JSONResponse(resp.model_dump(), status.HTTP_200_OK)
     
-    async def deactivate_user(self, request: Request, unique_id: str, body: DeactivateUserRequest):
-        resp = await self.command_service.deactivate_user(request, unique_id, body)
+    async def deactivate_user(self, request: Request, id: str, body: DeactivateUserRequest):
+        resp = await self.command_service.deactivate_user(request, id, body)
         return JSONResponse(resp.model_dump(), status.HTTP_200_OK)
     
     @classmethod
@@ -62,9 +62,9 @@ class UserController:
         router.add_api_route("/inactives", controller.get_inactive_users, methods=["GET"])
         router.add_api_route("/search", controller.search_users, methods=["GET"])
         router.add_api_route("/", controller.create_user, methods=["POST"])
-        router.add_api_route("/{unique_id}", controller.get_user_by_unique_id, methods=["GET"])
-        router.add_api_route("/{unique_id}", controller.update_user, methods=["PUT"])
+        router.add_api_route("/{id}", controller.get_user_by_id, methods=["GET"])
+        router.add_api_route("/{id}", controller.update_user, methods=["PUT"])
         router.add_api_route("/by-email/{email}", controller.get_user_by_email, methods=["GET"])
-        router.add_api_route("/{unique_id}/activate", controller.activate_user, methods=["PATCH"])
-        router.add_api_route("/{unique_id}/deactivate", controller.deactivate_user, methods=["PATCH"])
+        router.add_api_route("/{id}/activate", controller.activate_user, methods=["PATCH"])
+        router.add_api_route("/{id}/deactivate", controller.deactivate_user, methods=["PATCH"])
         return router

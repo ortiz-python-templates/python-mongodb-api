@@ -10,18 +10,18 @@ class RoleService:
 
     def get_all_roles(self) -> list[dict[str, str]]:
         return [
-            {"role": Role.SUPER_ADMIN, "description": Role.get_description(Role.SUPER_ADMIN)},
-            {"role": Role.ADMIN, "description": Role.get_description(Role.ADMIN)},
-            {"role": Role.EMPLOYEE, "description": Role.get_description(Role.EMPLOYEE)},
-            {"role": Role.CUSTOMER, "description": Role.get_description(Role.CUSTOMER)},
-            {"role": Role.SUPPLIER, "description": Role.get_description(Role.SUPPLIER)},
+            {"code": Role.SUPER_ADMIN, "description": Role.get_description(Role.SUPER_ADMIN)},
+            {"code": Role.ADMIN, "description": Role.get_description(Role.ADMIN)},
+            {"code": Role.EMPLOYEE, "description": Role.get_description(Role.EMPLOYEE)},
+            {"code": Role.CUSTOMER, "description": Role.get_description(Role.CUSTOMER)},
+            {"code": Role.SUPPLIER, "description": Role.get_description(Role.SUPPLIER)},
         ]
 
 
     def get_role_by_code(self, code: str) -> dict[str, str]:
         if code in self.get_roles_list():
             return {
-                "role": code,
+                "code": code,
                 "description": Role.get_description(code)
             }
         raise NotFoundException(f"Role '{code}' does not exist.")

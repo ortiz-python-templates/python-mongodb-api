@@ -16,14 +16,14 @@ class AuthController:
         self.service = AuthService(db)
         self.user_service = UserCommandService(db)
 
-    async def login(self, body: LoginRequest): 
-        return await self.service.login(body)
+    async def login(self, request: Request, body: LoginRequest): 
+        return await self.service.login(request, body)
     
     async def logout(self, request: Request): 
         return await self.service.logout(request)
         
-    async def refresh_access_token(self, request: Request, next: str = "") -> JSONResponse:
-        return await self.service.refresh_access_token(request, next)
+    async def refresh_access_token(self, request: Request) -> JSONResponse:
+        return await self.service.refresh_access_token(request)
       
     async def get_current_user(self, request: Request):
         return await self.service.get_current_user(request)
@@ -33,11 +33,11 @@ class AuthController:
         return JSONResponse(AuthMsg.Success.USER_REGISTERED.format(body.email), status.HTTP_201_CREATED)
     
     async def get_password_recovery_link(self, request: Request, body: PasswordRecoveryRequest):
-        await self.service.get_recovery_link(request, body)
+        await self.service.get_password_recovery_link(request, body)
         return JSONResponse(AuthMsg.Success.EMAIL_SENT, status.HTTP_200_OK)
     
-    async def reset_password(self, token: str, body: ResetPasswordRequest):
-        await self.service.reset_password(token, body)
+    async def reset_password(self, token: str, body: ChangePasswordRequest):
+        await self.user_service.change_password(token, body)
         return JSONResponse(AuthMsg.Success.PASSWORD_RESET, status.HTTP_200_OK)
 
 

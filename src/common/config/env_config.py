@@ -28,6 +28,9 @@ class EnvConfig:
     JWT_ACCESS_TOKEN_EXPIRE_MINUTES = int(os.getenv("JWT_ACCESS_TOKEN_EXPIRE_MINUTES", 15))
     JWT_REFRESH_TOKEN_EXPIRE_DAYS = int(os.getenv("JWT_REFRESH_TOKEN_EXPIRE_DAYS", 7))
     JWT_COOKIE_DOMAIN  = os.getenv("JWT_COOKIE_DOMAIN")
+    JWT_COOKIE_SAME_SITE = os.getenv("JWT_COOKIE_SAME_SITE", "Lax")
+    JWT_COOKIE_ACCESS_NAME = os.getenv("JWT_COOKIE_ACCESS_NAME", "access_token")
+    JWT_COOKIE_REFRESH_NAME = os.getenv("JWT_COOKIE_REFRESH_NAME", "refresh_token")
 
     # Mail
     MAIL_USERNAME = os.getenv("MAIL_USERNAME")

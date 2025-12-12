@@ -1,6 +1,6 @@
 from datetime import datetime
 from typing import Optional
-from core.models.identity.enums import ActivityStatus
+from src.core.models.identity.enums import ActivityStatus
 from src.core.schemas.base_schema_config import BaseSchemaConfig
 from src.core.schemas.identity.user_responses import UserInfo
 

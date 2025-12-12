@@ -52,7 +52,7 @@ class AuthenticationMiddleware(BaseHTTPMiddleware):
 
             # Extract and validate JWT payload
             payload = await JwtService.extract_payload(request)
-            user = await self.user_service.get_user_by_unique_id(payload.get("sub"))
+            user = await self.user_service.get_user_by_id(payload.get("sub"))
 
             if not user:
                 raise UnauthorizedException("User not found.")

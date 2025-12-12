@@ -1,4 +1,5 @@
 from datetime import datetime
+from bson import ObjectId
 from fastapi import Request
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from src.common.utils.messages.identity_messsages import UserMsg
@@ -156,3 +157,53 @@ class UserCommandService:
             id=new_user.unique_id,
             message=UserMsg.Success.CREATED.format(body.email)
         )
+    
+
+    async def change_password(self, token: str, body: ChangePasswordRequest):
+        user = await self.command_repository.get_by_recovery_token_aux(token)
+        if not user:
+            raise BadRequestException("Invalid or expired recovery token.")
+        if not user.is_active:
+            raise BadRequestException("Your account is currently inactive. Please contact support to reactivate it.")
+        user.password = PasswordUtil.hash(body.new_password)
+        user.recovery_token = EncryptionUtil.generate_random_token(32)
+        self.command_repository.update(user.id, user)
+         # send email
+        await self.email_service.send_email(
+            subject="Password Reset",
+            email_to=user.email,
+            template_name="email/change-password.html",
+            context={
+                "user_email": user.email,
+                "new_password": body.new_password,
+            }
+        )
+        return UpdatedResult(
+            id=user.unique_id,
+            message=UserMsg.Success.PASSWORD_CHANGED.format(user.unique_id)
+        )
+
+
+    # aux query methods only to return UserModel avoiding mixture query and command repos
+    
+    async def get_user_by_email_aux(self, email: str) -> UserModel:
+        user = await self.command_repository.get_by_email_aux(email)
+        if user is None:
+            raise NotFoundException("The provided email does not exists.")
+        return user
+    
+    async def get_user_by_recovery_token(self, token: str) -> UserModel:
+        user = await self.command_repository.get_by_recovery_token_aux(token)
+        if user is None:
+            raise NotFoundException("The provided recovery token is invalid or has expired.")
+        return user
+   
+
+    async def authenticate_user(self, email: str, password: str) -> UserModel:
+        if not email or not password:
+            raise BadRequestException("Please provide email and password to continue.")
+        user = await self.command_repository.get_by_email_aux(email)
+        if not user or not PasswordUtil.verify(password, user.password):
+            raise UnauthorizedException("Incorrect email or password. Please try again.")
+        return user
+

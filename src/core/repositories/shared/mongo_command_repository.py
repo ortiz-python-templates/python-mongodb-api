@@ -1,4 +1,4 @@
-from typing import Dict, TypeVar, Generic, List, Optional, Type, Any
+from typing import Dict, TypeVar, Generic, List, Optional, Type, Any, Union
 from datetime import datetime
 from bson import ObjectId
 from pydantic import BaseModel
@@ -67,6 +67,17 @@ class MongoCommandRepository(Generic[T]):
             session=session
         )
 
+    # Increase and decrease
+    async def increase_value(self, id: ObjectId, field: str, value: Union[int, float]):
+        update = {"$inc": {field: value}}
+        result = await self._collection.update_one({"_id": id, "is_deleted": False}, update)
+        return result.modified_count
+
+    async def decrease_value(self, id: ObjectId, field: str, value: Union[int, float]):
+        update = {"$inc": {field: -value}}
+        result = await self._collection.update_one({"_id": id, "is_deleted": False}, update)
+        return result.modified_count
+    
     
     # Auxiliary Queries
     async def get_by_field_aux(self, field: str, value: Any) -> Optional[T]:

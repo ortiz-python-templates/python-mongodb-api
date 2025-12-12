@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from motor.motor_asyncio import AsyncIOMotorDatabase
+from src.core.controllers.identity.login_activity_controller import LoginActivityController
 from src.core.controllers._root.health_controller import HealthController
 from src.core.controllers._root.root_controller import RootController
 from src.core.controllers.identity.role_controller import RoleController
@@ -19,3 +20,5 @@ class ControllersSetup:
       app.include_router(AuthController.add_routes(db), prefix="/api/auth", tags=["Identity / Authentication"])
       app.include_router(RoleController.add_routes(), prefix="/api/roles", tags=["Identity / Roles"])
       app.include_router(UserController.add_routes(db), prefix="/api/users", tags=["Identity / Users"])
+      app.include_router(LoginActivityController.add_routes(db), prefix="/api/login-activities", tags=["Identity / Login Activities"])
+      

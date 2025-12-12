@@ -8,7 +8,7 @@ from src.core.repositories.shared.mongo_command_repository import MongoCommandRe
 class LoginActivityCommandRepository(MongoCommandRepository[LoginActivityModel]):
 
     def __init__(self, db: AsyncIOMotorDatabase):
-        super().__init__(db, "login_activity_model", LoginActivityModel)
+        super().__init__(db, "login_activities", LoginActivityModel)
 
     async def ensure_indexes(self):
         await self._collection.create_index([("user_id", ASCENDING)], name="idx_activity_user")

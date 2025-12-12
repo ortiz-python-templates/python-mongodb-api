@@ -12,9 +12,9 @@ from src.common.config.env_config import EnvConfig
 class JwtService:
 
     @staticmethod
-    def create_access_token(user: UserDetail) -> str:
+    def create_access_token(user: UserModel) -> str:
         payload = {
-            "sub": user.id,
+            "sub": user.unique_id,
             "email": user.email,
             "roles": [user.role],
             "exp": datetime.now() + timedelta(minutes=EnvConfig.JWT_ACCESS_TOKEN_EXPIRE_MINUTES)
@@ -23,9 +23,9 @@ class JwtService:
 
 
     @staticmethod
-    def create_refresh_token(user: UserDetail) -> str:
+    def create_refresh_token(user: UserModel) -> str:
         payload = {
-            "sub": user.id,
+            "sub": user.unique_id,
             "email": user.email,
             "exp": datetime.now() + timedelta(days=EnvConfig.JWT_REFRESH_TOKEN_EXPIRE_DAYS)
         }
@@ -55,7 +55,7 @@ class JwtService:
         if auth_header and auth_header.startswith("Bearer "):
             token = auth_header.split(" ")[1]
         else:
-            token = request.cookies.get("access_token")
+            token = request.cookies.get(EnvConfig.JWT_COOKIE_ACCESS_NAME)
 
         if not token:
             raise UnauthorizedException("Access token missing in header or cookie.")
@@ -70,11 +70,11 @@ class JwtService:
     @staticmethod
     def set_access_cookie(response: Response, token: str):
         response.set_cookie(
-            key="access_token",
+            key=EnvConfig.JWT_COOKIE_ACCESS_NAME,
             value=token,
             httponly=True,
             secure=EnvConfig.is_production(),
-            samesite="Lax",
+            samesite=EnvConfig.JWT_COOKIE_SAME_SITE,
             max_age=EnvConfig.JWT_ACCESS_TOKEN_EXPIRE_MINUTES * 60,
             path="/",
             domain=EnvConfig.JWT_COOKIE_DOMAIN
@@ -84,11 +84,11 @@ class JwtService:
     @staticmethod
     def set_refresh_cookie(response: Response, token: str):
         response.set_cookie(
-            key="refresh_token",
+            key=EnvConfig.JWT_COOKIE_REFRESH_NAME,
             value=token,
             httponly=True,
             secure=EnvConfig.is_production(),
-            samesite="Lax",
+            samesite=EnvConfig.JWT_COOKIE_SAME_SITE,
             max_age=EnvConfig.JWT_REFRESH_TOKEN_EXPIRE_DAYS * 24 * 60 * 60,
             path="/",
             domain=EnvConfig.JWT_COOKIE_DOMAIN
@@ -102,5 +102,5 @@ class JwtService:
 
     @staticmethod
     def clear_cookies(response: Response):
-        response.delete_cookie(key="access_token", path="/")
-        response.delete_cookie(key="refresh_token", path="/")
+        response.delete_cookie(key=EnvConfig.JWT_COOKIE_ACCESS_NAME, path="/")
+        response.delete_cookie(key=EnvConfig.JWT_COOKIE_REFRESH_NAME, path="/")

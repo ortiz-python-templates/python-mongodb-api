@@ -45,3 +45,8 @@ protobuf>=3.19,<5.0
 
 # Process
 psutil
+
+# device/user-agent
+user-agents
+ua-parser
+device-detector

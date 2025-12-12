@@ -2,6 +2,15 @@
   "viewOn": "login_activity",
   "pipeline": [
     {
+      "$lookup": {
+        "from": "users",
+        "localField": "user_id",
+        "foreignField": "_id",
+        "as": "user"
+      }
+    },
+    { "$unwind": { "path": "$user", "preserveNullAndEmptyArrays": true }},
+    {
       "$project": {
         "_id": 0,
         "id": "$unique_id",
@@ -20,7 +29,12 @@
         "created_at": 1,
         "updated_at": 1,
         "is_deleted": 1,
-        "user": 1
+        "user": {
+            "id": "$user.id",
+            "email": "$user.email",
+            "first_name": "$user.first_name",
+            "last_name": "$user.first_name"
+        }
       }
     }
   ]
