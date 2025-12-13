@@ -14,14 +14,14 @@ class LoginActivityController:
     def __init__(self, db: AsyncIOMotorDatabase):
         self.query_service = LoginActivityQueryService(db)
 
-    async def get_all_login_activities(self, request: Request, pagination_filter: PaginationFilter=Depends()):
-        return await self.query_service.get_all_login_activities(request, pagination_filter)
+    async def get_all_login_activities(self, request: Request, pagination_filter: PaginationFilter=Depends(), search_filter: SearchFilter=Depends()):
+        return await self.query_service.get_all_login_activities(request, pagination_filter, search_filter)
     
     async def get_login_activity_by_id(self, request: Request, id: str):
-        return await self.query_service.get_login_activity_by_id(id)
+        return await self.query_service.get_login_activity_by_id(request, id)
 
     async def get_login_activity_by_user_id(self, request: Request, user_id: str):
-        return await self.query_service.get_login_activity_by_user_id(user_id)
+        return await self.query_service.get_login_activity_by_user_id(request, user_id)
 
     
     @classmethod

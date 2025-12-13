@@ -23,17 +23,14 @@ class UserController:
         resp = await self.command_service.create_user(request, body)
         return JSONResponse(resp.model_dump(), status.HTTP_201_CREATED)
 
-    async def get_all_users(self, request: Request, pagination_filter: PaginationFilter=Depends()):
-        return await self.query_service.get_all_users(request, pagination_filter)
+    async def get_all_users(self, request: Request, pagination_filter: PaginationFilter=Depends(), search_filter: SearchFilter=Depends()):
+        return await self.query_service.get_all_users(request, pagination_filter, search_filter)
     
     async def get_active_users(self, request: Request, pagination_filter: PaginationFilter=Depends()):
         return await self.query_service.get_active_users(request, pagination_filter)
     
     async def get_inactive_users(self, request: Request, pagination_filter: PaginationFilter=Depends()):
         return await self.query_service.get_inactive_users(request, pagination_filter)
-    
-    async def search_users(self, request: Request, search_filter: SearchFilter=Depends(), pagination_filter: PaginationFilter=Depends()):
-        return await self.query_service.search_users(request, search_filter, pagination_filter)
 
     async def get_user_by_id(self, request: Request, id: str):
         return await self.query_service.get_user_by_id(id)
@@ -60,7 +57,6 @@ class UserController:
         router.add_api_route("/", controller.get_all_users, methods=["GET"])
         router.add_api_route("/actives", controller.get_active_users, methods=["GET"])
         router.add_api_route("/inactives", controller.get_inactive_users, methods=["GET"])
-        router.add_api_route("/search", controller.search_users, methods=["GET"])
         router.add_api_route("/", controller.create_user, methods=["POST"])
         router.add_api_route("/{id}", controller.get_user_by_id, methods=["GET"])
         router.add_api_route("/{id}", controller.update_user, methods=["PUT"])

@@ -16,10 +16,8 @@ class UserQueryService:
         self.query_repository = UserQueryRepository(db)
 
    
-    async def get_all_users(self, request: Request, pagination_filter: PaginationFilter) -> PaginationResponse[UserDetail]:
-        if pagination_filter.page_size <= 0 or pagination_filter.page_index < 0:
-            raise BadRequestException("Invalid pagination parameters. Check page_size and page_index.")
-        users = await self.query_repository.get_all(pagination_filter.page_size, pagination_filter.page_index)
+    async def get_all_users(self, request: Request, pagination_filter: PaginationFilter, search_filter: SearchFilter) -> PaginationResponse[UserDetail]:
+        users = await self.query_repository.get_all(pagination_filter, search_filter)
         return PaginationResponse.create(
             items=users,
             total_items=await self.query_repository.count(),

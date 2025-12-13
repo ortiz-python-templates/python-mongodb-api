@@ -1,5 +1,5 @@
 from datetime import datetime
-from src.core.repositories.configurations.feature_flag_list import FeatureFlagList
+from src.core.repositories.configurations.feature_flags_list import FeatureFlagList
 from src.core.repositories.configurations.feature_flag_command_repository import FeatureFlagCommandRepository
 from src.core.repositories.configurations.company_configuration_command_repository import CompanyConfigurationCommandRepository
 from src.core.repositories.configurations.basic_configuration_command_repository import BasicConfigurationCommandRepository

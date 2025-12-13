@@ -3,8 +3,8 @@ class StorageBuckets:
     class Identity:
         USERS = "Identity/Users"
 
-    class Products:
-        Products = "Products/Products"
+    class Company:
+        COMPANY = "Company/Company"
 
     class Suppliers:
         Suppliers = "Suppliers/Suppliers"

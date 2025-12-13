@@ -13,8 +13,7 @@ class UserQueryRepository(MongoQueryRepository[UserDetail]):
 
 
     async def get_all_by_status(self, status: bool, page_size: int, page_index: int) -> List[UserDetail]:
-        if page_size <= 0 or page_index < 0:
-            raise ValueError("Invalid pagination parameters.")
+        page_size, page_index = self._normalize_pagination(page_size, page_index)
         cursor = self._collection.find({"is_deleted": False, 'is_active': status}).skip(page_index * page_size).limit(page_size)
         docs = await cursor.to_list(length=None)
         return [self._model_cls.model_validate(doc) for doc in docs]
@@ -31,8 +30,9 @@ class UserQueryRepository(MongoQueryRepository[UserDetail]):
         regex = {"$regex": re.escape(search_param), "$options": "i"}
         return {
             "$or": [
+                {"email": regex},
+                {"role": regex},
                 {"first_name": regex},
                 {"last_name": regex},
-                {"email": regex}
             ]
         }

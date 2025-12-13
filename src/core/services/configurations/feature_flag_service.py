@@ -1,5 +1,6 @@
 from datetime import datetime
 from fastapi import Request
+from src.core.filters.search_filter import SearchFilter
 from src.core.repositories.configurations.feature_flag_query_repository import FeatureFlagQueryRepository
 from src.core.schemas.pagination_response import PaginationResponse
 from src.core.filters.pagination_filter import PaginationFilter
@@ -36,10 +37,8 @@ class FeatureFlagService:
         )
     
     
-    async def get_all_feature_flags(self, request: Request, pagination_filter: PaginationFilter) -> PaginationResponse[FeatureFlagDetail]:
-        if pagination_filter.page_size <= 0 or pagination_filter.page_index < 0:
-            raise BadRequestException("Invalid pagination parameters. Check page_size and page_index.")
-        feature_flags = await self.query_repository.get_all(pagination_filter.page_size, pagination_filter.page_index)
+    async def get_all_feature_flags(self, request: Request, pagination_filter: PaginationFilter, search_filter: SearchFilter) -> PaginationResponse[FeatureFlagDetail]:
+        feature_flags = await self.query_repository.get_all(pagination_filter, search_filter)
         return PaginationResponse.create(
             items=feature_flags,
             total_items=await self.query_repository.count(),

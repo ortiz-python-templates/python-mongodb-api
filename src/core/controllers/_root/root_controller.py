@@ -11,14 +11,12 @@ class RootController:
         self.download_path = Path("docs/api_collections/Insomnia.yaml")
         self.db = DbConfig.get_database()
 
-
     async def index(self, request: Request):
         return TemplateConfig.templates.TemplateResponse("index.html", {
             "request": request,
             "title": "API Root - MongoDB API",
         })
     
-
     async def download_collections(self):
         if self.download_path.exists():
             return FileResponse(

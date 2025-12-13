@@ -1,6 +1,7 @@
 from fastapi import Request
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from src.common.utils.custom_exceptions import BadRequestException, NotFoundException
+from src.core.filters.search_filter import SearchFilter
+from src.common.utils.custom_exceptions import NotFoundException
 from src.core.filters.pagination_filter import PaginationFilter
 from src.core.schemas.identity.login_activity_responses import LoginActivityDetail
 from src.core.schemas.pagination_response import PaginationResponse
@@ -13,10 +14,8 @@ class LoginActivityQueryService:
         self.query_repository = LoginActivityQueryRepository(db)
 
 
-    async def get_all_login_activities(self, request: Request, pagination_filter: PaginationFilter) -> PaginationResponse[LoginActivityDetail]:
-        if pagination_filter.page_size <= 0 or pagination_filter.page_index < 0:
-            raise BadRequestException("Invalid pagination parameters. Check page_size and page_index.")
-        activities = await self.query_repository.get_all(pagination_filter.page_size, pagination_filter.page_index)
+    async def get_all_login_activities(self, request: Request, pagination_filter: PaginationFilter, search_filter: SearchFilter) -> PaginationResponse[LoginActivityDetail]:
+        activities = await self.query_repository.get_all(pagination_filter, search_filter)
         return PaginationResponse.create(
             items=activities,
             total_items=await self.query_repository.count(),
@@ -26,14 +25,14 @@ class LoginActivityQueryService:
         )
     
     
-    async def get_login_activity_by_id(self, id: str) -> LoginActivityDetail:
+    async def get_login_activity_by_id(self, request: Request, id: str) -> LoginActivityDetail:
         activity = await self.query_repository.get_by_id(id)
         if activity is None:
             raise NotFoundException(f"LoginActivity with ID '{id}' was not found.")
         return activity
     
 
-    async def get_login_activity_by_user_id(self, user_id: str) -> LoginActivityDetail:
+    async def get_login_activity_by_user_id(self, request: Request, user_id: str) -> LoginActivityDetail:
         activity = await self.query_repository.get_by_user_id(user_id)
         if activity is None:
             raise NotFoundException(f"LoginActivity with User ID '{user_id}' was not found.")

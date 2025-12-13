@@ -1,4 +1,4 @@
-from fastapi import APIRouter
+from fastapi import APIRouter, status
 from fastapi.responses import JSONResponse
 import time
 import socket
@@ -29,15 +29,14 @@ class HealthController:
         redis = await HealthService.redis_health()
         is_ready = mongo["status"] == "up" and redis["status"] == "up"
 
-        return JSONResponse(
-            {
+        return JSONResponse({
                 "status": "ok" if is_ready else "error",
                 "dependencies": {
                     "mongodb": mongo,
                     "redis": redis
                 }
             },
-            status_code=200 if is_ready else 503
+            status_code=status.HTTP_200_OK if is_ready else status.HTTP_503_SERVICE_UNAVAILABLE
         )
 
     # complete check
