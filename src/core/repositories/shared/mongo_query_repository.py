@@ -18,17 +18,16 @@ class MongoQueryRepository(Generic[T]):
         self.db = db
    
     # Get all
-    async def get_all(self, pagination_filter: PaginationFilter, search_filter: Optional[SearchFilter]) -> List[T]:
-        page_size, page_index = self._normalize_pagination(pagination_filter.page_size,pagination_filter.page_index)
-        query: Dict[str, Any] = {"is_deleted": False}
+    async def get_all(self, search_filter: Optional[SearchFilter], pagination_filter: Optional[PaginationFilter]) -> List[T]:
+        page_size, page_index = self._normalize_pagination(pagination_filter.page_size, pagination_filter.page_index)
+        query = {"is_deleted": False}
         if search_filter.search_param:
             query.update(self._build_search_query(search_filter.search_param))
         sort_direction = -1 if search_filter.sort_order == "desc" else 1
         cursor = self._collection.find(query).sort("_id", sort_direction).skip(page_index * page_size).limit(page_size)
         docs = await cursor.to_list(length=page_size)
         return [self._model_cls.model_validate(doc) for doc in docs]
-
-
+    
     async def get_all_not_paginated(self) -> List[T]:
         cursor = self._collection.find({"is_deleted": False})
         docs = await cursor.to_list(length=None)

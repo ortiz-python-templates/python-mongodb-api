@@ -1,6 +1,7 @@
 import re
 from typing import List, Optional
 from motor.motor_asyncio import AsyncIOMotorDatabase
+from src.core.filters.pagination_filter import PaginationFilter
 from src.core.schemas.identity.user_responses import UserDetail
 from src.core.repositories.shared.mongo_query_repository import MongoQueryRepository
 from src.core.models.identity.user_model import UserModel
@@ -12,8 +13,8 @@ class UserQueryRepository(MongoQueryRepository[UserDetail]):
         super().__init__(db, "view_user_detail", UserDetail)
 
 
-    async def get_all_by_status(self, status: bool, page_size: int, page_index: int) -> List[UserDetail]:
-        page_size, page_index = self._normalize_pagination(page_size, page_index)
+    async def get_all_by_status(self, status: bool, pagination_filter: PaginationFilter) -> List[UserDetail]:
+        page_size, page_index = self._normalize_pagination(pagination_filter.page_size, pagination_filter.page_index)
         cursor = self._collection.find({"is_deleted": False, 'is_active': status}).skip(page_index * page_size).limit(page_size)
         docs = await cursor.to_list(length=None)
         return [self._model_cls.model_validate(doc) for doc in docs]

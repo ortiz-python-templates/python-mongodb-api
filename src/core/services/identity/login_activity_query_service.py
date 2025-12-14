@@ -14,8 +14,8 @@ class LoginActivityQueryService:
         self.query_repository = LoginActivityQueryRepository(db)
 
 
-    async def get_all_login_activities(self, request: Request, pagination_filter: PaginationFilter, search_filter: SearchFilter) -> PaginationResponse[LoginActivityDetail]:
-        activities = await self.query_repository.get_all(pagination_filter, search_filter)
+    async def get_all_login_activities(self, request: Request, search_filter: SearchFilter, pagination_filter: PaginationFilter) -> PaginationResponse[LoginActivityDetail]:
+        activities = await self.query_repository.get_all(search_filter, pagination_filter)
         return PaginationResponse.create(
             items=activities,
             total_items=await self.query_repository.count(),

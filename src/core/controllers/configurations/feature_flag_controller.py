@@ -18,8 +18,8 @@ class FeatureFlagController:
     async def manage_feature_flags(self, request: Request, body: ManageFeatureFlagRequest):
         return await self.service.manage_feature_flag(request, body)
     
-    async def get_all_feature_flags(self, request: Request, pagination_filter: PaginationFilter=Depends(), search_filter: SearchFilter=Depends()):
-        return await self.service.get_all_feature_flags(request, pagination_filter, search_filter)
+    async def get_all_feature_flags(self, request: Request, search_filter: SearchFilter=Depends(), pagination_filter: PaginationFilter=Depends()):
+        return await self.service.get_all_feature_flags(request, search_filter, pagination_filter)
     
     async def get_feature_flag_by_id(self, request: Request, id: str):
         return await self.service.get_feature_flag_by_id(request, id)
