@@ -17,7 +17,7 @@ class UserQueryService:
 
    
     async def get_all_users(self, request: Request, search_filter: SearchFilter, pagination_filter: PaginationFilter) -> PaginationResponse[UserDetail]:
-        users = await self.query_repository.get_all(search_filter, pagination_filter)
+        users = await self.query_repository.get_all2(search_filter, pagination_filter)
         return PaginationResponse.create(
             items=users,
             total_items=await self.query_repository.count(),

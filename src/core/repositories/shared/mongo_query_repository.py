@@ -24,7 +24,7 @@ class MongoQueryRepository(Generic[T]):
         if search_filter.search_param:
             query.update(self._build_search_query(search_filter.search_param))
         sort_direction = -1 if search_filter.sort_order == "desc" else 1
-        cursor = self._collection.find(query).sort("_id", sort_direction).skip(page_index * page_size).limit(page_size)
+        cursor = self._collection.find(query).sort("created_at", sort_direction).skip(page_index * page_size).limit(page_size)
         docs = await cursor.to_list(length=page_size)
         return [self._model_cls.model_validate(doc) for doc in docs]
     
@@ -40,9 +40,9 @@ class MongoQueryRepository(Generic[T]):
 
    
     # Get one
-    '''#async def get_by_field(self, field: str, value: Any) -> Optional[T]:
+    async def get_by_field_v1(self, field: str, value: Any) -> Optional[T]:
         doc = await self._collection.find_one({field: value, "is_deleted": False})
-        return self._model_cls.model_validate(doc) if doc else None'''
+        return self._model_cls.model_validate(doc) if doc else None
     
     async def get_by_field(self, field: str, value: Any) -> Optional[T]:
         filter = {
@@ -155,3 +155,6 @@ class MongoQueryRepository(Generic[T]):
         if status:
             query['status'] = status
         return query
+
+
+    
