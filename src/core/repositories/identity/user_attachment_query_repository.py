@@ -13,7 +13,7 @@ class UserAttachmentQueryRepository(MongoQueryRepository[UserAttachmentDetail]):
 
     async def get_all_by_user(self, user_id: str, pagination_filter: PaginationFilter) -> List[UserAttachmentDetail]:
         page_size, page_index = self._normalize_pagination(pagination_filter.page_size, pagination_filter.page_index)
-        cursor = self.collection.find({"is_deleted": False, 'user_id': user_id}).skip(page_index * page_size).limit(page_size)
+        cursor = self.collection.find({"is_deleted": False, 'user_id': user_id}).sort("created_at", -1).skip(page_index * page_size).limit(page_size)
         docs = await cursor.to_list(length=None)
         return [self.model_cls.model_validate(doc) for doc in docs]
     

@@ -11,8 +11,8 @@ collection:
     meta:
       id: fld_11b948627a024fb58e73d9a4196e706c
       created: 1765302533906
-      modified: 1765302533906
-      sortKey: -1765302533907
+      modified: 1765904544443
+      sortKey: -1765904530916
       description: ""
     children:
       - name: Auth
@@ -60,7 +60,7 @@ collection:
             meta:
               id: req_cc7e8f2649bf40db97887d305eceac09
               created: 1765304056346
-              modified: 1765304107588
+              modified: 1765904341703
               isPrivate: false
               description: ""
               sortKey: -1765304056346
@@ -70,6 +70,9 @@ collection:
                 value: insomnia/12.1.0
                 description: ""
                 disabled: false
+            authentication:
+              type: bearer
+              token: "{{ _.JWT_TOKEN }}"
             settings:
               renderRequestBody: true
               encodeUrl: true
@@ -83,7 +86,7 @@ collection:
             meta:
               id: req_5cd91b00338b45b1ab83df901c95e285
               created: 1765304169830
-              modified: 1765527230624
+              modified: 1765904289245
               isPrivate: false
               description: ""
               sortKey: -1762481582963.5
@@ -93,6 +96,9 @@ collection:
                 value: insomnia/12.1.0
                 description: ""
                 disabled: false
+            authentication:
+              type: bearer
+              token: "{{ _.JWT_TOKEN }}"
             settings:
               renderRequestBody: true
               encodeUrl: true
@@ -137,7 +143,7 @@ collection:
             meta:
               id: req_3be4ace4e2e14e53ac63d47c64f24ab4
               created: 1765306297710
-              modified: 1765372800015
+              modified: 1765904582374
               isPrivate: false
               description: ""
               sortKey: -1765357852102
@@ -146,10 +152,10 @@ collection:
               mimeType: application/json
               text: |-
                 {
-                	"firstName": "John",
-                	"lastName": "Doe",
+                	"firstName": "Teste",
+                	"lastName": "Teste",
                 	"role": "admin",
-                	"email": "jo21@email.com",
+                	"email": "testel@email.com",
                 	"password": "12345678"
                 }
             headers:
@@ -159,6 +165,9 @@ collection:
                 value: insomnia/12.1.0
                 description: ""
                 disabled: false
+            authentication:
+              type: bearer
+              token: "{{ _.JWT_TOKEN }}"
             settings:
               renderRequestBody: true
               encodeUrl: true
@@ -167,12 +176,14 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
-          - url: "{{ _.API_ROOT }}/users?page_index=0&page_size=10"
+          - url: "{{ _.API_ROOT
+              }}/users?search_param=super&sort_order=desc&page_index=0&page_siz\
+              e=10"
             name: Get All Users
             meta:
               id: req_08fb0cc561014b86ba7145c35d957e47
               created: 1765357852002
-              modified: 1765381089371
+              modified: 1765970087445
               isPrivate: false
               description: ""
               sortKey: -1765357852002
@@ -182,6 +193,9 @@ collection:
                 value: insomnia/12.1.0
                 description: ""
                 disabled: false
+            authentication:
+              type: bearer
+              token: "{{ _.JWT_TOKEN }}"
             settings:
               renderRequestBody: true
               encodeUrl: true
@@ -195,7 +209,7 @@ collection:
             meta:
               id: req_c9d16d0f2df34d0c85099edea6fa3ee4
               created: 1765372817935
-              modified: 1765372852024
+              modified: 1765904190006
               isPrivate: false
               description: ""
               sortKey: -1765331025263
@@ -205,6 +219,9 @@ collection:
                 value: insomnia/12.1.0
                 description: ""
                 disabled: false
+            authentication:
+              type: bearer
+              token: "{{ _.JWT_TOKEN }}"
             settings:
               renderRequestBody: true
               encodeUrl: true
@@ -218,7 +235,7 @@ collection:
             meta:
               id: req_67f454a04d4c434ab2a3b91d65a33f37
               created: 1765380957047
-              modified: 1765382242935
+              modified: 1765904242499
               isPrivate: false
               description: ""
               sortKey: -1765327671920.625
@@ -228,6 +245,9 @@ collection:
                 value: insomnia/12.1.0
                 description: ""
                 disabled: false
+            authentication:
+              type: bearer
+              token: "{{ _.JWT_TOKEN }}"
             settings:
               renderRequestBody: true
               encodeUrl: true
@@ -241,7 +261,7 @@ collection:
             meta:
               id: req_855b6bcac1c74e3580714386bef71658
               created: 1765381827694
-              modified: 1765381932458
+              modified: 1765904044350
               isPrivate: false
               description: ""
               sortKey: -1765337731947.75
@@ -251,6 +271,9 @@ collection:
                 value: insomnia/12.1.0
                 description: ""
                 disabled: false
+            authentication:
+              type: bearer
+              token: "{{ _.JWT_TOKEN }}"
             settings:
               renderRequestBody: true
               encodeUrl: true
@@ -264,7 +287,7 @@ collection:
             meta:
               id: req_ced11834d9c54761b0430d051217a512
               created: 1765381864039
-              modified: 1765382194856
+              modified: 1765904254150
               isPrivate: false
               description: ""
               sortKey: -1765347791974.875
@@ -274,6 +297,9 @@ collection:
                 value: insomnia/12.1.0
                 description: ""
                 disabled: false
+            authentication:
+              type: bearer
+              token: "{{ _.JWT_TOKEN }}"
             settings:
               renderRequestBody: true
               encodeUrl: true
@@ -287,7 +313,7 @@ collection:
             meta:
               id: req_e68e7659b94b45789e96f3d54ba2b82f
               created: 1765382229901
-              modified: 1765477080086
+              modified: 1765904230917
               isPrivate: false
               description: ""
               sortKey: -1765324318578.25
@@ -305,6 +331,9 @@ collection:
                 value: insomnia/12.1.0
                 description: ""
                 disabled: false
+            authentication:
+              type: bearer
+              token: "{{ _.JWT_TOKEN }}"
             settings:
               renderRequestBody: true
               encodeUrl: true
@@ -318,7 +347,7 @@ collection:
             meta:
               id: req_8781e062dc974edd8f60eb536173fd58
               created: 1765382387730
-              modified: 1765477401516
+              modified: 1765904209022
               isPrivate: false
               description: ""
               sortKey: -1765314258551.125
@@ -336,6 +365,9 @@ collection:
                 value: insomnia/12.1.0
                 description: ""
                 disabled: false
+            authentication:
+              type: bearer
+              token: "{{ _.JWT_TOKEN }}"
             settings:
               renderRequestBody: true
               encodeUrl: true
@@ -491,63 +523,173 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
-  - name: Products
-    meta:
-      id: fld_fb3b72f4fee44f92a4b1e5145cd8aaec
-      created: 1765302544771
-      modified: 1765302544771
-      sortKey: -1765302544771
-      description: ""
-    children:
-      - name: Categories
+      - name: User Attachments
         meta:
-          id: fld_992a21e574f44a09a2d5797f65c75ae7
-          created: 1765302735550
-          modified: 1765302735550
-          sortKey: -1765302735550
+          id: fld_edaf2bf98a734185a252b0ef506f6ba6
+          created: 1765977190403
+          modified: 1765977190403
+          sortKey: -1762441949925
           description: ""
-      - name: Products
-        meta:
-          id: fld_ff8e8c4fa8c94408807c002084e8aa34
-          created: 1765302757628
-          modified: 1765302757628
-          sortKey: -1765302757628
-          description: ""
-  - name: Configurations
-    meta:
-      id: fld_03244654bde74979a86ed71027678321
-      created: 1765302559154
-      modified: 1765302559154
-      sortKey: -1765302559154
-      description: ""
-    children:
-      - name: Basic Configurations
-        meta:
-          id: fld_ff09365236084fc7a9e967232f50603f
-          created: 1765302665005
-          modified: 1765302713242
-          sortKey: -1765302710529
-          description: ""
-      - name: Company Configurations
-        meta:
-          id: fld_1991d99f6a0742b8ad8cf971ee8a000e
-          created: 1765302691271
-          modified: 1765302716951
-          sortKey: -1765302710479
-          description: ""
-      - name: Feature Flags
-        meta:
-          id: fld_a0ca6a2413654e24ad1f437783370df6
-          created: 1765302710429
-          modified: 1765302710429
-          sortKey: -1765302710429
-          description: ""
+        children:
+          - url: "{{ _.API_ROOT }}/user-attachments"
+            name: Create User Attachment
+            meta:
+              id: req_a170574d215e4f6a9d8669b2ebe46ac7
+              created: 1765977190406
+              modified: 1765986748280
+              isPrivate: false
+              description: ""
+              sortKey: -1765357852102
+            method: POST
+            body:
+              mimeType: multipart/form-data
+              params:
+                - name: user_id
+                  value: 7bc73e22-2b7e-4d86-b197-bafa573c65cc
+                  description: ""
+                  disabled: false
+                - name: description
+                  value: New File
+                  description: ""
+                  disabled: false
+                - name: file
+                  value: ""
+                  description: ""
+                  disabled: false
+                  fileName: /home/ortizdavid/Downloads/FT-Impressão-FTM 6HN2025_5.pdf
+                  type: file
+            headers:
+              - name: Content-Type
+                value: multipart/form-data
+              - name: User-Agent
+                value: insomnia/12.1.0
+                description: ""
+                disabled: false
+            authentication:
+              type: bearer
+              token: "{{ _.JWT_TOKEN }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.API_ROOT
+              }}/user-attachments?sort_order=desc&page_index=0&page_size=10"
+            name: Get All User Attachments
+            meta:
+              id: req_82e5fc49c9c74cc19b332ac91b159f53
+              created: 1765977190411
+              modified: 1765989040591
+              isPrivate: false
+              description: ""
+              sortKey: -1765357852002
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/12.1.0
+                description: ""
+                disabled: false
+            authentication:
+              type: bearer
+              token: "{{ _.JWT_TOKEN }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.API_ROOT }}/user-attachments/3fabbbda-3048-4eec-bdc7-103c6dfbb0fe"
+            name: Get User Attachments by ID
+            meta:
+              id: req_189d7d3f56ce4f95860fb9d4b998e626
+              created: 1765977190412
+              modified: 1765991233815
+              isPrivate: false
+              description: ""
+              sortKey: -1765352821988.4375
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/12.1.0
+                description: ""
+                disabled: false
+            authentication:
+              type: bearer
+              token: "{{ _.JWT_TOKEN }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.API_ROOT
+              }}/user-attachments/3fabbbda-3048-4eec-bdc7-103c6dfbb0fe/display"
+            name: Display  User Attachment
+            meta:
+              id: req_577e9c20ba364782bcc6e597eab9dfe5
+              created: 1765977190420
+              modified: 1765991293470
+              isPrivate: false
+              description: ""
+              sortKey: -1765347791974.875
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/12.1.0
+                description: ""
+                disabled: false
+            authentication:
+              type: bearer
+              token: "{{ _.JWT_TOKEN }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.API_ROOT
+              }}/user-attachments/by-user/7bc73e22-2b7e-4d86-b197-bafa573c65cc?\
+              page_index=0&page_size=10"
+            name: Get User Attachments by User
+            meta:
+              id: req_b7721727d5e04d27870da7769a2f234c
+              created: 1765986775473
+              modified: 1765987128378
+              isPrivate: false
+              description: ""
+              sortKey: -1765355336995.2188
+            method: GET
+            headers:
+              - name: User-Agent
+                value: insomnia/12.1.0
+                description: ""
+                disabled: false
+            authentication:
+              type: bearer
+              token: "{{ _.JWT_TOKEN }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
   - name: Health
     meta:
       id: fld_753daaec54cd484c8aa9770ded29a045
       created: 1765378103850
-      modified: 1765378103850
-      sortKey: -1765378103850
+      modified: 1765904540070
+      sortKey: -1765904530966
       description: ""
     children:
       - url: "{{ _.API_SERVER }}/health"
@@ -623,8 +765,8 @@ collection:
     meta:
       id: fld_f6461608d3bb47559ad612f06e1b01bd
       created: 1765556894879
-      modified: 1765557020787
-      sortKey: -1765378103950
+      modified: 1765904546970
+      sortKey: -1765904530891
       description: ""
     children:
       - name: Basic Configurations
@@ -640,7 +782,7 @@ collection:
             meta:
               id: req_5cc9ef31b87943e69f8d1664e17bed1e
               created: 1765556894885
-              modified: 1765558073532
+              modified: 1765904434742
               isPrivate: false
               description: ""
               sortKey: -1765557076363
@@ -662,6 +804,9 @@ collection:
                 value: insomnia/12.1.0
                 description: ""
                 disabled: false
+            authentication:
+              type: bearer
+              token: "{{ _.JWT_TOKEN }}"
             settings:
               renderRequestBody: true
               encodeUrl: true
@@ -709,7 +854,7 @@ collection:
             meta:
               id: req_1edb6f95f5864ab3a4037fe9e2b3513a
               created: 1765558817989
-              modified: 1765559198273
+              modified: 1765904451398
               isPrivate: false
               description: ""
               sortKey: -1765557076363
@@ -732,6 +877,9 @@ collection:
                 value: insomnia/12.1.0
                 description: ""
                 disabled: false
+            authentication:
+              type: bearer
+              token: "{{ _.JWT_TOKEN }}"
             settings:
               renderRequestBody: true
               encodeUrl: true
@@ -779,7 +927,7 @@ collection:
             meta:
               id: req_fc3c591546584577a91e9d055f048f69
               created: 1765559260077
-              modified: 1765559427492
+              modified: 1765904469330
               isPrivate: false
               description: ""
               sortKey: -1765557076363
@@ -798,6 +946,9 @@ collection:
                 value: insomnia/12.1.0
                 description: ""
                 disabled: false
+            authentication:
+              type: bearer
+              token: "{{ _.JWT_TOKEN }}"
             settings:
               renderRequestBody: true
               encodeUrl: true
@@ -806,12 +957,12 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
-          - url: "{{ _.API_ROOT }}/feature-flags"
+          - url: "{{ _.API_ROOT }}/feature-flags?page_index=0&page_size=10"
             name: Get All Feature Flags
             meta:
               id: req_4d01a3bd2b944c1db6f83e728ee1aca0
               created: 1765559260081
-              modified: 1765559336080
+              modified: 1765963969886
               isPrivate: false
               description: ""
               sortKey: -1765557076463
@@ -837,7 +988,7 @@ collection:
             meta:
               id: req_d8099454f26a4fcd9020320bbdb5ac50
               created: 1765563894893
-              modified: 1765565300914
+              modified: 1765904496568
               isPrivate: false
               description: ""
               sortKey: -1765544230886.5
@@ -847,6 +998,9 @@ collection:
                 value: insomnia/12.1.0
                 description: ""
                 disabled: false
+            authentication:
+              type: bearer
+              token: "{{ _.JWT_TOKEN }}"
             settings:
               renderRequestBody: true
               encodeUrl: true
@@ -860,7 +1014,7 @@ collection:
             meta:
               id: req_f9706476b0fb4a5b8df6dca170a1b700
               created: 1765565326915
-              modified: 1765565375044
+              modified: 1765904507659
               isPrivate: false
               description: ""
               sortKey: -1765537808148.25
@@ -870,6 +1024,9 @@ collection:
                 value: insomnia/12.1.0
                 description: ""
                 disabled: false
+            authentication:
+              type: bearer
+              token: "{{ _.JWT_TOKEN }}"
             settings:
               renderRequestBody: true
               encodeUrl: true
@@ -883,19 +1040,19 @@ cookieJar:
   meta:
     id: jar_42fb08d9eb567ee285a9ead19f4ac077b25aded9
     created: 1765302482071
-    modified: 1765544883767
+    modified: 1765901030707
   cookies:
-    - id: 4f12f8f3-9fee-4019-9b83-53be167e31e2
+    - id: 4f5784ca-0cb7-4f6d-b472-1cb1bddee173
       key: access_token
-      value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MmE5ZWUzNi1jNzFjLTQwMzAtOWU2NS0xMGRmOTM0MzlkYzUiLCJlbWFpbCI6ImFkbWluLmV4YW1wbGVAZ21haWwuY29tIiwicm9sZXMiOlsic3VwZXItYWRtaW4iXSwiZXhwIjoxNzY1OTA4NDgzfQ.RVQokPozUtQt-Uo2zmGt2mW7Be0qqaet4o0wlvI9l_k
+      value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MmE5ZWUzNi1jNzFjLTQwMzAtOWU2NS0xMGRmOTM0MzlkYzUiLCJlbWFpbCI6ImFkbWluLmV4YW1wbGVAZ21haWwuY29tIiwicm9sZXMiOlsic3VwZXItYWRtaW4iXSwiZXhwIjoxNzY2MjY0NjI2fQ.HoF3BlUwxEgz_flyuSHY9snwinH35O2FOF_-JqPCA7M
       domain: localhost
       path: /
       secure: false
       httpOnly: true
       hostOnly: true
-    - id: daad7151-375f-42d7-8f92-1ddfae72f4cc
+    - id: c5018875-e238-44d1-a3b9-f7d1a2602339
       key: refresh_token
-      value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MmE5ZWUzNi1jNzFjLTQwMzAtOWU2NS0xMGRmOTM0MzlkYzUiLCJlbWFpbCI6ImFkbWluLmV4YW1wbGVAZ21haWwuY29tIiwiZXhwIjoxNzcxNTk2NDgzfQ.pTeDz8E-fn8bHwBf7kxEYAJdUJpsB4WI44wnLJ4kIHk
+      value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MmE5ZWUzNi1jNzFjLTQwMzAtOWU2NS0xMGRmOTM0MzlkYzUiLCJlbWFpbCI6ImFkbWluLmV4YW1wbGVAZ21haWwuY29tIiwiZXhwIjoxNzcxOTUyNjI2fQ.2dzzzap4Y4S4-GHFArTDyLn6wMIEHvn2TZc195GYTkw
       domain: localhost
       path: /
       secure: false
@@ -906,9 +1063,9 @@ environments:
   meta:
     id: env_42fb08d9eb567ee285a9ead19f4ac077b25aded9
     created: 1765302482068
-    modified: 1765544876040
+    modified: 1765901053885
     isPrivate: false
   data:
     API_SERVER: http://localhost:5000
     API_ROOT: "{{ _.API_SERVER }}/api"
-    JWT_TOKEN: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MmE5ZWUzNi1jNzFjLTQwMzAtOWU2NS0xMGRmOTM0MzlkYzUiLCJlbWFpbCI6ImFkbWluLmV4YW1wbGVAZ21haWwuY29tIiwicm9sZXMiOlsic3VwZXItYWRtaW4iXSwiZXhwIjoxNzY1OTA4NDIxfQ.SfFtyDFqew7sgmsfXF2h7LJnNlNur4_97FNXUfV3NEU
+    JWT_TOKEN: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MmE5ZWUzNi1jNzFjLTQwMzAtOWU2NS0xMGRmOTM0MzlkYzUiLCJlbWFpbCI6ImFkbWluLmV4YW1wbGVAZ21haWwuY29tIiwicm9sZXMiOlsic3VwZXItYWRtaW4iXSwiZXhwIjoxNzY2MjY0NjI2fQ.HoF3BlUwxEgz_flyuSHY9snwinH35O2FOF_-JqPCA7M
