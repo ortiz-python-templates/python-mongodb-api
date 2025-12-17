@@ -1,6 +1,9 @@
 from typing import List
 from fastapi import Request
 from motor.motor_asyncio import AsyncIOMotorDatabase
+from src.common.storage.storage_bucket import StorageBucket
+from src.common.storage.minio_storage import MinioStorage
+from src.core.repositories.identity.user_attachment_command_repository import UserAttachmentCommandRepository
 from src.core.services.identity.user_command_service import UserCommandService
 from src.core.filters.pagination_filter import PaginationFilter
 from src.core.filters.search_filter import SearchFilter
@@ -15,7 +18,9 @@ class UserAttachmentQueryService:
     
     def __init__(self, db: AsyncIOMotorDatabase):
         self.query_repository = UserAttachmentQueryRepository(db)
+        self.command_repository = UserAttachmentCommandRepository(db)
         self.user_service = UserCommandService(db)
+        self.minio_storage = MinioStorage()
 
    
     async def get_all_user_attachments(self, request: Request, search_filter: SearchFilter, pagination_filter: PaginationFilter) -> PaginationResponse[UserAttachmentDetail]:
@@ -44,12 +49,15 @@ class UserAttachmentQueryService:
         attachment = await self.query_repository.get_by_id(attachment_id)
         if attachment is None:
             raise NotFoundException(f"Attachment with ID '{attachment_id}' was not found.")
+        ##attachment.file_url = 
         return attachment
 
 
     async def display_user_attachment(self, request: Request, attachment_id: str):
-        attachment = self.query_repository.get_by_id(attachment_id)
+        attachment = await self.command_repository.get_by_unique_id_aux(attachment_id)
         if attachment is None:
             raise NotFoundException(f"Attachment with ID '{attachment_id}' was not found.")
-        file_url = None
+        file_url = ""
+        if attachment.object_key:
+            file_url = self.minio_storage.get_pressigned_url(attachment.object_key)
         return file_url

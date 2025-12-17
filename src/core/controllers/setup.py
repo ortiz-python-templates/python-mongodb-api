@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from motor.motor_asyncio import AsyncIOMotorDatabase
+from src.core.controllers.identity.user_attachment_controller import UserAttachmentController
 from src.core.controllers.configurations.basic_configuration_controller import BasicConfigurationController
 from src.core.controllers.configurations.company_configuration_controller import CompanyConfigurationController
 from src.core.controllers.configurations.feature_flag_controller import FeatureFlagController
@@ -23,6 +24,7 @@ class ControllersSetup:
       app.include_router(AuthController.add_routes(db), prefix="/api/auth", tags=["Identity / Authentication"])
       app.include_router(RoleController.add_routes(), prefix="/api/roles", tags=["Identity / Roles"])
       app.include_router(UserController.add_routes(db), prefix="/api/users", tags=["Identity / Users"])
+      app.include_router(UserAttachmentController.add_routes(db), prefix="/api/user-attachments", tags=["Identity / Users Attachments"])
       app.include_router(LoginActivityController.add_routes(db), prefix="/api/login-activities", tags=["Identity / Login Activities"])
 
       # Configurations ----------------------------------------------------------------------------------------------

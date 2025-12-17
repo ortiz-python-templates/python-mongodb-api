@@ -14,6 +14,7 @@ class SwaggerConfig:
             {"name": "Identity / Roles", "description": "Manage roles and permissions"},
             {"name": "Identity / Users", "description": "Manage users"},
             {"name": "Identity / Authentication", "description": "Manage: login, logout, current user"},
+            {"name": "Identity / User Attachments", "description": "Manage all user file/attachments"},
             {"name": "Identity / Login Activities", "description": "Manage: login activities: last login, logout, ..."},
             
             {"name": "Configurations", "description": "Endpoints for application configurations"},

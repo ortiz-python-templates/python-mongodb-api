@@ -68,6 +68,9 @@ docker_up:
 docker_down:
 	docker compose --env-file .env -f docker/docker-compose.yml down -v
 
+docker_up_service:
+	docker compose --env-file .env -f docker/docker-compose.yml up
+
 docker_logs:
 	docker compose logs -f
 

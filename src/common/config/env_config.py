@@ -54,7 +54,7 @@ class EnvConfig:
     # MinIO configuration
     MINIO_ROOT_USER = os.getenv("MINIO_ROOT_USER","admin")
     MINIO_ROOT_PASSWORD = os.getenv("MINIO_ROOT_PASSWORD", "admin123")
-    MINIO_ENDPOINT = os.getenv("MINIO_ENDPOINT", "localhost:9000")
+    MINIO_ENDPOINT = os.getenv("MINIO_ENDPOINT", "http://localhost:9000")
     MINIO_MAIN_BUCKET = os.getenv("MINIO_MAIN_BUCKET", "python-mongodb-bucket")
 
     # Google 

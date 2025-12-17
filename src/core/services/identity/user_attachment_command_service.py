@@ -1,7 +1,7 @@
 from datetime import datetime
 from fastapi import Request, UploadFile
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from common.storage.storage_bucket import StorageBuckets
+from src.common.storage.storage_bucket import StorageBucket
 from src.common.config.env_config import EnvConfig
 from src.common.storage.minio_storage import MinioStorage
 from src.core.services.identity.user_command_service import UserCommandService
@@ -27,8 +27,8 @@ class UserAttachmentCommandService:
         user = await self.user_service.get_user_by_unique_id_aux(body.user_id)
         now = datetime.now()
 
-        upload_info = self.minio_storage.upload(file, StorageBuckets.USER_ATTACHMENTS)
-        current_user = request.state.current_user
+        upload_info = self.minio_storage.upload(file, StorageBucket.USER_ATTACHMENTS)
+        current_user = request.state.user
         attachment = UserAttachmentModel(
             user_id=user.id,
             file_name=upload_info.file_name,
@@ -37,7 +37,7 @@ class UserAttachmentCommandService:
             object_key=upload_info.object_key,
             metadata=upload_info.metadata,
             description=body.description,
-            updated_at=now,
+            uploaded_at=now,
             created_at=now,
             created_by=current_user.id
         )

@@ -1,3 +1,4 @@
+import base64
 from typing import Any, Optional
 from uuid import uuid4
 from datetime import datetime
@@ -21,5 +22,8 @@ class BaseMongoModel(BaseModel):
         "arbitrary_types_allowed": True,
         "populate_by_name": True,
         "validate_assignment": True,
-        "extra": "ignore"
+        "extra": "ignore",
+        "json_encoders": {
+            bytes: lambda v: base64.b64encode(v).decode("utf-8")
+        }
     }

@@ -1,3 +1,4 @@
+import base64
 from bson import ObjectId
 from pydantic import BaseModel
 from src.common.utils.string_util import StringUtil
@@ -9,6 +10,7 @@ class BaseSchemaConfig(BaseModel):
         "from_attributes": True,
         "alias_generator": StringUtil.to_camel_case,
         "json_encoders": {
-            ObjectId: str  
+            ObjectId: str,
+            bytes: lambda v: base64.b64encode(v).decode("utf-8")
         }
     }

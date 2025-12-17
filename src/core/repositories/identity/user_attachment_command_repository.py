@@ -1,6 +1,6 @@
 from pymongo import ASCENDING
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from core.models.identity.user_attachment_model import UserAttachmentModel
+from src.core.models.identity.user_attachment_model import UserAttachmentModel
 from src.core.repositories.shared.mongo_command_repository import MongoCommandRepository
 
 

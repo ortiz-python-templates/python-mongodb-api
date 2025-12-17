@@ -1,5 +1,5 @@
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from fastapi import APIRouter, Depends, Request, status
+from fastapi import APIRouter, Depends, Form, Request, UploadFile, status
 from fastapi.responses import JSONResponse
 from src.core.services.identity.user_attachment_query_service import UserAttachmentQueryService
 from src.core.services.identity.user_attachment_command_service import UserAttachmentCommandService
@@ -18,8 +18,12 @@ class UserAttachmentController:
         self.command_service = UserAttachmentCommandService(db)
         self.query_service = UserAttachmentQueryService(db)
 
-    async def create_user_attachment(self, request: Request, body: CreateUserAttachmentRequest):
-        resp = await self.command_service.create_user_attachment(request, body)
+    async def create_user_attachment(self, request: Request, 
+                file: UploadFile = Form(...), 
+                user_id: str = Form(...), 
+                description: str = Form(...)):
+        body = CreateUserAttachmentRequest(user_id=user_id, description=description)
+        resp = await self.command_service.create_user_attachment(request, file, body)
         return JSONResponse(resp.model_dump(), status.HTTP_201_CREATED)
 
     async def get_all_user_attachments(self, request: Request, search_filter: SearchFilter=Depends(), pagination_filter: PaginationFilter=Depends()):
@@ -32,7 +36,7 @@ class UserAttachmentController:
         return await self.query_service.get_user_attachment_by_id(attachment_id)
 
     async def display_user_attachment(self, request: Request, attachment_id: str):
-        return await self.query_service.display_user_attachment(attachment_id)
+        return await self.query_service.display_user_attachment(request, attachment_id)
 
     
     @classmethod

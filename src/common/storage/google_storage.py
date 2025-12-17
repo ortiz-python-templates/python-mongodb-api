@@ -55,7 +55,7 @@ class GoogleStorage(BaseStorage):
                 file_size=file_size,
                 content_type=file.content_type,
                 metadata=metadata,
-                file_url=self.get_file_url(blob_name),
+                file_url=self.get_pressigned_url(blob_name),
             )
 
         except gcs_exceptions.Forbidden as e:
@@ -72,7 +72,7 @@ class GoogleStorage(BaseStorage):
             file.file.close()
 
 
-    def get_file_url(self, object_key: str, expiration_in_seconds: int = 3600) -> str:
+    def get_pressigned_url(self, object_key: str, expire_in_minutes: int = 3600) -> str:
         """
         Generates a temporary (signed) URL for accessing a private file in GCS.
         The URL expires after a configurable number of hours (default: 1 hour).
@@ -87,7 +87,7 @@ class GoogleStorage(BaseStorage):
             # Generate a signed URL for secure access
             url = blob.generate_signed_url(
                 version="v4",
-                expiration=timedelta(seconds=expiration_in_seconds),
+                expiration=timedelta(minutes=expire_in_minutes),
                 method="GET",
                 response_disposition=f'inline; filename="{object_key}"'
             )

@@ -61,10 +61,10 @@ class MinioStorage(BaseStorage):
         except Exception:
             size_bytes = 0  # fallback if not seekable
 
-        file_url = self.get_file_url(object_key)
+        file_url = self.get_pressigned_url(object_key)
 
         metadata = {
-            "uploaded_at": datetime.utcnow().isoformat() + "Z"
+            "uploaded_at": datetime.now().isoformat() + "Z"
         }
 
         return UploadInfo(
@@ -77,13 +77,22 @@ class MinioStorage(BaseStorage):
         )
 
 
-    def get_file_url(self, object_key: str, expires_in_seconds: int = 3600) -> str:
+    def get_pressigned_url(self, object_key: str, expire_in_minutes: int = 600) -> str:
         """Generate a presigned URL for an existing object in MinIO."""
         try:
             return self.client.presigned_get_object(
                 bucket_name=self.bucket_name,
                 object_name=object_key,
-                expires=timedelta(seconds=expires_in_seconds)
+                expires=timedelta(minutes=expire_in_minutes)
             )
         except S3Error as e:
             raise RuntimeError(f"Failed to generate URL for '{object_key}': {e}")
+
+
+    def get_permanent_url(self, bucket: StorageBucket, object_key: str) -> str:
+        try:
+            url = f"{EnvConfig.MINIO_ENDPOINT}/{bucket.value}/{object_key}"
+            return url
+        except S3Error as e:
+            raise Exception(f"Failed to generate URL: {e}") 
+        

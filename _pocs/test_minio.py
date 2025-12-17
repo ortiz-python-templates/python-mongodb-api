@@ -29,7 +29,7 @@ async def upload_file(file: UploadFile = File(...)):
 @app.get("/files/{filename}")
 async def get_file(filename: str):
     try:
-        file_data = minio.get_file_url(filename)
+        file_data = minio.get_pressigned_url(filename)
         return file_data  # pode retornar StreamingResponse se quiser baixar o arquivo
     except Exception as e:
         raise HTTPException(status_code=404, detail=str(e))
