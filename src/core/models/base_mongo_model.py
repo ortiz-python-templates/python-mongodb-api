@@ -22,8 +22,5 @@ class BaseMongoModel(BaseModel):
         "arbitrary_types_allowed": True,
         "populate_by_name": True,
         "validate_assignment": True,
-        "extra": "ignore",
-        "json_encoders": {
-            bytes: lambda v: base64.b64encode(v).decode("utf-8")
-        }
+        "extra": "ignore"
     }

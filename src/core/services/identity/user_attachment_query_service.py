@@ -49,7 +49,6 @@ class UserAttachmentQueryService:
         attachment = await self.query_repository.get_by_id(attachment_id)
         if attachment is None:
             raise NotFoundException(f"Attachment with ID '{attachment_id}' was not found.")
-        ##attachment.file_url = 
         return attachment
 
 

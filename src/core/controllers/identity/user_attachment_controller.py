@@ -29,8 +29,8 @@ class UserAttachmentController:
     async def get_all_user_attachments(self, request: Request, search_filter: SearchFilter=Depends(), pagination_filter: PaginationFilter=Depends()):
         return await self.query_service.get_all_user_attachments(request, search_filter, pagination_filter)
     
-    async def get_all_user_attachments_by_user(self, request: Request, search_filter: SearchFilter=Depends(), pagination_filter: PaginationFilter=Depends()):
-        return await self.query_service.get_all_attachments_by_user(request, search_filter, pagination_filter)
+    async def get_all_user_attachments_by_user(self, request: Request, user_id: str, pagination_filter: PaginationFilter=Depends()):
+        return await self.query_service.get_all_attachments_by_user(request, user_id, pagination_filter)
 
     async def get_user_attachment_by_id(self, request: Request, attachment_id: str):
         return await self.query_service.get_user_attachment_by_id(attachment_id)

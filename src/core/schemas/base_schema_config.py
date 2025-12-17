@@ -10,7 +10,6 @@ class BaseSchemaConfig(BaseModel):
         "from_attributes": True,
         "alias_generator": StringUtil.to_camel_case,
         "json_encoders": {
-            ObjectId: str,
-            bytes: lambda v: base64.b64encode(v).decode("utf-8")
+            ObjectId: str
         }
     }
