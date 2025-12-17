@@ -74,5 +74,9 @@ class EnvConfig:
         return cls.is_production()
     
     @classmethod
+    def minio_secure(cls) -> bool:
+        return cls.is_production()
+    
+    @classmethod
     def app_host(cls) -> str:
         return "0.0.0.0" if cls.is_production() else "localhost"

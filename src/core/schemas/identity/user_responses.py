@@ -20,3 +20,14 @@ class UserInfo(BaseSchemaConfig):
     email: Optional[str] = None
     first_name: Optional[str] = None
     last_name: Optional[str] = None
+
+
+class UserAttachmentDetail(BaseSchemaConfig):
+    id: str
+    user_id: Optional[str] = None
+    file_name: Optional[str] = None
+    size: Optional[int] = None
+    content_type: Optional[str] = None
+    description: Optional[str] = None
+    uploaded_at: Optional[datetime] = None
+    user: Optional[UserInfo] = None

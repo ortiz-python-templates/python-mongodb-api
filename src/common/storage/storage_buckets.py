@@ -1,14 +1,7 @@
-class StorageBuckets:
+from enum import StrEnum
 
-    class Root:
-        ROOT = "_Root"
-
-    class Identity:
-        USERS = "Identity/Users"
-
-    class Company:
-        COMPANY = "Company/Company"
-
-    class Suppliers:
-        Suppliers = "Suppliers/Suppliers"
-
+class StorageBuckets(StrEnum):
+    COMMON = "common"
+    IDENTITY_USERS = "identity/users"
+    COMPANY = "company/company"
+    COMFIGURATIONS = "configurations/configurations"

@@ -1,48 +1,68 @@
 import uuid
-from datetime import timedelta
+from datetime import datetime, timedelta
 from minio import Minio
 from fastapi import UploadFile
+from src.common.config.env_config import EnvConfig
+from src.common.storage.upload_info import UploadInfo
 from src.common.storage.units_of_measurement import UnitsOfMeasurement
 
 
 class MinioStorage:
     """
-    Service for uploading and retrieving files from a MinIO object storage.
-    Automatically creates the target bucket if it does not exist.
+    MinIO storage service.
+    Uses bucket + object_key prefixes to simulate folders.
     """
 
-    def __init__(self, endpoint, access_key, secret_key, bucket_name):
-        # Initialize MinIO client (secure=False means HTTP; set True for HTTPS)
-        self.client = Minio(endpoint, access_key=access_key, secret_key=secret_key, secure=False)
-        self.bucket_name = bucket_name
+    def __init__(self):
+        self.client = Minio(
+            EnvConfig.MINIO_ENDPOINT,
+            access_key=EnvConfig.MINIO_ROOT_USER,
+            secret_key=EnvConfig.MINIO_ROOT_PASSWORD,
+            secure=EnvConfig.minio_secure()
+        )
 
-        # Ensure the bucket exists, create it if necessary
-        if not self.client.bucket_exists(bucket_name):
-            self.client.make_bucket(bucket_name)
+        self.bucket_name = EnvConfig.MINIO_MAIN_BUCKET
+
+        if not self.client.bucket_exists(self.bucket_name):
+            self.client.make_bucket(self.bucket_name)
 
 
-    def upload(self, file: UploadFile) -> str:
-        """Uploads a file to MinIO and returns a temporary signed URL."""
-        # Generate a unique name to avoid overwriting files
-        object_name = f"{uuid.uuid4()}_{file.filename}"
+    def upload(self, file: UploadFile, prefix: str) -> UploadInfo:
+        """
+        Uploads a file to MinIO under a logical prefix (folder).
+        """
+        object_key = f"{prefix}/{uuid.uuid4()}_{file.filename}"
 
-        # Upload file stream to MinIO bucket
         self.client.put_object(
-            self.bucket_name,
-            object_name,
-            file.file,
-            length=-1,  # Allows streaming uploads of unknown length
-            part_size=10 * UnitsOfMeasurement.MEGA_BYTE  # Split large uploads into 10 MB parts
+            bucket_name=self.bucket_name,
+            object_name=object_key,
+            data=file.file,
+            length=-1,
+            part_size=10 * UnitsOfMeasurement.MEGA_BYTE
         )
 
-        # Generate a signed URL that expires in 1 hour (3600 seconds)
-        url = self.client.presigned_get_object(
-            self.bucket_name, object_name, 
-            expires=timedelta(seconds=3600)
+        # file size
+        file.file.seek(0, 2)
+        size_bytes = file.file.tell()
+        file.file.seek(0)
+
+        file_url = self.get_file_url(object_key)
+
+        return UploadInfo(
+            file_name=file.filename,
+            file_size=str(size_bytes),
+            content_type=file.content_type or "application/octet-stream",
+            metadata={
+                "uploaded_at": datetime.utcnow().isoformat() + "Z"
+            },
+            object_key=object_key,
+            file_url=file_url
         )
-        return url
 
 
-    def get_file_url(self, object_name: str, expires_in_seconds: int = 3600) -> str:
-        """Generates a signed URL for an existing object in the MinIO bucket."""
-        return self.client.presigned_get_object(self.bucket_name, object_name, expires=expires_in_seconds)
+    def get_file_url(self, object_key: str, expires_in_seconds: int = 3600) -> str:
+        return self.client.presigned_get_object(
+            bucket_name=self.bucket_name,
+            object_name=object_key,
+            expires=timedelta(seconds=expires_in_seconds)
+        )

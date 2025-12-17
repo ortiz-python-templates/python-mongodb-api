@@ -24,3 +24,9 @@ class UserMsg:
     class Error:
         NOT_FOUND = "User not found."
         CREATING = "An error occurred while creating the user. Please try again."
+
+class UserAttachmentMsg:
+
+    class Success:
+        CREATED = "User Attachment for user '{}' has been created successfully."
+        UPDATED = "User Attachment  for user '{}' has been updated successfully."

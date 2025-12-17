@@ -184,12 +184,20 @@ class UserCommandService:
         )
 
 
+    async def add_user_attachment(self, id: str):
+        pass
+
     # aux query methods only to return UserModel avoiding mixture query and command repos
-    
     async def get_user_by_email_aux(self, email: str) -> UserModel:
         user = await self.command_repository.get_by_email_aux(email)
         if user is None:
             raise NotFoundException("The provided email does not exists.")
+        return user
+    
+    async def get_user_by_unique_id_aux(self, unique_id: str) -> UserModel:
+        user = await self.command_repository.get_by_unique_id_aux(unique_id)
+        if user is None:
+            raise NotFoundException(f"User with ID '{unique_id}' does not exists.")
         return user
     
     async def get_user_by_recovery_token(self, token: str) -> UserModel:

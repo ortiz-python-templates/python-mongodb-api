@@ -50,10 +50,10 @@ class GoogleStorage:
             # Return structured upload information with a signed URL
             return UploadInfo(
                 file_name=file.filename,
-                file_url=self.get_file_url(blob_name),
                 file_size=file_size,
                 content_type=file.content_type,
                 metadata=metadata,
+                file_url=self.get_file_url(blob_name),
             )
 
         except gcs_exceptions.Forbidden as e:

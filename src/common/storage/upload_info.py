@@ -1,18 +1,20 @@
+from typing import Optional, Dict
+
+
 class UploadInfo:
-    """Represents metadata and access details of a file uploaded to storage."""
+    file_name: str
+    file_size: str
+    content_type: str
+    metadata: Dict
+    object_key: Optional[str]
+    file_url: Optional[str] = None
 
-    def __init__(self, file_name: str, file_url: str, file_size: str, content_type: str, metadata: dict):
-        self.file_name = file_name
-        self.file_url = file_url
-        self.file_size = file_size
-        self.content_type = content_type
-        self.metadata = metadata
-
-    def to_dict(self):
+    def to_dict(self) -> dict:
         return {
             "file_name": self.file_name,
-            "file_url": self.file_url,
             "file_size": self.file_size,
             "content_type": self.content_type,
-            "metadata": self.metadata
+            "metadata": self.metadata,
+            "object_key": self.object_key,
+            "file_url": self.file_url,
         }

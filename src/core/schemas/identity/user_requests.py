@@ -34,6 +34,12 @@ class DeactivateUserRequest(BaseSchemaConfig):
 class PasswordRecoveryRequest(BaseSchemaConfig):
     email: EmailStr = Field(..., description="User email for password recovery")
 
+
 class ChangePasswordRequest(BaseSchemaConfig):
     new_password: str = Field(..., min_length=6, description="New user password")
     password_confirmation: str = Field(..., min_length=6, description="Password Confirmation")
+
+
+class CreateUserAttachmentRequest(BaseSchemaConfig):
+    user_id: str = Field(...,  description="User ID")
+    description: Optional[str] = Field(..., description="Attachment Description")

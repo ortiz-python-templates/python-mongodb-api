@@ -1,5 +1,4 @@
 from typing import Optional
-from bson import ObjectId
 from pydantic import EmailStr, Field
 from src.core.models.identity.role import Role
 from src.core.models.base_mongo_model import BaseMongoModel
