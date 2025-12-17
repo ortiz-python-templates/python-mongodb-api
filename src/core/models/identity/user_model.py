@@ -13,3 +13,4 @@ class UserModel(BaseMongoModel):
     password: str
     is_active: bool
     recovery_token: Optional[str] = None
+    

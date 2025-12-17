@@ -1,5 +1,8 @@
 class StorageBuckets:
 
+    class Root:
+        ROOT = "_Root"
+
     class Identity:
         USERS = "Identity/Users"
 

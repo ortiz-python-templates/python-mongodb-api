@@ -10,9 +10,9 @@ T = TypeVar('T', bound=BaseModel)
 class MongoCommandRepository(Generic[T]):
 
     def __init__(self, db: AsyncIOMotorDatabase, collection_name: str, model_cls: Type[T]):
-        self._database = db
         self.collection: AsyncIOMotorCollection = db[collection_name]
         self.model_cls = model_cls
+        self.db = db
         self.inserted_id: Optional[Any] = None
 
     
@@ -36,8 +36,8 @@ class MongoCommandRepository(Generic[T]):
     
     async def update_raw(self, filter: Dict[str, Any], update: Dict[str, Any], upsert=False, session=None):
         result = await self.collection.update_many(
-            filter,
-            update,
+            filter=filter,
+            update=update,
             upsert=upsert,
             session=session
         )
@@ -54,14 +54,11 @@ class MongoCommandRepository(Generic[T]):
 
     # Soft delete
     async def soft_delete(self, unique_id: str, deleted_by: Optional[str] = None, session=None):
-        """
-        Soft delete a document by setting `is_deleted=True` and recording deleted_by / deleted_at
-        """
         await self.collection.update_one(
             {"unique_id": unique_id, "is_deleted": False},
             {"$set": {
                 "is_deleted": True,
-                "deleted_at": datetime.utcnow(),
+                "deleted_at": datetime.now(),
                 "deleted_by": deleted_by
             }},
             session=session

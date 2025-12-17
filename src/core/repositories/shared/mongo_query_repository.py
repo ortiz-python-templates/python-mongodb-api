@@ -13,36 +13,37 @@ T = TypeVar('T', bound=BaseModel)
 class MongoQueryRepository(Generic[T]):
 
     def __init__(self, db: AsyncIOMotorDatabase, collection_name: str, model_cls: Type[T]):
-        self._collection: AsyncIOMotorCollection = db[collection_name]
-        self._model_cls = model_cls
+        self.collection: AsyncIOMotorCollection = db[collection_name]
+        self.model_cls = model_cls
         self.db = db
    
     # Get all
     async def get_all(self, search_filter: Optional[SearchFilter], pagination_filter: Optional[PaginationFilter]) -> List[T]:
         page_size, page_index = self._normalize_pagination(pagination_filter.page_size, pagination_filter.page_index)
-        query = {"is_deleted": False}
-        if search_filter.search_param:
-            query.update(self._build_search_query(search_filter.search_param))
+        filters = [{"is_deleted": False}]
+        if search_filter and search_filter.search_param:
+            filters.append(self._build_search_query(search_filter.search_param))
+        query = {"$and": filters} if len(filters) > 1 else filters[0]
         sort_direction = -1 if search_filter.sort_order == "desc" else 1
-        cursor = self._collection.find(query).sort("created_at", sort_direction).skip(page_index * page_size).limit(page_size)
+        cursor = self.collection.find(query).sort("created_at", sort_direction).skip(page_index * page_size).limit(page_size)
         docs = await cursor.to_list(length=page_size)
-        return [self._model_cls.model_validate(doc) for doc in docs]
+        return [self.model_cls.model_validate(doc) for doc in docs]
     
     async def get_all_not_paginated(self) -> List[T]:
-        cursor = self._collection.find({"is_deleted": False})
+        cursor = self.collection.find({"is_deleted": False})
         docs = await cursor.to_list(length=None)
-        return [self._model_cls.model_validate(doc) for doc in docs]
+        return [self.model_cls.model_validate(doc) for doc in docs]
 
     async def get_all_in(self, field: str, values: List[Any]) -> List[T]:
-        cursor = self._collection.find({field: {"$in": values}, "is_deleted": False})
+        cursor = self.collection.find({field: {"$in": values}, "is_deleted": False})
         docs = await cursor.to_list(length=None)
-        return [self._model_cls.model_validate(doc) for doc in docs]
+        return [self.model_cls.model_validate(doc) for doc in docs]
 
    
     # Get one
     async def get_by_field_v1(self, field: str, value: Any) -> Optional[T]:
-        doc = await self._collection.find_one({field: value, "is_deleted": False})
-        return self._model_cls.model_validate(doc) if doc else None
+        doc = await self.collection.find_one({field: value, "is_deleted": False})
+        return self.model_cls.model_validate(doc) if doc else None
     
     async def get_by_field(self, field: str, value: Any) -> Optional[T]:
         filter = {
@@ -51,25 +52,25 @@ class MongoQueryRepository(Generic[T]):
                 {"is_deleted": False},{"is_deleted": {"$exists": False}}
             ]
         }
-        doc = await self._collection.find_one(filter)
-        return self._model_cls.model_validate(doc) if doc else None
+        doc = await self.collection.find_one(filter)
+        return self.model_cls.model_validate(doc) if doc else None
 
 
     async def get_by_id(self, id: str) -> Optional[T]:
-        doc = await self._collection.find_one({'id': id, "is_deleted": False})
-        return self._model_cls.model_validate(doc) if doc else None
+        doc = await self.collection.find_one({'id': id, "is_deleted": False})
+        return self.model_cls.model_validate(doc) if doc else None
 
     async def get_by_unique_id(self, unique_id: str) -> Optional[T]:
-        doc = await self._collection.find_one({'unique_id': unique_id, "is_deleted": False})
-        return self._model_cls.model_validate(doc) if doc else None
+        doc = await self.collection.find_one({'unique_id': unique_id, "is_deleted": False})
+        return self.model_cls.model_validate(doc) if doc else None
 
     async def get_last(self) -> Optional[T]:
-        doc = await self._collection.find_one({"is_deleted": False}, sort=[("id", -1)])
-        return self._model_cls.model_validate(doc) if doc else None
+        doc = await self.collection.find_one({"is_deleted": False}, sort=[("id", -1)])
+        return self.model_cls.model_validate(doc) if doc else None
 
     async def get_first(self) -> Optional[T]:
-        doc = await self._collection.find_one({"is_deleted": False}, sort=[("id", 1)])
-        return self._model_cls.model_validate(doc) if doc else None
+        doc = await self.collection.find_one({"is_deleted": False}, sort=[("id", 1)])
+        return self.model_cls.model_validate(doc) if doc else None
    
 
     # Pagination helper
@@ -92,48 +93,48 @@ class MongoQueryRepository(Generic[T]):
         page_size, page_index = self._normalize_pagination(pagination_filter.page_size, pagination_filter.page_index)
         query = self._build_date_range_status_filter(status_field, date_filter)
         query["is_deleted"] = False
-        cursor = self._collection.find(query).skip(page_index * page_size).limit(page_size)
+        cursor = self.collection.find(query).skip(page_index * page_size).limit(page_size)
         docs = await cursor.to_list(length=page_size)
-        return [self._model_cls.model_validate(doc) for doc in docs]
+        return [self.model_cls.model_validate(doc) for doc in docs]
 
     async def filter_by_date_range(self, date_filter: DateRangeFilter, pagination_filter: PaginationFilter) -> List[T]:
         page_size, page_index = self._normalize_pagination(pagination_filter.page_size, pagination_filter.page_index)
         query = self._build_date_range_filter(date_filter.start_date, date_filter.end_date)
         query["is_deleted"] = False
-        cursor = self._collection.find(query).skip(page_index * page_size).limit(page_size)
+        cursor = self.collection.find(query).skip(page_index * page_size).limit(page_size)
         docs = await cursor.to_list(length=page_size)
-        return [self._model_cls.model_validate(doc) for doc in docs]
+        return [self.model_cls.model_validate(doc) for doc in docs]
 
     async def filter_by_date_range_status(self, status_field: Optional[str], status_value: Optional[str], date_filter: DateRangeFilter, pagination_filter: PaginationFilter) -> List[T]:
         page_size, page_index = self._normalize_pagination(pagination_filter.page_size, pagination_filter.page_index)
         query = self._build_date_range_status_filter(status_field, status_value, date_filter.start_date, date_filter.end_date)
         query["is_deleted"] = False
-        cursor = self._collection.find(query).skip(page_index * page_size).limit(page_size)
+        cursor = self.collection.find(query).skip(page_index * page_size).limit(page_size)
         docs = await cursor.to_list(length=page_size)
-        return [self._model_cls.model_validate(doc) for doc in docs]
+        return [self.model_cls.model_validate(doc) for doc in docs]
 
    
     # Counts
     async def count_by_date_range_status_filter(self, status_field: Optional[str], status_value: str, date_filter: DateRangeFilter) -> int:
         query = self._build_date_range_status_filter(status_field, status_value, date_filter.start_date, date_filter.end_date)
         query["is_deleted"] = False
-        return await self._collection.count_documents(query)
+        return await self.collection.count_documents(query)
 
     async def count_by_date_filter(self, date_filter: DateRangeFilter) -> int:
         query = self._build_date_range_filter(date_filter.start_date, date_filter.end_date)
         query["is_deleted"] = False
-        return await self._collection.count_documents(query)
+        return await self.collection.count_documents(query)
 
     async def count_search(self, search_param: Optional[str]) -> int:
         query = self._build_search_query(search_param)
         query["is_deleted"] = False
-        return await self._collection.count_documents(query)
+        return await self.collection.count_documents(query)
 
     async def count(self) -> int:
-        return await self._collection.count_documents({"is_deleted": False})
+        return await self.collection.count_documents({"is_deleted": False})
 
     async def count_by_field(self, field: str, value: Any) -> int:
-        return await self._collection.count_documents({field: value, "is_deleted": False})
+        return await self.collection.count_documents({field: value, "is_deleted": False})
 
    
     # Build filters
@@ -155,6 +156,3 @@ class MongoQueryRepository(Generic[T]):
         if status:
             query['status'] = status
         return query
-
-
-    

@@ -15,9 +15,9 @@ class UserQueryRepository(MongoQueryRepository[UserDetail]):
 
     async def get_all_by_status(self, status: bool, pagination_filter: PaginationFilter) -> List[UserDetail]:
         page_size, page_index = self._normalize_pagination(pagination_filter.page_size, pagination_filter.page_index)
-        cursor = self._collection.find({"is_deleted": False, 'is_active': status}).skip(page_index * page_size).limit(page_size)
+        cursor = self.collection.find({"is_deleted": False, 'is_active': status}).skip(page_index * page_size).limit(page_size)
         docs = await cursor.to_list(length=None)
-        return [self._model_cls.model_validate(doc) for doc in docs]
+        return [self.model_cls.model_validate(doc) for doc in docs]
     
     async def count_by_status(self, status: bool) -> int:
         return await self.count_by_field('is_active', status)
@@ -28,8 +28,8 @@ class UserQueryRepository(MongoQueryRepository[UserDetail]):
     def _build_search_query(self, search_param: Optional[str]) -> dict:
         if not search_param:
             return {}
-        regex = {"$regex": re.escape(search_param), "$options": "i"}
-        return {
+        regex = {"$regex": search_param, "$options": "i"} 
+        query = {
             "$or": [
                 {"email": regex},
                 {"role": regex},
@@ -37,3 +37,7 @@ class UserQueryRepository(MongoQueryRepository[UserDetail]):
                 {"last_name": regex},
             ]
         }
+        return query
+
+
+    
