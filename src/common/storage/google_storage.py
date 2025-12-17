@@ -3,10 +3,12 @@ from fastapi import UploadFile, HTTPException, status
 from google.cloud import storage
 from google.api_core import exceptions as gcs_exceptions
 import uuid
+from src.common.storage.base_storage import BaseStorage
+from src.common.storage.storage_bucket import StorageBucket
 from src.common.storage.upload_info import UploadInfo
 
 
-class GoogleStorage:
+class GoogleStorage(BaseStorage):
     """Service for uploading and reading files from Google Cloud Storage (GCS)."""
 
     def __init__(self, bucket_name: str):
@@ -16,14 +18,14 @@ class GoogleStorage:
         self.bucket = self._client.bucket(bucket_name)
 
 
-    def upload(self, file: UploadFile, bucket_prefix: str | None = None) -> UploadInfo:
+    def upload(self, file: UploadFile, bucket: StorageBucket) -> UploadInfo:
         """
         Uploads a file to a private GCS bucket (with an optional folder/prefix).
         Returns an UploadInfo object containing metadata and the signed URL.
         """
         try:
             # Clean prefix and build the full blob name (unique ID + original filename)
-            bucket_prefix = (bucket_prefix or "").strip("/")
+            bucket_prefix = (bucket.value or "").strip("/")
             blob_name = f"{bucket_prefix}/{uuid.uuid4()}_{file.filename}" if bucket_prefix else f"{uuid.uuid4()}_{file.filename}"
             blob = self.bucket.blob(blob_name)
 
@@ -70,13 +72,13 @@ class GoogleStorage:
             file.file.close()
 
 
-    def get_file_url(self, blob_name: str, expiration_hours: int = 1) -> str:
+    def get_file_url(self, object_key: str, expiration_in_seconds: int = 3600) -> str:
         """
         Generates a temporary (signed) URL for accessing a private file in GCS.
         The URL expires after a configurable number of hours (default: 1 hour).
         """
         try:
-            blob = self.bucket.blob(blob_name)
+            blob = self.bucket.blob(object_key)
 
             # Check if the file exists before generating the signed URL
             if not blob.exists(self._client):
@@ -85,9 +87,9 @@ class GoogleStorage:
             # Generate a signed URL for secure access
             url = blob.generate_signed_url(
                 version="v4",
-                expiration=timedelta(hours=expiration_hours),
+                expiration=timedelta(seconds=expiration_in_seconds),
                 method="GET",
-                response_disposition=f'inline; filename="{blob_name}"'
+                response_disposition=f'inline; filename="{object_key}"'
             )
             return url
 
