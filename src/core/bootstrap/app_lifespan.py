@@ -5,9 +5,9 @@ from motor.motor_asyncio import AsyncIOMotorClient
 from src.common.config.env_config import EnvConfig
 from src.common.config.log_config import Logger
 from src.common.config.redis_client import RedisClient
-from src.core.seed.database_indexes import DatabaseIndexes
-from src.core.seed.database_objects import DatabaseObjects
-from src.core.seed.setup import SeedSetup
+from src.core.bootstrap.database_indexes import DatabaseIndexes
+from src.core.bootstrap.database_objects import DatabaseObjects
+from src.core.bootstrap.setup import SeedSetup
 
 
 class AppLifespan:

@@ -6,7 +6,7 @@ from src.common.config.static_config import StaticConfig
 from src.common.config.env_config import EnvConfig
 from src.common.config.db_config import DbConfig
 from src.common.middlewares.setup import MiddlewareSetup
-from src.core.seed.app_lifespan import AppLifespan
+from src.core.bootstrap.app_lifespan import AppLifespan
 from src.core.controllers.setup import ControllersSetup
 
 

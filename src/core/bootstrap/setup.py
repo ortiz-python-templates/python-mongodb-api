@@ -1,6 +1,6 @@
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from src.core.seed.default_configurations import DefaultConfigurations
-from src.core.seed.default_user import DefaultUser
+from src.core.bootstrap.default_configurations import DefaultConfigurations
+from src.core.bootstrap.default_user import DefaultUser
 
 
 class SeedSetup:
