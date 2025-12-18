@@ -35,3 +35,5 @@ env/
 secrets/**
 
 _pocs/
+
+*bkp
