@@ -697,7 +697,7 @@ collection:
         meta:
           id: req_c81b884a870f4a7ca271aea54c078ed7
           created: 1765378110261
-          modified: 1765378248742
+          modified: 1766058465407
           isPrivate: false
           description: ""
           sortKey: -1765378143135
@@ -715,12 +715,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _.API_SERVER }}/health/db"
-        name: Health Check Database
+      - url: "{{ _.API_SERVER }}/health/ready"
+        name: Health Readyness
         meta:
           id: req_9ab75257fa5e4f148be024cb740a84b8
           created: 1765378263968
-          modified: 1765378296999
+          modified: 1766057683780
           isPrivate: false
           description: ""
           sortKey: -1765367997618.5
@@ -738,12 +738,12 @@ collection:
             send: true
             store: true
           rebuildPath: true
-      - url: "{{ _.API_SERVER }}/health/redis"
-        name: Health Check Redis
+      - url: "{{ _.API_SERVER }}/health/live"
+        name: Health Liveness
         meta:
           id: req_e1d2b194167245fca53ed44870852d89
           created: 1765378275993
-          modified: 1765378305386
+          modified: 1766057706063
           isPrivate: false
           description: ""
           sortKey: -1765362924860.25
