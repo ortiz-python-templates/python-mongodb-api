@@ -20,6 +20,7 @@ class UserMsg:
         ACTIVATED = "User '{}' has been activated successfully."
         DEACTIVATED = "User '{}' has been deactivated successfully."
         PASSWORD_CHANGED = "User '{}' password has been changed successfully."
+        AVATAR_UPDATED = "User '{}' avatar has been changed successfully."
 
     class Error:
         NOT_FOUND = "User not found."

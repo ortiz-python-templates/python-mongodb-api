@@ -11,5 +11,6 @@ class UserModel(BaseMongoModel):
     last_name: Optional[str] = None
     password: str
     is_active: bool
+    avatar_url: Optional[str] = None
     recovery_token: Optional[str] = None
     

@@ -1,7 +1,9 @@
 from datetime import datetime
 from bson import ObjectId
-from fastapi import Request
+from fastapi import Request, UploadFile
 from motor.motor_asyncio import AsyncIOMotorDatabase
+from src.common.storage.storage_bucket import StorageBucket
+from src.common.storage.minio_storage import MinioStorage
 from src.common.utils.messages.identity_messsages import UserMsg
 from src.core.schemas.common_results import *
 from src.common.mail.email_service import EmailService
@@ -18,6 +20,7 @@ class UserCommandService:
     def __init__(self, db: AsyncIOMotorDatabase):
         self.command_repository = UserCommandRepository(db)
         self.email_service = EmailService()
+        self.minio_storage = MinioStorage()
 
 
     async def create_user(self, request: Request, body: CreateUserRequest):
@@ -184,8 +187,20 @@ class UserCommandService:
         )
 
 
-    async def add_user_attachment(self, id: str):
-        pass
+    async def update_user_avatar(self, request: Request, user_id: str, file: UploadFile):
+        user = await self.get_user_by_unique_id_aux(user_id)
+        current_user = request.state.user
+        # upload
+        upload_info = self.minio_storage.upload(file, StorageBucket.USER_AVATARS)
+        # updatet user
+        user.avatar_url = self.minio_storage.get_pressigned_url(upload_info.object_key)
+        user.updated_at = datetime.now()
+        user.updated_by = current_user.id
+        return UpdatedResult(
+            id=user.unique_id,
+            message=UserMsg.Success.AVATAR_UPDATED.format(user.unique_id)
+        )
+    
 
     # aux query methods only to return UserModel avoiding mixture query and command repos
     async def get_user_by_email_aux(self, email: str) -> UserModel:

@@ -34,7 +34,8 @@ class BasicConfigurationService:
             message=BasicConfigMsg.Success.UPDATED
         )
     
-    async def get_basic_configurations(self, request: Request):
+
+    async def get_basic_configurations(self, request: Request) -> BasicConfigurationDetail:
         configuration = await self.query_repository.get_last()
         if configuration is None:
             return BasicConfigurationDetail(id="")

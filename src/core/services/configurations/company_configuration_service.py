@@ -1,5 +1,6 @@
 from datetime import datetime
 from fastapi import Request
+from src.core.schemas.configurations.company_configuration_responses import CompanyConfigurationDetail
 from src.core.repositories.configurations.company_configuration_query_repository import CompanyConfigurationQueryRepository
 from src.core.schemas.configurations.basic_configuration_responses import BasicConfigurationDetail
 from src.common.utils.messages.configurations_messages import CompanyConfigMsg
@@ -35,8 +36,8 @@ class CompanyConfigurationService:
         )
     
         
-    async def get_company_configurations(self, request: Request):
+    async def get_company_configurations(self, request: Request) -> CompanyConfigurationDetail:
         configuration = await self.query_repository.get_last()
         if configuration is None:
-            return BasicConfigurationDetail(id="")
+            return CompanyConfigurationDetail(id="")
         return configuration

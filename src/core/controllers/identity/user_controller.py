@@ -1,5 +1,5 @@
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from fastapi import APIRouter, Depends, Request, status
+from fastapi import APIRouter, Depends, Request, UploadFile, status
 from fastapi.responses import JSONResponse
 from src.core.services.identity.user_query_service import UserQueryService
 from src.core.services.identity.user_command_service import UserCommandService
@@ -41,6 +41,10 @@ class UserController:
     async def update_user(self, request: Request, id: str, body: UpdateUserRequest):
         resp = await self.command_service.update_user(request, id, body)
         return JSONResponse(resp.model_dump(), status.HTTP_200_OK)
+    
+    async def update_user_avatar(self, request: Request, id: str, file: UploadFile):
+        resp = await self.command_service.update_user_avatar(request, id, file)
+        return JSONResponse(resp.model_dump(), status.HTTP_200_OK)
 
     async def activate_user(self, request: Request, id: str, body: ActivateUserRequest):
         resp = await self.command_service.activate_user(request, id, body)
@@ -61,6 +65,7 @@ class UserController:
         router.add_api_route("/{id}", controller.get_user_by_id, methods=["GET"])
         router.add_api_route("/{id}", controller.update_user, methods=["PUT"])
         router.add_api_route("/by-email/{email}", controller.get_user_by_email, methods=["GET"])
+        router.add_api_route("/{id}/avatars", controller.update_user_avatar, methods=["PATCH"])
         router.add_api_route("/{id}/activate", controller.activate_user, methods=["PATCH"])
         router.add_api_route("/{id}/deactivate", controller.deactivate_user, methods=["PATCH"])
         return router

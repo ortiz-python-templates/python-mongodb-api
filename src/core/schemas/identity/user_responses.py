@@ -10,6 +10,7 @@ class UserDetail(BaseSchemaConfig):
     role: Optional[str] = None
     first_name: Optional[str] = None
     last_name: Optional[str] = None
+    avatar_url: Optional[str] = None
     is_active: Optional[bool] = True
     created_at: Optional[datetime] = None
     updated_at: Optional[datetime] = None
