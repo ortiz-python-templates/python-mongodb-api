@@ -1,6 +1,6 @@
 from typing import Optional
 from fastapi import Query
-from src.core.filters.date_range_filter import DateRangeFilter
+from src.core.shared.filters.date_range_filter import DateRangeFilter
 
 
 class WorkflowFilter(DateRangeFilter):

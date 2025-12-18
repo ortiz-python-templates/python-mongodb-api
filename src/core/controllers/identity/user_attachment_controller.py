@@ -3,10 +3,10 @@ from fastapi import APIRouter, Depends, Form, Request, UploadFile, status
 from fastapi.responses import JSONResponse
 from src.core.services.identity.user_attachment_query_service import UserAttachmentQueryService
 from src.core.services.identity.user_attachment_command_service import UserAttachmentCommandService
-from src.core.filters.pagination_filter import PaginationFilter
-from src.core.filters.search_filter  import SearchFilter
+from src.core.shared.filters.pagination_filter import PaginationFilter
+from src.core.shared.filters.search_filter  import SearchFilter
 from src.common.middlewares.authorization_middleware import AuthorizationMiddleware as authz
-from src.core.schemas.pagination_response import *
+from src.core.shared.schemas.pagination_response import *
 from src.core.schemas.identity.user_requests import *
 from src.common.utils.messages.identity_messsages import *
 from src.common.utils.custom_exceptions import *

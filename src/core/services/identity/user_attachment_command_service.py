@@ -6,7 +6,7 @@ from src.common.config.env_config import EnvConfig
 from src.common.storage.minio_storage import MinioStorage
 from src.core.services.identity.user_command_service import UserCommandService
 from src.common.utils.messages.identity_messsages import UserAttachmentMsg
-from src.core.schemas.common_results import *
+from src.core.shared.schemas.common_results import *
 from src.common.mail.email_service import EmailService
 from src.core.models.identity.user_attachment_model import UserAttachmentModel
 from src.common.utils.custom_exceptions import *

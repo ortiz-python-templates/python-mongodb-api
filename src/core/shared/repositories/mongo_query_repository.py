@@ -3,9 +3,9 @@ from typing import Dict, TypeVar, Generic, List, Optional, Type, Any, Union
 from pydantic import BaseModel
 from motor.motor_asyncio import AsyncIOMotorDatabase, AsyncIOMotorCollection
 
-from src.core.filters.date_range_filter import DateRangeFilter
-from src.core.filters.search_filter import SearchFilter
-from src.core.filters.pagination_filter import PaginationFilter
+from src.core.shared.filters.date_range_filter import DateRangeFilter
+from src.core.shared.filters.search_filter import SearchFilter
+from src.core.shared.filters.pagination_filter import PaginationFilter
 
 
 T = TypeVar('T', bound=BaseModel)

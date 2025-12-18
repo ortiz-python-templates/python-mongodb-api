@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional
 from pydantic import EmailStr, Field
-from src.core.schemas.base_schema_config import BaseSchemaConfig
+from src.core.shared.schemas.base_schema_config import BaseSchemaConfig
 
 
 class UserDetail(BaseSchemaConfig):

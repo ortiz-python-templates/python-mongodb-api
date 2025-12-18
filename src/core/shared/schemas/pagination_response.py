@@ -1,7 +1,7 @@
 from typing import List, Optional, Generic, TypeVar
 from pydantic import BaseModel
 from fastapi import Query, Request
-from src.core.schemas.base_schema_config import BaseSchemaConfig
+from src.core.shared.schemas.base_schema_config import BaseSchemaConfig
 
 
 T = TypeVar("T")

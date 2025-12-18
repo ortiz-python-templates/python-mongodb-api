@@ -1,11 +1,11 @@
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from fastapi import APIRouter, Depends, Request
-from src.core.filters.search_filter import SearchFilter
-from src.core.filters.pagination_filter import PaginationFilter
+from src.core.shared.filters.search_filter import SearchFilter
+from src.core.shared.filters.pagination_filter import PaginationFilter
 from src.core.schemas.configurations.feature_flag_requests import ManageFeatureFlagRequest
 from src.core.services.configurations.feature_flag_service import FeatureFlagService
 from src.common.middlewares.authorization_middleware import AuthorizationMiddleware as authz
-from src.core.schemas.pagination_response import *
+from src.core.shared.schemas.pagination_response import *
 from src.common.utils.messages.identity_messsages import *
 from src.common.utils.custom_exceptions import *
 

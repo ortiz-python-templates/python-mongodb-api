@@ -5,9 +5,9 @@ from src.common.storage.storage_bucket import StorageBucket
 from src.common.storage.minio_storage import MinioStorage
 from src.core.repositories.identity.user_attachment_command_repository import UserAttachmentCommandRepository
 from src.core.services.identity.user_command_service import UserCommandService
-from src.core.filters.pagination_filter import PaginationFilter
-from src.core.filters.search_filter import SearchFilter
-from src.core.schemas.pagination_response import PaginationResponse
+from src.core.shared.filters.pagination_filter import PaginationFilter
+from src.core.shared.filters.search_filter import SearchFilter
+from src.core.shared.schemas.pagination_response import PaginationResponse
 from src.common.utils.custom_exceptions import *
 from src.core.repositories.identity.user_attachment_query_repository import UserAttachmentQueryRepository
 from src.core.schemas.identity.user_requests import *

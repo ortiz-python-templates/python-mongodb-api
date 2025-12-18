@@ -3,7 +3,7 @@ from fastapi import APIRouter, Depends, Request
 from src.core.schemas.configurations.company_configuration_requests import UpdateCompanyConfigurationRequest
 from src.core.services.configurations.company_configuration_service import CompanyConfigurationService
 from src.common.middlewares.authorization_middleware import AuthorizationMiddleware as authz
-from src.core.schemas.pagination_response import *
+from src.core.shared.schemas.pagination_response import *
 from src.common.utils.messages.identity_messsages import *
 from src.common.utils.custom_exceptions import *
 

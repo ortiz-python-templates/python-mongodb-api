@@ -1,5 +1,5 @@
 from typing import Optional
-from src.core.models.base_mongo_model import BaseMongoModel
+from src.core.shared.models.base_mongo_model import BaseMongoModel
 
 
 class FeatureFlagModel(BaseMongoModel):

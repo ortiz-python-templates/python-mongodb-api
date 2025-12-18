@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional
 from bson import ObjectId
-from src.core.models.base_mongo_model import BaseMongoModel
+from src.core.shared.models.base_mongo_model import BaseMongoModel
 
 
 class UserAttachmentModel(BaseMongoModel):

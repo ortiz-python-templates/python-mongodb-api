@@ -1,7 +1,7 @@
 from typing import Optional
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from src.core.schemas.configurations.feature_flag_responses import FeatureFlagDetail
-from src.core.repositories.shared.mongo_query_repository import MongoQueryRepository
+from src.core.shared.repositories.mongo_query_repository import MongoQueryRepository
 
 
 class FeatureFlagQueryRepository(MongoQueryRepository[FeatureFlagDetail]):

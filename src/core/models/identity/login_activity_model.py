@@ -3,7 +3,7 @@ from typing import Optional
 from bson import ObjectId
 from pydantic import BaseModel
 from src.core.models.identity.enums import ActivityStatus
-from src.core.models.base_mongo_model import BaseMongoModel
+from src.core.shared.models.base_mongo_model import BaseMongoModel
 
 
 class DeviceInfo(BaseModel):

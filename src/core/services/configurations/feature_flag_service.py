@@ -1,13 +1,13 @@
 from datetime import datetime
 from fastapi import Request
-from src.core.filters.search_filter import SearchFilter
+from src.core.shared.filters.search_filter import SearchFilter
 from src.core.repositories.configurations.feature_flag_query_repository import FeatureFlagQueryRepository
-from src.core.schemas.pagination_response import PaginationResponse
-from src.core.filters.pagination_filter import PaginationFilter
+from src.core.shared.schemas.pagination_response import PaginationResponse
+from src.core.shared.filters.pagination_filter import PaginationFilter
 from src.common.utils.custom_exceptions import BadRequestException, NotFoundException
 from src.core.schemas.configurations.feature_flag_responses import FeatureFlagDetail
 from src.common.utils.messages.configurations_messages import CompanyConfigMsg
-from src.core.schemas.common_results import UpdatedResult
+from src.core.shared.schemas.common_results import UpdatedResult
 from src.core.schemas.configurations.feature_flag_requests import ManageFeatureFlagRequest
 from src.core.repositories.configurations.feature_flag_command_repository import FeatureFlagCommandRepository
 

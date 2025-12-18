@@ -1,10 +1,10 @@
 from fastapi import Request
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from src.core.filters.search_filter import SearchFilter
+from src.core.shared.filters.search_filter import SearchFilter
 from src.common.utils.custom_exceptions import NotFoundException
-from src.core.filters.pagination_filter import PaginationFilter
+from src.core.shared.filters.pagination_filter import PaginationFilter
 from src.core.schemas.identity.login_activity_responses import LoginActivityDetail
-from src.core.schemas.pagination_response import PaginationResponse
+from src.core.shared.schemas.pagination_response import PaginationResponse
 from src.core.repositories.identity.login_activity_query_repository import LoginActivityQueryRepository
 
 

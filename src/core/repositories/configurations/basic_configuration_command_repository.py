@@ -1,7 +1,7 @@
 from pymongo import ASCENDING
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from src.core.models.configurations.basic_configuration_model import BasicConfigurationModel
-from src.core.repositories.shared.mongo_command_repository import MongoCommandRepository
+from src.core.shared.repositories.mongo_command_repository import MongoCommandRepository
 
 
 class BasicConfigurationCommandRepository(MongoCommandRepository[BasicConfigurationModel]):

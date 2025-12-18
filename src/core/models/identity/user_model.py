@@ -1,7 +1,7 @@
 from typing import Optional
 from pydantic import EmailStr, Field
 from src.core.models.identity.role import Role
-from src.core.models.base_mongo_model import BaseMongoModel
+from src.core.shared.models.base_mongo_model import BaseMongoModel
 
 
 class UserModel(BaseMongoModel):

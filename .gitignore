@@ -36,4 +36,7 @@ secrets/**
 
 _pocs/
 
+# docker
+docker/data/
+
 *bkp

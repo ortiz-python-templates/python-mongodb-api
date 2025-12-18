@@ -2,7 +2,7 @@
 from pymongo import ASCENDING
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from src.core.schemas.identity.login_activity_responses import LoginActivityDetail
-from src.core.repositories.shared.mongo_query_repository import MongoQueryRepository
+from src.core.shared.repositories.mongo_query_repository import MongoQueryRepository
 
 
 class LoginActivityQueryRepository(MongoQueryRepository[LoginActivityDetail]):

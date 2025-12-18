@@ -4,7 +4,7 @@ from src.core.schemas.configurations.company_configuration_responses import Comp
 from src.core.repositories.configurations.company_configuration_query_repository import CompanyConfigurationQueryRepository
 from src.core.schemas.configurations.basic_configuration_responses import BasicConfigurationDetail
 from src.common.utils.messages.configurations_messages import CompanyConfigMsg
-from src.core.schemas.common_results import UpdatedResult
+from src.core.shared.schemas.common_results import UpdatedResult
 from src.core.schemas.configurations.company_configuration_requests import UpdateCompanyConfigurationRequest
 from src.core.repositories.configurations.company_configuration_command_repository import CompanyConfigurationCommandRepository
 

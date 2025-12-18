@@ -3,7 +3,7 @@ from fastapi import Request
 from src.core.schemas.configurations.basic_configuration_responses import BasicConfigurationDetail
 from src.core.repositories.configurations.basic_configuration_query_repository import BasicConfigurationQueryRepository
 from src.common.utils.messages.configurations_messages import BasicConfigMsg
-from src.core.schemas.common_results import UpdatedResult
+from src.core.shared.schemas.common_results import UpdatedResult
 from src.core.schemas.configurations.basic_configuration_requests import UpdateBasicConfigurationRequest
 from src.core.repositories.configurations.basic_configuration_command_repository import BasicConfigurationCommandRepository
 

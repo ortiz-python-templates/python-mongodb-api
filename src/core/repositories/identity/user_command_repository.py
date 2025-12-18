@@ -1,6 +1,6 @@
 from pymongo import ASCENDING
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from src.core.repositories.shared.mongo_command_repository import MongoCommandRepository
+from src.core.shared.repositories.mongo_command_repository import MongoCommandRepository
 from src.core.models.identity.user_model import UserModel
 
 

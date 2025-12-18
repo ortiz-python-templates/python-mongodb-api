@@ -1,9 +1,9 @@
 import re
 from typing import List, Optional
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from src.core.filters.pagination_filter import PaginationFilter
+from src.core.shared.filters.pagination_filter import PaginationFilter
 from src.core.schemas.identity.user_responses import UserAttachmentDetail
-from src.core.repositories.shared.mongo_query_repository import MongoQueryRepository
+from src.core.shared.repositories.mongo_query_repository import MongoQueryRepository
 
 
 class UserAttachmentQueryRepository(MongoQueryRepository[UserAttachmentDetail]):

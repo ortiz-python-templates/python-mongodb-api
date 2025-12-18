@@ -5,7 +5,7 @@ from motor.motor_asyncio import AsyncIOMotorDatabase
 from src.common.storage.storage_bucket import StorageBucket
 from src.common.storage.minio_storage import MinioStorage
 from src.common.utils.messages.identity_messsages import UserMsg
-from src.core.schemas.common_results import *
+from src.core.shared.schemas.common_results import *
 from src.common.mail.email_service import EmailService
 from src.common.utils.encryption_util import EncryptionUtil
 from src.common.utils.password_util import PasswordUtil
