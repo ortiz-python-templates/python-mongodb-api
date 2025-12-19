@@ -17,4 +17,4 @@ class DatabaseIndexes:
         await UserAttachmentCommandRepository(db).ensure_indexes()
         await LoginActivityCommandRepository(db).ensure_indexes()
 
-        # products
+        # files
