@@ -12,7 +12,6 @@ class FileDetail(BaseSchemaConfig):
     bucket_name: Optional[str] = None
 
     storage_provider: Optional[str] = None
-
     is_public: bool = False
 
     uploaded_at: datetime
