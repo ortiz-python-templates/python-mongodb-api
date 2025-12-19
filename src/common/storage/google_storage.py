@@ -4,7 +4,7 @@ from google.cloud import storage
 from google.api_core import exceptions as gcs_exceptions
 import uuid
 from src.common.storage.base_storage import BaseStorage
-from src.common.storage.storage_bucket import StorageBucket
+from common.storage.storage_path import StorageBucket
 from src.common.storage.upload_info import UploadInfo
 
 
@@ -18,14 +18,14 @@ class GoogleStorage(BaseStorage):
         self.bucket = self._client.bucket(bucket_name)
 
 
-    def upload(self, file: UploadFile, bucket: StorageBucket) -> UploadInfo:
+    def upload(self, file: UploadFile, storage_path: str) -> UploadInfo:
         """
         Uploads a file to a private GCS bucket (with an optional folder/prefix).
         Returns an UploadInfo object containing metadata and the signed URL.
         """
         try:
             # Clean prefix and build the full blob name (unique ID + original filename)
-            bucket_prefix = (bucket.value or "").strip("/")
+            bucket_prefix = (storage_path or "").strip("/")
             blob_name = f"{bucket_prefix}/{uuid.uuid4()}_{file.filename}" if bucket_prefix else f"{uuid.uuid4()}_{file.filename}"
             blob = self.bucket.blob(blob_name)
 

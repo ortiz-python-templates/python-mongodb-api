@@ -1,7 +1,7 @@
 from datetime import datetime
 from typing import Optional
-
 from bson import ObjectId
+from src.core.models.files.enums import FileOwnerEntity
 from src.common.storage.storage_target import StorageProvider
 from src.core.shared.models.base_mongo_model import BaseMongoModel
 
@@ -24,6 +24,6 @@ class FileModel(BaseMongoModel):
     checksum: Optional[str] = None
 
     owner_id: Optional[ObjectId] = None
-    owner_entity: Optional[str] = None
+    owner_entity: Optional[FileOwnerEntity] = None
     description: Optional[str] = None
     metadata: Optional[dict] = None

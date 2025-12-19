@@ -1,7 +1,4 @@
-from enum import StrEnum
-
-
-class StorageBucket(StrEnum):
+class StoragePath:
 
     # common, root, shared
     COMMON = "common"

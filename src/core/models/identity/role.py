@@ -1,6 +1,7 @@
-import enum
+from enum import StrEnum
 
-class Role(str, enum.Enum):
+
+class Role(StrEnum):
     # Internal - Full control
     SUPER_ADMIN = 'super-admin'
     ADMIN = 'admin'

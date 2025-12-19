@@ -3,7 +3,7 @@ from datetime import datetime, timedelta
 from minio import Minio, S3Error
 from fastapi import UploadFile
 from src.common.storage.base_storage import BaseStorage
-from src.common.storage.storage_bucket import StorageBucket
+from common.storage.storage_path import StorageBucket
 from src.common.config.env_config import EnvConfig
 from src.common.storage.upload_info import UploadInfo
 from src.common.storage.units_of_measurement import UnitsOfMeasurement
@@ -36,11 +36,11 @@ class MinioStorage(BaseStorage):
             raise RuntimeError(f"Failed to ensure bucket '{self.bucket_name}': {e}")
 
 
-    def upload(self, file: UploadFile, bucket: StorageBucket) -> UploadInfo:
+    def upload(self, file: UploadFile, storage_path: str) -> UploadInfo:
         """
         Uploads a file to MinIO under a logical prefix (folder) and returns UploadInfo.
         """
-        object_key = f"{bucket.value}/{uuid.uuid4()}_{file.filename}"
+        object_key = f"{storage_path}/{uuid.uuid4()}_{file.filename}"
 
         try:
             self.client.put_object(
@@ -89,9 +89,9 @@ class MinioStorage(BaseStorage):
             raise RuntimeError(f"Failed to generate URL for '{object_key}': {e}")
 
 
-    def get_permanent_url(self, bucket: StorageBucket, object_key: str) -> str:
+    def get_permanent_url(self, storage_path: str, object_key: str) -> str:
         try:
-            url = f"{EnvConfig.MINIO_ENDPOINT}/{bucket.value}/{object_key}"
+            url = f"{EnvConfig.MINIO_ENDPOINT}/{storage_path}/{object_key}"
             return url
         except S3Error as e:
             raise Exception(f"Failed to generate URL: {e}") 

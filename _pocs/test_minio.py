@@ -4,7 +4,7 @@ from fastapi import APIRouter, FastAPI, UploadFile, File, HTTPException
 import uvicorn
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from common.storage.storage_bucket import StorageBuckets
+from common.storage.storage_path import StorageBuckets
 from src.common.config.env_config import EnvConfig
 from src.common.storage.minio_storage import MinioStorage
 

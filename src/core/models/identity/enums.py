@@ -1,6 +1,6 @@
-from enum import Enum
+from enum import StrEnum
 
 
-class ActivityStatus(str, Enum):
+class ActivityStatus(StrEnum):
     ONLINE = "online"
     OFFLINE = "offline"
