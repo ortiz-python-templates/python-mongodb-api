@@ -1,5 +1,6 @@
 from fastapi import FastAPI
 from motor.motor_asyncio import AsyncIOMotorDatabase
+from src.core.controllers.files.file_controller import FileController
 from src.core.controllers.identity.user_attachment_controller import UserAttachmentController
 from src.core.controllers.configurations.basic_configuration_controller import BasicConfigurationController
 from src.core.controllers.configurations.company_configuration_controller import CompanyConfigurationController
@@ -31,3 +32,6 @@ class ControllersSetup:
       app.include_router(BasicConfigurationController.add_routes(db), prefix="/api/basic-configurations", tags=["Configurations / Basic Configurations"])
       app.include_router(CompanyConfigurationController.add_routes(db), prefix="/api/company-configurations", tags=["Configurations / Company Configurations"])
       app.include_router(FeatureFlagController.add_routes(db), prefix="/api/feature-flags", tags=["Configurations / Feature Flags"])
+
+      # Files ----------------------------------------------------------------------------------------------
+      app.include_router(FileController.add_routes(db), prefix="/api/files", tags=["Files"])

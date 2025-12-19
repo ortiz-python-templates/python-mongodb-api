@@ -1,11 +1,11 @@
 from fastapi.responses import JSONResponse
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from fastapi import APIRouter, Depends, Request, UploadFile, status
+from src.core.shared.filters.pagination_filter import PaginationFilter
+from src.core.shared.filters.search_filter import SearchFilter
 
-from core.shared.filters.pagination_filter import PaginationFilter
-from core.shared.filters.search_filter import SearchFilter
 
-class FilesController:
+class FileController:
 
     def __init__(self, db: AsyncIOMotorDatabase):
        pass
@@ -41,7 +41,7 @@ class FilesController:
     @classmethod
     def add_routes(cls, db: AsyncIOMotorDatabase) -> APIRouter:
         router = APIRouter()
-        controller = FilesController(db)
+        controller = FileController(db)
     
         router.add_api_route("/upload", controller.upload_file, methods=["POST"])
         router.add_api_route("/by-user/{user_id}", controller.get_all_files_by_user, methods=["GET"])

@@ -20,6 +20,8 @@ class SwaggerConfig:
             {"name": "Configurations", "description": "Endpoints for application configurations"},
             {"name": "Configurations / Basic Configurations", "description": "Manage Basic configurations"},
             {"name": "Configurations / Company Configurations", "description": "Manage Company configurations"},
-            {"name": "Configurations / Feature Flag ", "description": "Manage Feature flag"},
+            {"name": "Configurations / Feature Flags", "description": "Manage Feature flag"},
+
+            {"name": "Files", "description": "Manage Files: upload, download, delete, ..."},
         ]
     }
