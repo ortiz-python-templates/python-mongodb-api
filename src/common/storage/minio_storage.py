@@ -3,7 +3,6 @@ from datetime import datetime, timedelta
 from minio import Minio, S3Error
 from fastapi import UploadFile
 from src.common.storage.base_storage import BaseStorage
-from common.storage.storage_path import StorageBucket
 from src.common.config.env_config import EnvConfig
 from src.common.storage.upload_info import UploadInfo
 from src.common.storage.units_of_measurement import UnitsOfMeasurement

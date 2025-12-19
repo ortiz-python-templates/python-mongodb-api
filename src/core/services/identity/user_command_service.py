@@ -1,7 +1,6 @@
 from datetime import datetime
 from fastapi import Request, UploadFile
 from motor.motor_asyncio import AsyncIOMotorDatabase
-from common.storage.storage_path import StorageBucket
 from src.common.storage.minio_storage import MinioStorage
 from src.common.utils.messages.identity_messsages import UserMsg
 from src.core.shared.schemas.common_results import *

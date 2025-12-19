@@ -1,6 +1,5 @@
 from fastapi import UploadFile
 from src.common.storage.upload_info import UploadInfo
-from common.storage.storage_path import StorageBucket
 
 
 class BaseStorage:
