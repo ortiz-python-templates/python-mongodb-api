@@ -48,8 +48,10 @@ class EnvConfig:
     MAX_IMAGE_FILE_SIZE_MB = int(os.getenv("MAX_IMAGE_FILE_SIZE_MB", 5))
     MAX_ARCHIVE_FILE_SIZE_MB = int(os.getenv("MAX_ARCHIVE_FILE_SIZE_MB", 10))
 
+    STORAGE_PROVIDER = os.getenv("STORAGE_PROVIDER", "minio") # values: minio | gcs | filesystem
+
     # File system uploads
-    FILE_SYSTEM_UPLOAD_PATH=os.getenv("FILE_SYSTEM_UPLOAD_PATH", "/var/www/uploads")
+    FILESYSTEM_STORAGE_PATH = os.getenv("FILESYSTEM_STORAGE_PATH", "/var/lib/python-mongodb-api/uploads")
 
     # MinIO configuration
     MINIO_ROOT_USER = os.getenv("MINIO_ROOT_USER","admin")
@@ -59,7 +61,7 @@ class EnvConfig:
 
     # Google 
     GOOGLE_APPLICATION_CREDENTIALS = os.getenv("GOOGLE_APPLICATION_CREDENTIALS")
-    GOOGLE_STORAGE_MAIN_BUCKET = os.getenv("GOOGLE_STORAGE_MAIN_BUCKET")
+    GOOGLE_STORAGE_MAIN_BUCKET = os.getenv("GOOGLE_STORAGE_MAIN_BUCKET", "python-mongodb-bucket")
 
     @classmethod
     def is_production(cls) -> bool:

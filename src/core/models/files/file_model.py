@@ -1,8 +1,8 @@
 from datetime import datetime
 from typing import Optional
 from bson import ObjectId
+from common.storage.storage_provider import StorageProviderEnum
 from src.core.models.files.enums import FileOwnerEntity
-from src.common.storage.storage_target import StorageProvider
 from src.core.shared.models.base_mongo_model import BaseMongoModel
 
 
@@ -14,7 +14,7 @@ class FileModel(BaseMongoModel):
     object_key: str
     bucket_name: Optional[str] = None
 
-    storage_provider: StorageProvider = StorageProvider.MINIO
+    storage_provider: str
 
     is_public: bool = False
 

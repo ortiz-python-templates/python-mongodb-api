@@ -1,7 +1,4 @@
-from enum import StrEnum
-
-
-class StorageProvider(StrEnum):
+class StorageProvider:
     FILESYSTEM = "filesystem"
     MINIO = "minio"
     GCS = "gcs"

@@ -3,19 +3,19 @@ from fastapi import UploadFile, HTTPException, status
 from google.cloud import storage
 from google.api_core import exceptions as gcs_exceptions
 import uuid
+from common.config.env_config import EnvConfig
 from src.common.storage.base_storage import BaseStorage
-from common.storage.storage_path import StorageBucket
 from src.common.storage.upload_info import UploadInfo
 
 
 class GoogleStorage(BaseStorage):
     """Service for uploading and reading files from Google Cloud Storage (GCS)."""
 
-    def __init__(self, bucket_name: str):
+    def __init__(self):
         # Initialize the Google Cloud Storage client and get the target bucket
         self._client = storage.Client()
-        self.bucket_name = bucket_name
-        self.bucket = self._client.bucket(bucket_name)
+        self.bucket_name = EnvConfig.GOOGLE_STORAGE_MAIN_BUCKET
+        self.bucket = self._client.bucket(self.bucket_name)
 
 
     def upload(self, file: UploadFile, storage_path: str) -> UploadInfo:

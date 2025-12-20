@@ -1,6 +1,7 @@
 from datetime import datetime
 from fastapi import Request, UploadFile
 from motor.motor_asyncio import AsyncIOMotorDatabase
+from src.common.storage.storage_path import StoragePath
 from src.common.storage.minio_storage import MinioStorage
 from src.common.utils.messages.identity_messsages import UserMsg
 from src.core.shared.schemas.common_results import *
@@ -189,7 +190,7 @@ class UserCommandService:
         user = await self.get_user_by_unique_id_aux(user_id)
         current_user = request.state.user
         # upload
-        upload_info = self.minio_storage.upload(file, StorageBucket.USER_AVATARS)
+        upload_info = self.minio_storage.upload(file, StoragePath.USER_AVATARS)
         # updatet user
         user.avatar_url = self.minio_storage.get_pressigned_url(upload_info.object_key)
         user.updated_at = datetime.now()
@@ -207,11 +208,13 @@ class UserCommandService:
             raise NotFoundException("The provided email does not exists.")
         return user
     
+
     async def get_user_by_unique_id_aux(self, unique_id: str) -> UserModel:
         user = await self.command_repository.get_by_unique_id_aux(unique_id)
         if user is None:
             raise NotFoundException(f"User with ID '{unique_id}' does not exists.")
         return user
+    
     
     async def get_user_by_recovery_token(self, token: str) -> UserModel:
         user = await self.command_repository.get_by_recovery_token_aux(token)
