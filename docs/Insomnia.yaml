@@ -11,8 +11,8 @@ collection:
     meta:
       id: fld_11b948627a024fb58e73d9a4196e706c
       created: 1765302533906
-      modified: 1765904544443
-      sortKey: -1765904530916
+      modified: 1766323289515
+      sortKey: -1765904530953.5
       description: ""
     children:
       - name: Auth
@@ -361,6 +361,44 @@ collection:
             headers:
               - name: Content-Type
                 value: application/json
+              - name: User-Agent
+                value: insomnia/12.1.0
+                description: ""
+                disabled: false
+            authentication:
+              type: bearer
+              token: "{{ _.JWT_TOKEN }}"
+            settings:
+              renderRequestBody: true
+              encodeUrl: true
+              followRedirects: global
+              cookies:
+                send: true
+                store: true
+              rebuildPath: true
+          - url: "{{ _.API_ROOT }}/users/68858750-d80c-4f7c-a74e-c85d64a7750f/avatars"
+            name: Update User Avatar
+            meta:
+              id: req_22e3e3d49f754d4f97034ca60258da0f
+              created: 1766078602900
+              modified: 1766327654916
+              isPrivate: false
+              description: ""
+              sortKey: -1765325995249.4375
+            method: PATCH
+            body:
+              mimeType: multipart/form-data
+              params:
+                - name: file
+                  value: ""
+                  description: ""
+                  disabled: false
+                  fileName: /home/ortizdavid/Downloads/Pesquisas/ChatGPT Image Oct 16, 2025,
+                    04_43_52 PM.png
+                  type: file
+            headers:
+              - name: Content-Type
+                value: multipart/form-data
               - name: User-Agent
                 value: insomnia/12.1.0
                 description: ""
@@ -765,8 +803,8 @@ collection:
     meta:
       id: fld_f6461608d3bb47559ad612f06e1b01bd
       created: 1765556894879
-      modified: 1765904546970
-      sortKey: -1765904530891
+      modified: 1766323292190
+      sortKey: -1765904530947.25
       description: ""
     children:
       - name: Basic Configurations
@@ -1035,24 +1073,357 @@ collection:
                 send: true
                 store: true
               rebuildPath: true
+  - name: Files
+    meta:
+      id: fld_c744f962d2be4aa2be7c53d9f87c46f3
+      created: 1766323271056
+      modified: 1766323280754
+      sortKey: -1765904530941
+      description: ""
+    children:
+      - url: "{{ _.API_ROOT }}/files/upload"
+        name: Upload File
+        meta:
+          id: req_85619f5256c84acfaeab38b5e2391214
+          created: 1766323271063
+          modified: 1766323720260
+          isPrivate: false
+          description: ""
+          sortKey: -1765357852102
+        method: POST
+        body:
+          mimeType: multipart/form-data
+          params:
+            - name: category
+              value: others
+              description: ""
+              disabled: false
+            - name: owner_id
+              value: 7bc73e22-2b7e-4d86-b197-bafa573c65cc
+              description: ""
+              disabled: false
+            - name: owner_entity
+              value: users
+              description: ""
+              disabled: false
+            - name: display_name
+              value: Produto XXX
+              description: ""
+              disabled: false
+            - name: description
+              value: New File product
+              description: ""
+              disabled: false
+            - name: file
+              value: ""
+              description: ""
+              disabled: false
+              fileName: /home/ortizdavid/Downloads/FT-Impressão-FTM 6HN2025_5.pdf
+              type: file
+            - name: visibility
+              value: public
+              description: ""
+              disabled: false
+        headers:
+          - name: Content-Type
+            value: multipart/form-data
+          - name: User-Agent
+            value: insomnia/12.1.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{ _.JWT_TOKEN }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.API_ROOT }}/files?sort_order=desc&page_index=0&page_size=10"
+        name: Get All Files
+        meta:
+          id: req_def52582153640c6a427dd29adc87fab
+          created: 1766323271069
+          modified: 1766323808058
+          isPrivate: false
+          description: ""
+          sortKey: -1765357852002
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.1.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{ _.JWT_TOKEN }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.API_ROOT }}/files/354a2357-ac0e-438a-9d3e-297e317e0811"
+        name: Get File by ID
+        meta:
+          id: req_f4ab8a4472c74ff0af6a1b6396a92a37
+          created: 1766323271071
+          modified: 1766326939769
+          isPrivate: false
+          description: ""
+          sortKey: -1765352821988.4375
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.1.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{ _.JWT_TOKEN }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.API_ROOT }}/files/354a2357-ac0e-438a-9d3e-297e317e0811/display"
+        name: Display  File
+        meta:
+          id: req_7f27dd91848349c4a268a957b9631770
+          created: 1766323271074
+          modified: 1766326953455
+          isPrivate: false
+          description: ""
+          sortKey: -1765347791974.875
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.1.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{ _.JWT_TOKEN }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.API_ROOT
+          }}/files/by-user/52a9ee36-c71c-4030-9e65-10df93439dc5?page_index=0&pa\
+          ge_size=10"
+        name: Get Files by User
+        meta:
+          id: req_eccbda5513314ac397d168199c74028a
+          created: 1766323271076
+          modified: 1766325773227
+          isPrivate: false
+          description: ""
+          sortKey: -1765355336995.2188
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.1.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{ _.JWT_TOKEN }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.API_ROOT }}/files/by-name/1c8ddc0f-d3ef-4883-b0fe-5afb0c2eb730.pdf"
+        name: Get File by Name
+        meta:
+          id: req_b5dab40f83514b51a8ac7e5945d602da
+          created: 1766324481929
+          modified: 1766325831766
+          isPrivate: false
+          description: ""
+          sortKey: -1765350306981.6562
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.1.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{ _.JWT_TOKEN }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.API_ROOT }}/files/by-category/attachments?page_index=0&page_size=10"
+        name: Get Files by Category
+        meta:
+          id: req_3e0f3791749449919bec8afba6d1871a
+          created: 1766324589100
+          modified: 1766326313020
+          isPrivate: false
+          description: ""
+          sortKey: -1765356594498.6094
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.1.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{ _.JWT_TOKEN }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.API_ROOT
+          }}/files/by-owner-id/7bc73e22-2b7e-4d86-b197-bafa573c65cc?page_index=\
+          0&page_size=10"
+        name: Get Files by  Owner ID
+        meta:
+          id: req_543dc2523c1349528f3908da7b8073b7
+          created: 1766324633945
+          modified: 1766326077483
+          isPrivate: false
+          description: ""
+          sortKey: -1765354079491.8281
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.1.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{ _.JWT_TOKEN }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.API_ROOT }}/files/by-owner-entity/users?page_index=0&page_size=10"
+        name: Get Files by  Owner Entity
+        meta:
+          id: req_867388bee46248fb8452a6dd4be8dab7
+          created: 1766325197458
+          modified: 1766326243641
+          isPrivate: false
+          description: ""
+          sortKey: -1765353450740.1328
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.1.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{ _.JWT_TOKEN }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.API_ROOT }}/files/a74676f0-1e34-4bdf-83b0-de12609753c2/download"
+        name: Upload File
+        meta:
+          id: req_b9512cc72ac24519bf61c2475916554c
+          created: 1766326422084
+          modified: 1766326434147
+          isPrivate: false
+          description: ""
+          sortKey: -1765342761961.3125
+        method: GET
+        headers:
+          - name: User-Agent
+            value: insomnia/12.1.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{ _.JWT_TOKEN }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
+      - url: "{{ _.API_ROOT }}/files/e93cc442-63af-48bb-982c-8afe25260296"
+        name: Delete File
+        meta:
+          id: req_61db86429d90474db9487d17100c4ab3
+          created: 1766326663072
+          modified: 1766326861572
+          isPrivate: false
+          description: ""
+          sortKey: -1765342761861.3125
+        method: DELETE
+        headers:
+          - name: User-Agent
+            value: insomnia/12.1.0
+            description: ""
+            disabled: false
+        authentication:
+          type: bearer
+          token: "{{ _.JWT_TOKEN }}"
+        settings:
+          renderRequestBody: true
+          encodeUrl: true
+          followRedirects: global
+          cookies:
+            send: true
+            store: true
+          rebuildPath: true
 cookieJar:
   name: Default Jar
   meta:
     id: jar_42fb08d9eb567ee285a9ead19f4ac077b25aded9
     created: 1765302482071
-    modified: 1765901030707
+    modified: 1766318170504
   cookies:
-    - id: 4f5784ca-0cb7-4f6d-b472-1cb1bddee173
+    - id: 82c46b62-208c-4ab9-9e78-3f6b04064f8c
       key: access_token
-      value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MmE5ZWUzNi1jNzFjLTQwMzAtOWU2NS0xMGRmOTM0MzlkYzUiLCJlbWFpbCI6ImFkbWluLmV4YW1wbGVAZ21haWwuY29tIiwicm9sZXMiOlsic3VwZXItYWRtaW4iXSwiZXhwIjoxNzY2MjY0NjI2fQ.HoF3BlUwxEgz_flyuSHY9snwinH35O2FOF_-JqPCA7M
+      value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MmE5ZWUzNi1jNzFjLTQwMzAtOWU2NS0xMGRmOTM0MzlkYzUiLCJlbWFpbCI6ImFkbWluLmV4YW1wbGVAZ21haWwuY29tIiwicm9sZXMiOlsic3VwZXItYWRtaW4iXSwiZXhwIjoxNzY2Njc4MTcwfQ.vMJ2-svuiORSE4G_sPHFAGFpMakcuO4fxDwQcqOKTs0
       domain: localhost
       path: /
       secure: false
       httpOnly: true
       hostOnly: true
-    - id: c5018875-e238-44d1-a3b9-f7d1a2602339
+    - id: 12702b9e-ca70-40d2-a0cb-7ddaa3d1fc41
       key: refresh_token
-      value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MmE5ZWUzNi1jNzFjLTQwMzAtOWU2NS0xMGRmOTM0MzlkYzUiLCJlbWFpbCI6ImFkbWluLmV4YW1wbGVAZ21haWwuY29tIiwiZXhwIjoxNzcxOTUyNjI2fQ.2dzzzap4Y4S4-GHFArTDyLn6wMIEHvn2TZc195GYTkw
+      value: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MmE5ZWUzNi1jNzFjLTQwMzAtOWU2NS0xMGRmOTM0MzlkYzUiLCJlbWFpbCI6ImFkbWluLmV4YW1wbGVAZ21haWwuY29tIiwiZXhwIjoxNzcyMzY2MTcwfQ.qiBwfijucuN45jbB3uu2w21kYn2DB-OHLlWH-2NtUFE
       domain: localhost
       path: /
       secure: false
@@ -1063,9 +1434,9 @@ environments:
   meta:
     id: env_42fb08d9eb567ee285a9ead19f4ac077b25aded9
     created: 1765302482068
-    modified: 1765901053885
+    modified: 1766318162370
     isPrivate: false
   data:
     API_SERVER: http://localhost:5000
     API_ROOT: "{{ _.API_SERVER }}/api"
-    JWT_TOKEN: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MmE5ZWUzNi1jNzFjLTQwMzAtOWU2NS0xMGRmOTM0MzlkYzUiLCJlbWFpbCI6ImFkbWluLmV4YW1wbGVAZ21haWwuY29tIiwicm9sZXMiOlsic3VwZXItYWRtaW4iXSwiZXhwIjoxNzY2MjY0NjI2fQ.HoF3BlUwxEgz_flyuSHY9snwinH35O2FOF_-JqPCA7M
+    JWT_TOKEN: eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOiI1MmE5ZWUzNi1jNzFjLTQwMzAtOWU2NS0xMGRmOTM0MzlkYzUiLCJlbWFpbCI6ImFkbWluLmV4YW1wbGVAZ21haWwuY29tIiwicm9sZXMiOlsic3VwZXItYWRtaW4iXSwiZXhwIjoxNzY2Njc4MTM2fQ.ghma9VF19eFAA_2jc-RnnlOXl-0WHBxhndsr6phMgyU

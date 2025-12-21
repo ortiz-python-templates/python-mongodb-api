@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from src.core.repositories.configurations.feature_flags_list import FeatureFlagList
 from src.core.repositories.configurations.feature_flag_command_repository import FeatureFlagCommandRepository
 from src.core.repositories.configurations.company_configuration_command_repository import CompanyConfigurationCommandRepository
@@ -77,14 +77,14 @@ class DefaultConfigurations:
 
             update_q = {
                 "$setOnInsert": {
-                    "created_at": datetime.now(),
+                    "created_at": datetime.now(timezone.utc),
                     "created_by": "system",
                     
                 },
                 "$set": {
                     "description": flag.get("description"),
                     "is_enabled": flag.get("is_enabled", False),
-                    "updated_at": datetime.now(),
+                    "updated_at": datetime.now(timezone.utc),
                     "updated_by": "system",
                     "is_deleted": False,
                 }

@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from typing import Optional
 from src.core.models.identity.enums import ActivityStatus
 from src.core.shared.schemas.base_schema_config import BaseSchemaConfig

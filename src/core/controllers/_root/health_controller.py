@@ -3,7 +3,7 @@ from fastapi.responses import JSONResponse
 import time
 import socket
 import psutil
-from datetime import datetime
+from datetime import datetime, timezone
 from src.core.services._root.health_service import HealthService
 from src.common.config.env_config import EnvConfig
 
@@ -20,7 +20,7 @@ class HealthController:
         return JSONResponse({
             "status": "ok",
             "service": EnvConfig.APP_NAME,
-            "timestamp": datetime.now().isoformat() + "Z"
+            "timestamp": datetime.now(timezone.utc).isoformat() + "Z"
         })
 
     # readynes
@@ -58,7 +58,7 @@ class HealthController:
             "service": EnvConfig.APP_NAME,
             "version": EnvConfig.APP_VERSION,
             "environment": EnvConfig.APP_ENVIRONMENT,
-            "timestamp": datetime.now().isoformat() + "Z",
+            "timestamp": datetime.now(timezone.utc).isoformat() + "Z",
             "uptime_seconds": uptime,
             "hostname": socket.gethostname(),
             "dependencies": {

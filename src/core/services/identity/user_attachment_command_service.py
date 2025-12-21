@@ -1,6 +1,11 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from fastapi import Request, UploadFile
 from motor.motor_asyncio import AsyncIOMotorDatabase
+from src.common.storage.file_extensions import FileExtensions
+from src.common.storage.units_of_measurement import UnitsOfMeasurement
+from src.common.storage.file_validator import FileValidator
+from src.common.storage.storage_provider_factory import StorageProviderFactory
+from src.common.storage.base_storage import BaseStorage
 from src.common.storage.storage_path import StoragePath
 from src.common.storage.minio_storage import MinioStorage
 from src.core.services.identity.user_command_service import UserCommandService
@@ -19,14 +24,17 @@ class UserAttachmentCommandService:
         self.command_repository = UserAttachmentCommandRepository(db)
         self.user_service = UserCommandService(db)
         self.email_service = EmailService()
-        self.minio_storage = MinioStorage()
+        self.storage_provider: BaseStorage = StorageProviderFactory.get_provider()
+        self.file_validator = FileValidator(FileExtensions.Documents, 10 * UnitsOfMeasurement.MEGA_BYTE)
 
 
     async def create_user_attachment(self, request: Request, file: UploadFile, body: CreateUserAttachmentRequest):
         user = await self.user_service.get_user_by_unique_id_aux(body.user_id)
-        now = datetime.now()
+        now = datetime.now(timezone.utc)
 
-        upload_info = self.minio_storage.upload(file, StoragePath.USER_ATTACHMENTS)
+        self.file_validator.validate(file)
+        upload_info = await self.storage_provider.upload(file, StoragePath.USER_ATTACHMENTS)
+        
         current_user = request.state.user
         attachment = UserAttachmentModel(
             user_id=user.id,

@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
 from typing import Dict, TypeVar, Generic, List, Optional, Type, Any, Union
 from pydantic import BaseModel
 from motor.motor_asyncio import AsyncIOMotorDatabase, AsyncIOMotorCollection
@@ -21,6 +21,17 @@ class MongoQueryRepository(Generic[T]):
     async def get_all(self, search_filter: Optional[SearchFilter], pagination_filter: Optional[PaginationFilter]) -> List[T]:
         page_size, page_index = self._normalize_pagination(pagination_filter.page_size, pagination_filter.page_index)
         filters = [{"is_deleted": False}]
+        if search_filter and search_filter.search_param:
+            filters.append(self._build_search_query(search_filter.search_param))
+        query = {"$and": filters} if len(filters) > 1 else filters[0]
+        sort_direction = -1 if search_filter.sort_order == "desc" else 1
+        cursor = self.collection.find(query).sort("created_at", sort_direction).skip(page_index * page_size).limit(page_size)
+        docs = await cursor.to_list(length=page_size)
+        return [self.model_cls.model_validate(doc) for doc in docs]
+    
+    async def get_all_by_field(self, field_name: str, field_value: Any, search_filter: Optional[SearchFilter], pagination_filter: Optional[PaginationFilter]) -> List[T]:
+        page_size, page_index = self._normalize_pagination(pagination_filter.page_size, pagination_filter.page_index)
+        filters = [{"is_deleted": False, **{field_name: field_value}}]
         if search_filter and search_filter.search_param:
             filters.append(self._build_search_query(search_filter.search_param))
         query = {"$and": filters} if len(filters) > 1 else filters[0]
@@ -128,6 +139,12 @@ class MongoQueryRepository(Generic[T]):
     async def count_search(self, search_param: Optional[str]) -> int:
         query = self._build_search_query(search_param)
         query["is_deleted"] = False
+        return await self.collection.count_documents(query)
+    
+    async def count_search_by_field(self, field_name: str, field_value: Any, search_param: Optional[str]) -> int:
+        query = self._build_search_query(search_param)
+        query["is_deleted"] = False
+        query[field_name] = field_value
         return await self.collection.count_documents(query)
 
     async def count(self) -> int:

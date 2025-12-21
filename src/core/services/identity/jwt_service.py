@@ -1,4 +1,4 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
 from typing import Dict
 from fastapi import Request, Response
 from jose import JWTError, jwt
@@ -17,7 +17,7 @@ class JwtService:
             "sub": user.unique_id,
             "email": user.email,
             "roles": [user.role],
-            "exp": datetime.now() + timedelta(minutes=EnvConfig.JWT_ACCESS_TOKEN_EXPIRE_MINUTES)
+            "exp": datetime.now(timezone.utc) + timedelta(minutes=EnvConfig.JWT_ACCESS_TOKEN_EXPIRE_MINUTES)
         }
         return jwt.encode(payload, EnvConfig.JWT_SECRET_KEY, algorithm=EnvConfig.JWT_ALGORITHM)
 
@@ -27,7 +27,7 @@ class JwtService:
         payload = {
             "sub": user.unique_id,
             "email": user.email,
-            "exp": datetime.now() + timedelta(days=EnvConfig.JWT_REFRESH_TOKEN_EXPIRE_DAYS)
+            "exp": datetime.now(timezone.utc) + timedelta(days=EnvConfig.JWT_REFRESH_TOKEN_EXPIRE_DAYS)
         }
         return jwt.encode(payload, EnvConfig.JWT_REFRESH_SECRET_KEY, algorithm=EnvConfig.JWT_ALGORITHM)
 

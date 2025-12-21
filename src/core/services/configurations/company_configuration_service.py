@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from fastapi import Request
 from src.core.schemas.configurations.company_configuration_responses import CompanyConfigurationDetail
 from src.core.repositories.configurations.company_configuration_query_repository import CompanyConfigurationQueryRepository
@@ -26,7 +26,7 @@ class CompanyConfigurationService:
         configuration.address = body.address
         configuration.email = body.email
         configuration.identification_number =  body.identification_number
-        configuration.updated_at = datetime.now()
+        configuration.updated_at = datetime.now(timezone.utc)
         configuration.updated_by = current_user.id
         await self.command_repository.update(configuration.id, configuration)
         

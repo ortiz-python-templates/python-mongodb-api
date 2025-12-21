@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from fastapi import Request
 from device_detector import DeviceDetector
 from src.core.models.identity.enums import ActivityStatus
@@ -14,7 +14,7 @@ class LoginActivityCommandService:
 
 
     async def update_login(self, request: Request, user: UserModel):
-        now = datetime.now()
+        now = datetime.now(timezone.utc)
 
         # Raw info
         ip = request.client.host
@@ -86,7 +86,7 @@ class LoginActivityCommandService:
 
 
     async def update_logout(self, request: Request, user: UserModel):
-        now = datetime.now()
+        now = datetime.now(timezone.utc)
         activity = await self.command_repository.get_by_id_aux(user.id)
         if activity:
             activity.last_logout = now

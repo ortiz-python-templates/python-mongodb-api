@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from fastapi import FastAPI
 from fastapi.concurrency import asynccontextmanager
 from motor.motor_asyncio import AsyncIOMotorClient
@@ -16,7 +16,7 @@ class AppLifespan:
     @asynccontextmanager
     async def lifespan(app: FastAPI):
         logger = Logger.get_logger("app.lifespan")
-        app.state.start_time = datetime.now()
+        app.state.start_time = datetime.now(timezone.utc)
 
         logger.info("Starting application...")
 

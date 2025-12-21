@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from fastapi import Request
 from src.core.shared.filters.search_filter import SearchFilter
 from src.core.repositories.configurations.feature_flag_query_repository import FeatureFlagQueryRepository
@@ -27,7 +27,7 @@ class FeatureFlagService:
         current_user = request.state.user
         # update
         feature_flag.is_enabled = body.is_enabled
-        feature_flag.updated_at = datetime.now()
+        feature_flag.updated_at = datetime.now(timezone.utc)
         feature_flag.updated_by = current_user.id
         await self.command_repository.update(feature_flag.id, feature_flag)
         

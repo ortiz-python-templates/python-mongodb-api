@@ -1,0 +1,37 @@
+{
+  "viewOn": "files",
+  "pipeline": [
+    {
+      "$project": {
+        "_id": 0,
+        "id": "$unique_id",
+        "file_name": 1,
+        "content_type": 1,
+        "size": 1,
+        "category": 1,
+        
+        "object_key": 1,
+        "storage_provider": 1,
+        
+        "preview_url": 1,
+        "download_url": 1,
+        "can_preview": 1,
+        
+        "visibility": 1,
+        "checksum": 1,
+        
+        "owner_id": 1,
+        "owner_entity": 1,
+        
+        "uploaded_at": 1,
+        "expires_at": 1,
+        "created_at": 1,
+        "updated_at": 1,
+        
+        "display_name": 1,
+        "description": 1,
+        "is_deleted": 1
+      }
+    }
+  ]
+}

@@ -1,7 +1,7 @@
 import base64
 from typing import Any, Optional
 from uuid import uuid4
-from datetime import datetime
+from datetime import datetime, timezone
 from bson import ObjectId
 from pydantic import BaseModel, Field, field_validator
 from src.common.utils.encryption_util import EncryptionUtil

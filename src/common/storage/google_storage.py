@@ -1,9 +1,11 @@
-from datetime import datetime, timedelta
+from datetime import datetime, timezone, timedelta
+from io import BytesIO
 from fastapi import UploadFile, HTTPException, status
 from google.cloud import storage
 from google.api_core import exceptions as gcs_exceptions
 import uuid
-from common.config.env_config import EnvConfig
+from src.common.config.env_config import EnvConfig
+from src.common.storage.storage_provider import StorageProvider
 from src.common.storage.base_storage import BaseStorage
 from src.common.storage.upload_info import UploadInfo
 
@@ -14,11 +16,13 @@ class GoogleStorage(BaseStorage):
     def __init__(self):
         # Initialize the Google Cloud Storage client and get the target bucket
         self._client = storage.Client()
+        self.provider_name = StorageProvider.GCS
+        self.is_available = True
         self.bucket_name = EnvConfig.GOOGLE_STORAGE_MAIN_BUCKET
         self.bucket = self._client.bucket(self.bucket_name)
 
 
-    def upload(self, file: UploadFile, storage_path: str) -> UploadInfo:
+    async def upload(self, file: UploadFile, storage_path: str) -> UploadInfo:
         """
         Uploads a file to a private GCS bucket (with an optional folder/prefix).
         Returns an UploadInfo object containing metadata and the signed URL.
@@ -46,7 +50,7 @@ class GoogleStorage(BaseStorage):
                 "content_type": file.content_type,
                 "size": file_size,
                 "bucket_name": self.bucket_name,
-                "uploaded_at": datetime.now().isoformat() + "Z",
+                "uploaded_at": datetime.now(timezone.utc).isoformat() + "Z",
             }
 
             # Return structured upload information with a signed URL
@@ -71,6 +75,25 @@ class GoogleStorage(BaseStorage):
             # Ensure file stream is closed after upload
             file.file.close()
 
+
+    async def download(self, object_key: str) -> BytesIO:
+        if not self.is_available:
+            raise RuntimeError("GCS storage is not available.")
+
+        try:
+            blob = self.bucket.blob(object_key)
+            if not blob.exists(self._client):
+                raise HTTPException(status_code=404, detail="File not found")
+
+            data = blob.download_as_bytes()
+            return BytesIO(data)
+        except gcs_exceptions.NotFound:
+            raise HTTPException(status_code=404, detail="File not found")
+        except gcs_exceptions.Forbidden:
+            raise HTTPException(status_code=403, detail="Access denied")
+        except Exception as e:
+            raise HTTPException(status_code=500, detail=f"Download failed: {e}")
+    
 
     def get_pressigned_url(self, object_key: str, expire_in_minutes: int = 3600) -> str:
         """

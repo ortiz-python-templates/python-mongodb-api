@@ -3,14 +3,14 @@ from src.common.storage.filestystem_storage import FileSystemStorage
 from src.common.storage.google_storage import GoogleStorage
 from src.common.storage.minio_storage import MinioStorage
 from src.common.config.env_config import EnvConfig
-from common.storage.storage_provider import StorageProvider
+from src.common.storage.storage_provider import StorageProvider
 
 
 class StorageProviderFactory:
 
-    @classmethod
+    @staticmethod
     def get_provider() -> BaseStorage:
-        provider = EnvConfig.STORAGE_PROVIDER
+        provider = StorageProvider(EnvConfig.STORAGE_PROVIDER)
 
         match provider:
             case StorageProvider.MINIO:

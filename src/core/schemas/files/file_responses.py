@@ -1,25 +1,42 @@
-from datetime import datetime
-from typing import Optional
+from datetime import datetime, timezone
+from typing import Optional, Dict
 from src.core.shared.schemas.base_schema_config import BaseSchemaConfig
 
 
 class FileDetail(BaseSchemaConfig):
-    file_name: str
-    size: int
-    content_type: str
+    # Identity
+    id: str
 
-    object_key: str
-    bucket_name: Optional[str] = None
+    # File info
+    file_name: Optional[str] = None
+    content_type: Optional[str] = None
+    size: Optional[int] = None
 
+    category: Optional[str] = None
+
+    # Storage info (safe)
+    object_key: Optional[str] = None
     storage_provider: Optional[str] = None
-    is_public: bool = False
 
-    uploaded_at: datetime
-    expires_at: Optional[datetime] = None
+    # Access
+    preview_url: Optional[str] = None
+    download_url: Optional[str] = None
+    can_preview: Optional[bool] = None
 
+    # Visibility
+    visibility: Optional[str] = None
+
+    # Integrity
     checksum: Optional[str] = None
 
+    # Ownership
     owner_id: Optional[str] = None
     owner_entity: Optional[str] = None
+
+    # Lifecycle
+    uploaded_at: Optional[datetime] = None
+    expires_at: Optional[datetime] = None
+
+    # Optional
+    display_name: Optional[str] = None
     description: Optional[str] = None
-    metadata: Optional[dict] = None

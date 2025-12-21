@@ -1,5 +1,5 @@
 from typing import Optional
-from datetime import datetime
+from datetime import datetime, timezone
 from src.core.shared.schemas.base_schema_config import BaseSchemaConfig
 
 

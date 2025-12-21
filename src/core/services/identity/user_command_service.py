@@ -1,6 +1,11 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from fastapi import Request, UploadFile
 from motor.motor_asyncio import AsyncIOMotorDatabase
+from src.common.storage.file_extensions import FileExtensions
+from src.common.storage.file_validator import FileValidator
+from src.common.storage.units_of_measurement import UnitsOfMeasurement
+from src.common.storage.base_storage import BaseStorage
+from src.common.storage.storage_provider_factory import StorageProviderFactory
 from src.common.storage.storage_path import StoragePath
 from src.common.storage.minio_storage import MinioStorage
 from src.common.utils.messages.identity_messsages import UserMsg
@@ -19,7 +24,8 @@ class UserCommandService:
     def __init__(self, db: AsyncIOMotorDatabase):
         self.command_repository = UserCommandRepository(db)
         self.email_service = EmailService()
-        self.minio_storage = MinioStorage()
+        self.storage_provider: BaseStorage = StorageProviderFactory.get_provider()
+        self.file_validator = FileValidator(FileExtensions.Images, 10 * UnitsOfMeasurement.MEGA_BYTE)
 
 
     async def create_user(self, request: Request, body: CreateUserRequest):
@@ -63,7 +69,7 @@ class UserCommandService:
         current_user = request.state.user
         user.first_name = body.first_name
         user.last_name = body.last_name
-        user.updated_at = datetime.now()
+        user.updated_at = datetime.now(timezone.utc)
         user.updated_by = current_user.id
         self.command_repository.update(user.id, user)
         return UpdatedResult(
@@ -80,7 +86,7 @@ class UserCommandService:
             raise ConflictException(f"User with ID '{unique_id}' is already active.")
         current_user = request.state.user
         user.is_active = True
-        user.updated_at = datetime.now()
+        user.updated_at = datetime.now(timezone.utc)
         user.updated_by = current_user.id
         self.command_repository.update(user.id, user)
         # send email
@@ -108,7 +114,7 @@ class UserCommandService:
             raise ConflictException(f"User with ID '{unique_id}' is already inactive.")
         current_user = request.state.user
         user.is_active = False
-        user.updated_at = datetime.now()
+        user.updated_at = datetime.now(timezone.utc)
         user.updated_by = current_user.id
         await self.command_repository.update(user.id, user)
         # send email
@@ -190,10 +196,11 @@ class UserCommandService:
         user = await self.get_user_by_unique_id_aux(user_id)
         current_user = request.state.user
         # upload
-        upload_info = self.minio_storage.upload(file, StoragePath.USER_AVATARS)
+        self.file_validator.validate(file)
+        upload_info = await self.storage_provider.upload(file, StoragePath.USER_AVATARS)
         # updatet user
-        user.avatar_url = self.minio_storage.get_pressigned_url(upload_info.object_key)
-        user.updated_at = datetime.now()
+        user.avatar_url = self.storage_provider.get_pressigned_url(upload_info.object_key)
+        user.updated_at = datetime.now(timezone.utc)
         user.updated_by = current_user.id
         return UpdatedResult(
             id=user.unique_id,

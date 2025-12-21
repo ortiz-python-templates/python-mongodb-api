@@ -3,9 +3,8 @@ import base64
 from typing import Union, IO
 
 
-class FileHash:
+class FileChecksum:
     """Utility class to calculate and verify file checksums using various algorithms."""
-
 
     @staticmethod
     def calculate_checksum(file_bytes: bytes, algorithm: str = "sha256") -> str:
@@ -34,9 +33,9 @@ class FileHash:
         Verify that the file's checksum matches the expected checksum.
         """
         if isinstance(file_bytes, bytes):
-            actual_checksum = FileHash.calculate_checksum(file_bytes, algorithm)
+            actual_checksum = FileChecksum.calculate_checksum(file_bytes, algorithm)
         else:
-            actual_checksum = FileHash.calculate_checksum_stream(file_bytes, algorithm=algorithm)
+            actual_checksum = FileChecksum.calculate_checksum_stream(file_bytes, algorithm=algorithm)
 
         return actual_checksum == expected_checksum
 

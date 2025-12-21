@@ -1,4 +1,4 @@
-from datetime import datetime
+from datetime import datetime, timezone
 from fastapi import Request
 from src.core.schemas.configurations.basic_configuration_responses import BasicConfigurationDetail
 from src.core.repositories.configurations.basic_configuration_query_repository import BasicConfigurationQueryRepository
@@ -25,7 +25,7 @@ class BasicConfigurationService:
         configuration.max_records_per_page = body.max_records_per_page
         configuration.max_admin_users = body.max_admin_users
         configuration.max_super_admin_users = body.max_super_admin_users
-        configuration.updated_at = datetime.now()
+        configuration.updated_at = datetime.now(timezone.utc)
         configuration.updated_by = current_user.id
         await self.command_repository.update(configuration.id, configuration)
         

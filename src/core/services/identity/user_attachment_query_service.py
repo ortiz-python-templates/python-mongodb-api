@@ -1,6 +1,8 @@
 from typing import List
 from fastapi import Request
 from motor.motor_asyncio import AsyncIOMotorDatabase
+from src.common.storage.base_storage import BaseStorage
+from src.common.storage.storage_provider_factory import StorageProviderFactory
 from src.common.storage.storage_path import StoragePath
 from src.common.storage.minio_storage import MinioStorage
 from src.core.repositories.identity.user_attachment_command_repository import UserAttachmentCommandRepository
@@ -20,7 +22,8 @@ class UserAttachmentQueryService:
         self.query_repository = UserAttachmentQueryRepository(db)
         self.command_repository = UserAttachmentCommandRepository(db)
         self.user_service = UserCommandService(db)
-        self.minio_storage = MinioStorage()
+        self.storage_provider: BaseStorage = StorageProviderFactory.get_provider()
+
 
    
     async def get_all_user_attachments(self, request: Request, search_filter: SearchFilter, pagination_filter: PaginationFilter) -> PaginationResponse[UserAttachmentDetail]:
@@ -58,5 +61,5 @@ class UserAttachmentQueryService:
             raise NotFoundException(f"Attachment with ID '{attachment_id}' was not found.")
         file_url = ""
         if attachment.object_key:
-            file_url = self.minio_storage.get_pressigned_url(attachment.object_key)
+            file_url = await self.storage_provider.get_pressigned_url(attachment.object_key)
         return file_url

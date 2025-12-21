@@ -15,4 +15,6 @@ class FileCommandRepository(MongoCommandRepository[FileModel]):
         await self.collection.create_index([("bucket_name", ASCENDING)], name="idx_file_bucket_name")
         await self.collection.create_index([("content_type", ASCENDING)], name="idx_file_content_type")
         await self.collection.create_index([("storage_provider", ASCENDING)], name="idx_file_storage_provider")
+        await self.collection.create_index([("category", ASCENDING)], name="idx_file_category")
         await self.collection.create_index([("owner_entity", ASCENDING)], name="idx_file_owner_entity")
+        await self.collection.create_index([("owner_id", ASCENDING)], name="idx_file_owner_id")

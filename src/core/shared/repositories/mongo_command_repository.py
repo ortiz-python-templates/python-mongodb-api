@@ -1,5 +1,5 @@
 from typing import Dict, TypeVar, Generic, List, Optional, Type, Any, Union
-from datetime import datetime
+from datetime import datetime, timezone
 from bson import ObjectId
 from pydantic import BaseModel
 from motor.motor_asyncio import AsyncIOMotorDatabase, AsyncIOMotorCollection
@@ -58,7 +58,7 @@ class MongoCommandRepository(Generic[T]):
             {"unique_id": unique_id, "is_deleted": False},
             {"$set": {
                 "is_deleted": True,
-                "deleted_at": datetime.now(),
+                "deleted_at": datetime.now(timezone.utc),
                 "deleted_by": deleted_by
             }},
             session=session

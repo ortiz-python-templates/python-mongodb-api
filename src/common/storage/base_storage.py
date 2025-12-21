@@ -1,12 +1,24 @@
+from abc import ABC
+from io import BytesIO
 from fastapi import UploadFile
+from src.common.storage.storage_provider import StorageProvider
 from src.common.storage.upload_info import UploadInfo
 
 
-class BaseStorage:
+class BaseStorage(ABC):
     """Interface/base class for any storage backend."""
 
-    def upload(self, file: UploadFile, storage_path: str) -> UploadInfo:
-        raise NotImplementedError
+    provider_name: StorageProvider
+    is_available: bool
+
+    async def upload(self, file: UploadFile, storage_path: str) -> UploadInfo:
+        pass
+
+    async def download(self, object_key: str) -> BytesIO:
+        pass
 
     def get_pressigned_url(self, object_key: str, expire_in_minutes: int = 60) -> str:
-        raise NotImplementedError
+        pass
+
+    def get_provider_name(self):
+        return self.provider_name
