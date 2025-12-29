@@ -1,5 +1,5 @@
-from datetime import datetime, timezone
-from typing import Optional, Dict
+from datetime import datetime
+from typing import Optional
 from src.core.shared.schemas.base_schema_config import BaseSchemaConfig
 
 

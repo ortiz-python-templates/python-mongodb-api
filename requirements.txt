@@ -25,6 +25,9 @@ google-cloud-storage
 python-multipart
 minio
 
+# Messaging
+aio-pika==9.4.1
+
 # Logging
 loguru
 

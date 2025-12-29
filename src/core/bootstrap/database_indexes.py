@@ -1,4 +1,6 @@
 from motor.motor_asyncio import AsyncIOMotorDatabase
+from src.core.repositories.files.file_command_repository import FileCommandRepository
+from src.core.repositories.outbox.outbox_command_repository import OutboxCommandRepository
 from src.core.repositories.identity.user_attachment_command_repository import UserAttachmentCommandRepository
 from src.core.repositories.identity.login_activity_command_repository import LoginActivityCommandRepository
 from src.core.repositories.configurations.feature_flag_command_repository import FeatureFlagCommandRepository
@@ -18,3 +20,7 @@ class DatabaseIndexes:
         await LoginActivityCommandRepository(db).ensure_indexes()
 
         # files
+        await FileCommandRepository(db).ensure_indexes()
+
+        # outbox
+        await OutboxCommandRepository(db).ensure_indexes()

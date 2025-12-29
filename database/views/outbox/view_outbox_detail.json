@@ -1,0 +1,28 @@
+{
+  "viewOn": "outbox",
+  "pipeline": [
+    {
+      "$project": {
+        "_id": 0,
+        "id": "$unique_id",
+        "entity": "$owner_entity",
+        "entity_id": { "$toString": "$owner_id" },
+        "event": "$event_type",
+        "status": 1,
+        "routing": {
+            "exchange": "$exchange",
+            "key": "$routing_key"
+        },
+        "retry": {
+            "current": "$retry_count",
+            "max": "$max_retries"
+        },
+        "error": "$last_error",
+        "scheduled_for": 1,
+        "processed_at": 1,
+        "created_at": 1,
+        "is_deleted": 1
+      }
+    }
+  ]
+}

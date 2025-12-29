@@ -1,4 +1,3 @@
-
 from pymongo import ASCENDING
 from motor.motor_asyncio import AsyncIOMotorDatabase
 from src.core.schemas.identity.login_activity_responses import LoginActivityDetail
