@@ -116,8 +116,8 @@
             </mxGeometry>
           </mxCell>
         </object>
-        <mxCell id="g1nskwj3awECwN-SnYZo-2" value="- JWT Tokens&lt;br&gt;- Sessions&lt;br&gt;- Black List&lt;br&gt;- Feature Flags" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#f8cecc;strokeColor=#b85450;fillStyle=solid;direction=west;gradientDirection=north;shadow=1;size=20;pointerEvents=1;" parent="1" vertex="1">
-          <mxGeometry x="910" y="60" width="140" height="80" as="geometry" />
+        <mxCell id="g1nskwj3awECwN-SnYZo-2" value="- JWT Tokens&lt;br&gt;- Sessions&lt;br&gt;- Blacklist&lt;div&gt;- Rate Limiting&lt;br&gt;- Feature Flags&lt;/div&gt;" style="shape=note;whiteSpace=wrap;html=1;backgroundOutline=1;darkOpacity=0.05;fillColor=#f8cecc;strokeColor=#b85450;fillStyle=solid;direction=west;gradientDirection=north;shadow=1;size=20;pointerEvents=1;" parent="1" vertex="1">
+          <mxGeometry x="910" y="60" width="140" height="90" as="geometry" />
         </mxCell>
         <mxCell id="g1nskwj3awECwN-SnYZo-3" value="" style="endArrow=none;dashed=1;html=1;dashPattern=1 3;strokeWidth=1;rounded=0;entryX=0;entryY=0;entryDx=130;entryDy=10;entryPerimeter=0;" parent="1" target="g1nskwj3awECwN-SnYZo-2" edge="1">
           <mxGeometry width="50" height="50" relative="1" as="geometry">
