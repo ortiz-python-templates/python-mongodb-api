@@ -6,6 +6,12 @@ This project follows well known architecture principles and provides a solid fou
 
 ---
 
+## 🏗️ Architecture
+
+This project uses the **C4 Model** for architectural visualization. It demonstrates how the API orchestrates communication between databases, storage, and observability tools(future).
+
+![Architecture Diagram](docs/diagrams/python-mongodb-api-Architecture%20-%20Tools.jpg)
+
 ## ✨ Key Features
 
 * ⚡ **FastAPI (async)** with Motor (MongoDB async driver)
