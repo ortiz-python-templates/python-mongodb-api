@@ -4,7 +4,7 @@ from fastapi import APIRouter, FastAPI, UploadFile, File, HTTPException
 import uvicorn
 
 sys.path.append(os.path.dirname(os.path.dirname(__file__)))
-from common.storage.storage_path import StorageBuckets
+from src.common.storage.storage_path import StoragePath
 from src.common.config.env_config import EnvConfig
 from src.common.storage.minio_storage import MinioStorage
 
@@ -19,7 +19,7 @@ print("✅ Connected! Buckets:", [b.name for b in minio.client.list_buckets()])
 async def upload_file(file: UploadFile = File(...)):
     try:
         
-        minio.upload(file, StorageBuckets.COMMON)
+        minio.upload(file, StoragePath.COMMON)
         return {"message": "File uploaded successfully"}
 
     except Exception as e:
