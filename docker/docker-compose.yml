@@ -9,7 +9,7 @@ services:
     environment:
       MONGO_INITDB_DATABASE: ${MONGO_DATABASE}
     ports:
-      - "27017:27017"
+      - "27018:27017"
     volumes:
       - mongodb_data:/data/db
     networks:
@@ -26,7 +26,7 @@ services:
     image: redis:7
     container_name: redis_cache
     ports:
-      - "6379:6379"
+      - "6380:6379"
     volumes:
       - redis_data:/data
     networks:
@@ -35,6 +35,30 @@ services:
       # Check if Redis is alive
       test: ["CMD", "redis-cli", "ping"]
       interval: 5s
+      timeout: 5s
+      retries: 5
+
+
+  # RabbitMQ (Message Broker)
+  rabbitmq:
+    image: rabbitmq:3.12-management
+    container_name: rabbitmq
+    env_file:
+      - ../.env
+    environment:
+      RABBITMQ_DEFAULT_USER: ${RABBITMQ_USER}
+      RABBITMQ_DEFAULT_PASS: ${RABBITMQ_PASSWORD}
+      RABBITMQ_DEFAULT_VHOST: ${RABBITMQ_VIRTUAL_HOST}
+    ports:
+      - "5672:5672"   # AMQP protocol port
+      - "15672:15672" # Management UI (Painel de controle)
+    networks:
+      - backend-net
+    volumes:
+      - rabbitmq_data:/var/lib/rabbitmq
+    healthcheck:
+      test: ["CMD", "rabbitmq-diagnostics", "-q", "ping"]
+      interval: 10s
       timeout: 5s
       retries: 5
 
@@ -135,6 +159,7 @@ volumes:
   mongodb_data:
   redis_data:
   minio_data:
+  rabbitmq_data:
 
 # Networks
 networks:

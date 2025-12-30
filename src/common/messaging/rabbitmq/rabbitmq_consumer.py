@@ -9,8 +9,8 @@ from src.common.messaging.rabbitmq.config import RabbitMQConfig
 
 class RabbitMQConsumer(BaseConsumer):
 
-    def __init__(self, config: RabbitMQConfig):
-        self.config = config
+    def __init__(self):
+        self.config = RabbitMQConfig()
         self.connection = None
         self.channel = None
 

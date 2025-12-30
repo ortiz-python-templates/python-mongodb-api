@@ -1,8 +1,8 @@
-from enum import Enum
+from enum import StrEnum
 from pydantic import BaseModel
 
 
-class ExchangeType(str, Enum):
+class ExchangeType(StrEnum):
     FANOUT = "fanout"
     DIRECT = "direct"
     TOPIC = "topic"

@@ -8,8 +8,8 @@ from src.common.messaging.rabbitmq.config import ExchangeType, RabbitMQConfig
 
 class RabbitMQProducer(BaseProducer):
 
-    def __init__(self, config: RabbitMQConfig):
-        self.config = config
+    def __init__(self):
+        self.config = RabbitMQConfig()
         self.connection: Optional[aio_pika.RobustConnection] = None
         self.channel: Optional[aio_pika.RobustChannel] = None
 

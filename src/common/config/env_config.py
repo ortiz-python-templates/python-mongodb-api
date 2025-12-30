@@ -42,8 +42,20 @@ class EnvConfig:
     # Rate Limit
     RATE_LIMIT_MAX_REQUESTS = int(os.getenv("RATE_LIMIT_MAX_REQUESTS", 10))
     RATE_LIMIT_WINDOW_SECONDS = int(os.getenv("RATE_LIMIT_WINDOW_SECONDS", 60))
+
+    # Messaging (RabbitMQ)
+    RABBITMQ_HOST = os.getenv("RABBITMQ_HOST", "localhost")
+    RABBITMQ_PORT = int(os.getenv("RABBITMQ_PORT", 5672))
+    RABBITMQ_USER = os.getenv("RABBITMQ_USER", "guest")
+    RABBITMQ_PASSWORD = os.getenv("RABBITMQ_PASSWORD", "guest")
+    RABBITMQ_VIRTUAL_HOST = os.getenv("RABBITMQ_VIRTUAL_HOST", "/")
+
+    # Outbox Worker
+    OUTBOX_POLLING_INTERVAL_SECONDS = int(os.getenv("OUTBOX_POLLING_INTERVAL_SECONDS", 5))
+    OUTBOX_BATCH_SIZE = int(os.getenv("OUTBOX_BATCH_SIZE", 100))
+    OUTBOX_MAX_RETRIES = int(os.getenv("OUTBOX_MAX_RETRIES", 5))
      
-   # File max sizes
+    # File max sizes
     MAX_DOCUMENT_FILE_SIZE_MB = int(os.getenv("MAX_DOCUMENT_FILE_SIZE_MB", 5))
     MAX_IMAGE_FILE_SIZE_MB = int(os.getenv("MAX_IMAGE_FILE_SIZE_MB", 5))
     MAX_ARCHIVE_FILE_SIZE_MB = int(os.getenv("MAX_ARCHIVE_FILE_SIZE_MB", 10))

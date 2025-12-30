@@ -2,6 +2,7 @@ from datetime import datetime, timezone
 from typing import Any, Dict, Optional
 from pydantic import Field
 from bson import ObjectId
+from src.common.config.env_config import EnvConfig
 from src.core.models.outbox.enums import EventType, OutboxStatus
 from src.core.shared.models.base_mongo_model import BaseMongoModel
 
@@ -28,6 +29,6 @@ class OutboxModel(BaseMongoModel):
 
     # Resilience logic
     retry_count: int = 0
-    max_retries: int = 5
+    max_retries: int = EnvConfig.OUTBOX_MAX_RETRIES
     last_error: Optional[str] = None # Error details for debugging
     
