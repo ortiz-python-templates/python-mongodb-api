@@ -12,6 +12,9 @@ This project uses the **C4 Model** for architectural visualization. It demonstra
 
 ![Architecture Diagram](docs/diagrams/python-mongodb-api-Architecture%20-%20Tools.jpg)
 
+## 🔐 Authentication
+![Authentication](docs/diagrams/python-mongodb-api-Authentication.jpg)
+
 ## ✨ Key Features
 
 * ⚡ **FastAPI (async)** with Motor (MongoDB async driver)
