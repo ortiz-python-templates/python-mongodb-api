@@ -24,8 +24,8 @@ class RabbitMQConsumer(BaseConsumer):
 
     async def subscribe(
         self, 
-        exchange_name: str, 
-        routing_key: str, 
+        topic: str, 
+        key: str, 
         callback: Callable[[Any], Awaitable[None]]
     ):
         """
@@ -35,13 +35,13 @@ class RabbitMQConsumer(BaseConsumer):
             await self.connect()
 
         # Declare exchange
-        exchange = await self.channel.declare_exchange(exchange_name, type="direct")
+        exchange = await self.channel.declare_exchange(topic, type="direct")
         
         # Declare temporary queue (exclusive=True ensures it is deleted on disconnect)
         queue = await self.channel.declare_queue("", exclusive=True)
-        await queue.bind(exchange, routing_key=routing_key)
+        await queue.bind(exchange, routing_key=key)
 
-        logging.info(f"Subscribed to exchange '{exchange_name}' with routing key '{routing_key}'")
+        logging.info(f"Subscribed to exchange '{topic}' with routing key '{key}'")
 
         async with queue.iterator() as queue_iter:
             async for message in queue_iter:
